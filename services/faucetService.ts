@@ -7,7 +7,7 @@ export interface FaucetEligibility {
   status: {
     hasClaimed: boolean;
     claimTime: string;
-    hasSTTActivity: boolean;
+    hasMONActivity: boolean;
     faucetHasBalance: boolean;
   };
   activity: {
@@ -62,7 +62,7 @@ export interface FaucetActivity {
     league: string;
   }[];
   eligibility: {
-    hasSTTActivity: boolean;
+    hasMONActivity: boolean;
     message: string;
   };
 }
@@ -206,7 +206,7 @@ export class FaucetService {
             status: {
               hasClaimed: false,
               claimTime: '0',
-              hasSTTActivity: false,
+              hasMONActivity: false,
               faucetHasBalance: true,
             },
             activity: {

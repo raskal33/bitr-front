@@ -14,22 +14,11 @@ import {
   Legend,
   Filler,
 } from "chart.js";
-import { Bar, Line, Doughnut } from "react-chartjs-2";
 import {
   TrophyIcon,
-  CurrencyDollarIcon,
-  ChartBarIcon,
-  BoltIcon,
-  ClockIcon,
-  GlobeAltIcon,
   ArrowTrendingUpIcon,
   ArrowTrendingDownIcon,
-  EyeIcon,
-  UsersIcon,
   SparklesIcon,
-  FireIcon,
-  StarIcon,
-} from "@heroicons/react/24/outline";
 import AnalyticsService, {
   EnhancedCategoryStats,
   LeagueStats,
