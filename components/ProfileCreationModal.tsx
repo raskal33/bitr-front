@@ -3,9 +3,11 @@
 import { useState, useEffect } from 'react'
 import { useAccount } from 'wagmi'
 import { useProfileStore } from '@/stores/useProfileStore'
-import { FiX, FiUser, FiEdit3, FiMapPin, FiGlobe, FiTwitter } from 'react-icons/fi'
+import { useTermsStore } from '@/stores/useTermsStore'
+import { FiX, FiUser, FiEdit3, FiMapPin, FiGlobe, FiTwitter, FiShield } from 'react-icons/fi'
 import { FaDiscord, FaTelegram } from 'react-icons/fa'
 import Button from '@/components/button'
+import TermsModal from '@/components/TermsModal'
 
 export default function ProfileCreationModal() {
   const { address } = useAccount()
@@ -16,6 +18,14 @@ export default function ProfileCreationModal() {
     hasProfile,
     openProfileModal 
   } = useProfileStore()
+  
+  const {
+    isTermsModalOpen,
+    openTermsModal,
+    closeTermsModal,
+    hasAcceptedTerms,
+    setTermsAccepted
+  } = useTermsStore()
 
   const [formData, setFormData] = useState({
     username: '',
@@ -31,20 +41,34 @@ export default function ProfileCreationModal() {
   const [errors, setErrors] = useState<Record<string, string>>({})
   const [isSubmitting, setIsSubmitting] = useState(false)
 
-  // Check if user needs profile creation when wallet connects
+  // Check if user needs terms acceptance or profile creation when wallet connects
   useEffect(() => {
-    if (address && !hasProfile(address)) {
-      console.log('Profile creation modal should open for address:', address)
+    if (address) {
+      const userHasProfile = hasProfile(address)
+      const userHasAcceptedTerms = hasAcceptedTerms(address, '1.0')
+      
+      console.log('Wallet connected:', { 
+        address, 
+        hasProfile: userHasProfile, 
+        hasAcceptedTerms: userHasAcceptedTerms 
+      })
+
       // Small delay to ensure wallet connection is complete
       const timer = setTimeout(() => {
-        console.log('Opening profile modal for new user')
-        openProfileModal()
+        if (!userHasAcceptedTerms) {
+          console.log('Opening terms modal for user who has not accepted terms')
+          openTermsModal()
+        } else if (!userHasProfile) {
+          console.log('Opening profile modal for user who has accepted terms but has no profile')
+          openProfileModal()
+        } else {
+          console.log('User has both terms acceptance and profile, no modals needed')
+        }
       }, 1000)
+      
       return () => clearTimeout(timer)
-    } else if (address) {
-      console.log('User already has profile, modal not needed')
     }
-  }, [address, hasProfile, openProfileModal])
+  }, [address, hasProfile, hasAcceptedTerms, openTermsModal, openProfileModal])
 
   const validateForm = () => {
     const newErrors: Record<string, string> = {}
@@ -106,6 +130,25 @@ export default function ProfileCreationModal() {
     if (!address || hasProfile(address)) {
       closeProfileModal()
     }
+  }
+
+  const handleTermsAccept = () => {
+    if (address) {
+      console.log('Terms accepted, recording acceptance and opening profile modal')
+      setTermsAccepted(address, '1.0')
+      closeTermsModal()
+      
+      // Check if user needs profile creation
+      if (!hasProfile(address)) {
+        openProfileModal()
+      }
+    }
+  }
+
+  const handleTermsDecline = () => {
+    console.log('Terms declined, closing modal')
+    closeTermsModal()
+    // Could add logic to disconnect wallet or show message
   }
 
   if (!isProfileModalOpen || !address) return null
@@ -315,6 +358,13 @@ export default function ProfileCreationModal() {
           </div>
         </form>
       </div>
+      
+      {/* Terms Modal - Renders independently */}
+      <TermsModal
+        isOpen={isTermsModalOpen}
+        onAccept={handleTermsAccept}
+        onDecline={handleTermsDecline}
+      />
     </div>
   )
 } 
