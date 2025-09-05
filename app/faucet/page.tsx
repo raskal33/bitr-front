@@ -285,6 +285,70 @@ export default function FaucetPage() {
                 </div>
               </div>
 
+              {/* Eligibility Requirements */}
+              <div className="bg-gradient-to-r from-purple-500/10 to-blue-500/10 border border-purple-500/20 rounded-xl p-6 mb-8">
+                <h3 className="text-xl font-bold text-white mb-6 flex items-center gap-3">
+                  <FaShieldAlt className="h-6 w-6 text-purple-400" />
+                  Eligibility Requirements
+                </h3>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {/* Wallet Connection */}
+                  <div className="flex items-center gap-3 p-3 bg-black/20 rounded-lg">
+                    <div className={`w-3 h-3 rounded-full ${isConnected ? 'bg-green-400' : 'bg-red-400'}`} />
+                    <div className="flex-1">
+                      <p className="text-white font-medium text-sm">Wallet Connected</p>
+                      <p className="text-gray-400 text-xs">
+                        {isConnected ? "✓ Wallet is connected" : "❌ Connect your wallet"}
+                      </p>
+                    </div>
+                    {isConnected && <FaCheckCircle className="h-4 w-4 text-green-400" />}
+                  </div>
+
+                  {/* Terms Acceptance */}
+                  <div className="flex items-center gap-3 p-3 bg-black/20 rounded-lg">
+                    <div className="w-3 h-3 rounded-full bg-green-400" />
+                    <div className="flex-1">
+                      <p className="text-white font-medium text-sm">Terms Accepted</p>
+                      <p className="text-gray-400 text-xs">
+                        ✓ Terms of service accepted
+                      </p>
+                    </div>
+                    <FaCheckCircle className="h-4 w-4 text-green-400" />
+                  </div>
+
+                  {/* MON Activity */}
+                  <div className="flex items-center gap-3 p-3 bg-black/20 rounded-lg">
+                    <div className="w-3 h-3 rounded-full bg-yellow-400" />
+                    <div className="flex-1">
+                      <p className="text-white font-medium text-sm">MON Activity</p>
+                      <p className="text-gray-400 text-xs">
+                        Create pool or place bet with MON first
+                      </p>
+                    </div>
+                    <FaExclamationTriangle className="h-4 w-4 text-yellow-400" />
+                  </div>
+
+                  {/* Oddyssey Slips */}
+                  <div className="flex items-center gap-3 p-3 bg-black/20 rounded-lg">
+                    <div className="w-3 h-3 rounded-full bg-purple-400" />
+                    <div className="flex-1">
+                      <p className="text-white font-medium text-sm">2+ Oddyssey Slips</p>
+                      <p className="text-gray-400 text-xs">
+                        Play daily Oddyssey game
+                      </p>
+                    </div>
+                    <FaGamepad className="h-4 w-4 text-purple-400" />
+                  </div>
+                </div>
+
+                <div className="mt-4 p-3 bg-blue-500/10 border border-blue-500/20 rounded-lg">
+                  <p className="text-blue-300 text-sm text-center">
+                    💡 Complete all requirements above to become eligible for faucet claim
+                  </p>
+                </div>
+              </div>
+
               {/* Claim Button */}
               <div className="text-center">
                 {faucet.hasClaimed ? (

@@ -101,7 +101,7 @@ export default function AirdropPage() {
 
   const requirements = eligibility ? [
     getRequirementStatus(eligibility.requirements.faucetClaim, "Claim Faucet Tokens"),
-    getRequirementStatus(eligibility.requirements.sttActivityBeforeFaucet, "STT Activity Before Faucet"),
+                        getRequirementStatus(eligibility.requirements.sttActivityBeforeFaucet, "MON Activity Before Faucet"),
     getRequirementStatus(eligibility.requirements.bitrActions, "BITR Token Actions"),
     getRequirementStatus(eligibility.requirements.stakingActivity, "Staking Activity"),
     getRequirementStatus(eligibility.requirements.oddysseySlips, "Oddyssey Game Participation")
@@ -237,6 +237,96 @@ export default function AirdropPage() {
                           </div>
                         </motion.div>
                       ))}
+                    </div>
+
+                    {/* Detailed Activity Tracker */}
+                    <div className="mt-8 p-6 bg-gradient-to-r from-blue-500/10 to-purple-500/10 border border-blue-500/20 rounded-xl">
+                      <h3 className="text-xl font-bold text-white mb-6 flex items-center gap-3">
+                        <FaChartLine className="h-6 w-6 text-blue-400" />
+                        Activity Tracker
+                      </h3>
+                      
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        {/* BITR Actions Progress */}
+                        <div className="p-4 bg-black/20 rounded-lg">
+                          <div className="flex items-center justify-between mb-3">
+                            <span className="text-white font-medium">BITR Actions</span>
+                            <span className="text-blue-400 font-bold">
+                              {eligibility.requirements.bitrActions.current}/30
+                            </span>
+                          </div>
+                          <div className="w-full bg-gray-700 rounded-full h-2 mb-2">
+                            <div
+                              className="bg-gradient-to-r from-blue-500 to-purple-500 h-2 rounded-full transition-all duration-300"
+                              style={{ 
+                                width: `${Math.min((eligibility.requirements.bitrActions.current / 30) * 100, 100)}%` 
+                              }}
+                            />
+                          </div>
+                          <p className="text-gray-400 text-xs">
+                            {30 - eligibility.requirements.bitrActions.current > 0 
+                              ? `${30 - eligibility.requirements.bitrActions.current} more actions needed`
+                              : "Requirement completed!"
+                            }
+                          </p>
+                        </div>
+
+                        {/* Oddyssey Slips Progress */}
+                        <div className="p-4 bg-black/20 rounded-lg">
+                          <div className="flex items-center justify-between mb-3">
+                            <span className="text-white font-medium">Oddyssey Slips</span>
+                            <span className="text-purple-400 font-bold">
+                              {eligibility.requirements.oddysseySlips.current}/10
+                            </span>
+                          </div>
+                          <div className="w-full bg-gray-700 rounded-full h-2 mb-2">
+                            <div
+                              className="bg-gradient-to-r from-purple-500 to-pink-500 h-2 rounded-full transition-all duration-300"
+                              style={{ 
+                                width: `${Math.min((eligibility.requirements.oddysseySlips.current / 10) * 100, 100)}%` 
+                              }}
+                            />
+                          </div>
+                          <p className="text-gray-400 text-xs">
+                            {10 - eligibility.requirements.oddysseySlips.current > 0 
+                              ? `${10 - eligibility.requirements.oddysseySlips.current} more slips needed`
+                              : "Requirement completed!"
+                            }
+                          </p>
+                        </div>
+
+                        {/* Activity Breakdown */}
+                        <div className="p-4 bg-black/20 rounded-lg">
+                          <h4 className="text-white font-medium mb-3">Activity Breakdown</h4>
+                          <div className="space-y-2 text-sm">
+                            <div className="flex justify-between">
+                              <span className="text-gray-400">Pool Creations:</span>
+                              <span className="text-white">{eligibility.activityBreakdown.poolCreations}</span>
+                            </div>
+                            <div className="flex justify-between">
+                              <span className="text-gray-400">Bets Placed:</span>
+                              <span className="text-white">{eligibility.activityBreakdown.betsPlaced}</span>
+                            </div>
+                            <div className="flex justify-between">
+                              <span className="text-gray-400">Staking Actions:</span>
+                              <span className="text-white">{eligibility.activityBreakdown.stakingActions}</span>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Next Steps */}
+                        <div className="p-4 bg-black/20 rounded-lg">
+                          <h4 className="text-white font-medium mb-3">Next Steps</h4>
+                          <div className="space-y-2">
+                            {eligibility.nextSteps.map((step, index) => (
+                              <div key={index} className="flex items-center gap-2 text-sm">
+                                <div className="w-2 h-2 bg-yellow-400 rounded-full flex-shrink-0" />
+                                <span className="text-gray-300">{step}</span>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
                     </div>
 
                     {/* Progress Bar */}

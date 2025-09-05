@@ -20,8 +20,8 @@ import {
   ArrowTrendingDownIcon,
   SparklesIcon,
   UsersIcon,
-
-ChartJS.register(
+  ChartBarIcon,
+  GlobeAltIcon,
 } from "@heroicons/react/24/outline";
 import AnalyticsService, {
   EnhancedCategoryStats,
@@ -29,6 +29,8 @@ import AnalyticsService, {
   UserStats,
   MarketTypeStats
 } from "@/services/analyticsService";
+
+ChartJS.register(
   CategoryScale,
   LinearScale,
   PointElement,
@@ -168,7 +170,7 @@ export default function EnhancedStatsDashboard({ className = "" }: EnhancedStats
         ].map((tab) => (
           <button
             key={tab.id}
-            onClick={() => setActiveTab(tab.id as any)}
+            onClick={() => setActiveTab(tab.id as "overview" | "leagues" | "categories" | "users" | "markets")}
             className={`flex items-center space-x-2 px-4 py-2 rounded-md transition-all ${
               activeTab === tab.id
                 ? 'bg-white shadow-sm text-blue-600'

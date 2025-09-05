@@ -43,7 +43,7 @@ export async function GET(request: Request) {
     }
 
     let whereClause = '';
-    let queryParams: any[] = [];
+    let queryParams: unknown[] = [];
 
     if (userAddress) {
       whereClause = 'WHERE user_address = ?';
@@ -52,7 +52,7 @@ export async function GET(request: Request) {
 
     // Get user statistics
     const userStatsResult = await query(`
-      SELECT 
+      SELECT
         user_address,
         total_bets,
         total_bet_amount,
@@ -68,7 +68,7 @@ export async function GET(request: Request) {
       ${whereClause}
       ORDER BY ${sortBy} ${sortOrder.toUpperCase()}
       LIMIT ? OFFSET ?
-    `, [...queryParams, limit, offset]) as UserStats[];
+    `, [...queryParams, limit, offset]) as unknown as UserStats[];
 
     // Get total count for pagination
     const totalCountResult = await query(`

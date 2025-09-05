@@ -31,7 +31,7 @@ interface TermsModalProps {
 
 export default function TermsModal({ isOpen, onAccept, onDecline }: TermsModalProps) {
   const { address } = useAccount()
-  const { signMessage, isPending: isSigningPending } = useSignMessage()
+  const { signMessage } = useSignMessage()
   
   const [termsData, setTermsData] = useState<TermsData | null>(null)
   const [isLoading, setIsLoading] = useState(true)
