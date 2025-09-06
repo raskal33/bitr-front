@@ -167,7 +167,7 @@ export class GuidedMarketWalletService {
         address: CONTRACT_ADDRESSES.BITR_TOKEN,
         abi: CONTRACTS.BITR_TOKEN.abi,
         functionName: 'allowance',
-        args: [address, CONTRACT_ADDRESSES.BITREDICT_POOL]
+        args: [address, CONTRACT_ADDRESSES.BITR_POOL]
       });
       
       const requiredAmount = BigInt(stakeAmount);
@@ -186,7 +186,7 @@ export class GuidedMarketWalletService {
         address: CONTRACT_ADDRESSES.BITR_TOKEN,
         abi: CONTRACTS.BITR_TOKEN.abi,
         functionName: 'approve',
-        args: [CONTRACT_ADDRESSES.BITREDICT_POOL, requiredAmount],
+        args: [CONTRACT_ADDRESSES.BITR_POOL, requiredAmount],
         account: address
       });
       

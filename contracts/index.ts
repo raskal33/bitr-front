@@ -29,11 +29,11 @@ export const CONTRACTS = {
     abi: OptimisticOracleABI.abi,
   },
   BITREDICT_POOL: {
-    address: CONTRACT_ADDRESSES.BITREDICT_POOL,
+    address: CONTRACT_ADDRESSES.BITR_POOL,
     abi: BitredictPoolABI.abi,
   },
   BITREDICT_STAKING: {
-    address: CONTRACT_ADDRESSES.BITREDICT_STAKING,
+    address: CONTRACT_ADDRESSES.STAKING,
     abi: BitredictStakingABI.abi,
   },
   REPUTATION_SYSTEM: {

@@ -41,12 +41,12 @@ export default function Header() {
   const {
     isConnected,
     address,
-    isOnSomnia,
+    isOnMonad,
     isConnecting,
     error,
     connectWallet,
     disconnectWallet,
-    switchToSomnia,
+    switchToMonad,
   } = useWalletConnection();
   const { setCurrentProfile } = useProfileStore();
 
@@ -280,16 +280,16 @@ export default function Header() {
                     {isConnected && address ? (
                       <div className="flex items-center gap-2">
                         <div className="flex items-center gap-2 px-3 py-2 rounded-button bg-bg-card border border-border-input text-sm">
-                          <div className={`w-2 h-2 rounded-full ${isOnSomnia ? 'bg-green-500' : 'bg-orange-500'}`}></div>
+                          <div className={`w-2 h-2 rounded-full ${isOnMonad ? 'bg-green-500' : 'bg-orange-500'}`}></div>
                           <span className="text-text-secondary font-mono">
                             {address.slice(0, 6)}...{address.slice(-4)}
                           </span>
                         </div>
-                        {!isOnSomnia && (
+                        {!isOnMonad && (
                           <button
-                            onClick={switchToSomnia}
+                            onClick={switchToMonad}
                             className="px-3 py-2 rounded-button text-sm font-medium text-orange-400 hover:text-orange-300 hover:bg-bg-card border border-orange-500 transition-colors duration-200"
-                            title="Switch to Somnia Testnet"
+                            title="Switch to Monad Testnet"
                           >
                             Switch Network
                           </button>
@@ -495,16 +495,16 @@ export default function Header() {
                         isConnected && address ? (
                           <div className="space-y-2">
                             <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-bg-card border border-border-input text-sm">
-                              <div className={`w-2 h-2 rounded-full flex-shrink-0 ${isOnSomnia ? 'bg-green-500' : 'bg-orange-500'}`}></div>
+                              <div className={`w-2 h-2 rounded-full flex-shrink-0 ${isOnMonad ? 'bg-green-500' : 'bg-orange-500'}`}></div>
                               <span className="text-text-secondary font-mono text-xs truncate">
                                 {address.slice(0, 6)}...{address.slice(-4)}
                               </span>
                             </div>
-                            {!isOnSomnia && (
+                            {!isOnMonad && (
                               <button
                                 onClick={(e) => {
                                   e.preventDefault();
-                                  switchToSomnia();
+                                  switchToMonad();
                                 }}
                                 className="w-full px-3 py-2.5 rounded-lg text-sm font-medium text-orange-400 hover:text-orange-300 hover:bg-bg-card border border-orange-500 transition-colors"
                               >
@@ -554,7 +554,7 @@ export default function Header() {
                     <div className="text-center">
                       <p className="text-xs text-text-muted">
                         Powered by{" "}
-                        <span className="gradient-text font-medium">Somnia Network</span>
+                        <span className="gradient-text font-medium">Monad Network</span>
                       </p>
                     </div>
                   </div>

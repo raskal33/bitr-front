@@ -8,7 +8,7 @@ interface WalletConnectionStatusProps {
 }
 
 export default function WalletConnectionStatus({ className = "" }: WalletConnectionStatusProps) {
-  const { isConnected, isConnecting, error, isOnSomnia } = useWalletConnection();
+  const { isConnected, isConnecting, error, isOnMonad } = useWalletConnection();
 
   if (!isConnected && !isConnecting && !error) {
     return null; // Don't show anything when not connected and no error
@@ -23,14 +23,14 @@ export default function WalletConnectionStatus({ className = "" }: WalletConnect
         </>
       )}
       
-      {isConnected && isOnSomnia && (
+      {isConnected && isOnMonad && (
         <>
           <CheckCircleIcon className="h-3 w-3 text-green-400" />
-          <span className="text-green-400">Connected to Somnia</span>
+          <span className="text-green-400">Connected to Monad</span>
         </>
       )}
       
-      {isConnected && !isOnSomnia && (
+      {isConnected && !isOnMonad && (
         <>
           <ExclamationTriangleIcon className="h-3 w-3 text-yellow-400" />
           <span className="text-yellow-400">Wrong Network</span>
