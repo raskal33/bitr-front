@@ -115,7 +115,7 @@ export default function Header() {
                     alt="BitRedict Logo" 
                     width={140} 
                     height={140} 
-                    className="logo-color-shift"
+                    className="logo-original logo-glow"
                     priority 
                   />
                 </Link>
@@ -409,7 +409,7 @@ export default function Header() {
                         alt="BitRedict Logo" 
                         width={100} 
                         height={100} 
-                        className="logo-color-shift"
+                        className="logo-original logo-glow"
                         priority 
                       />
                     </Link>

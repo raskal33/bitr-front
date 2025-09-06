@@ -13,8 +13,8 @@ const onest = Onest({
 
 export const metadata: Metadata = {
   title: "BitRedict",
-  description: "Decentralized prediction market on Somnia",
-  keywords: ["prediction market", "blockchain", "somnia", "defi", "betting", "crypto"],
+  description: "Decentralized prediction market on Monad",
+  keywords: ["prediction market", "blockchain", "monad", "defi", "betting", "crypto"],
   authors: [{ name: "BitRedict Team" }],
   creator: "BitRedict",
   publisher: "BitRedict",
@@ -31,7 +31,7 @@ export const metadata: Metadata = {
   metadataBase: new URL('https://bitredict.vercel.app'),
   openGraph: {
     title: "BitRedict - Decentralized Prediction Markets",
-    description: "Trade on real-world outcomes with transparent, blockchain-powered markets on Somnia Network",
+    description: "Trade on real-world outcomes with transparent, blockchain-powered markets on Monad Network",
     url: "https://bitredict.vercel.app",
     siteName: "BitRedict",
     images: [

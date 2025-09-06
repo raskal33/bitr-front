@@ -12,6 +12,13 @@ export default {
         main: "var(--font-onest)",
       },
       colors: {
+        // Brand Colors - Logo & Monad Integration
+        brand: {
+          primary: "#DBFF4D",     // Original logo yellow-green
+          secondary: "#6B46C1",   // Monad purple
+          accent: "#8B5CF6",      // Light purple variant
+          dark: "#553C9A",        // Dark purple variant
+        },
         // Somnia Brand Colors
         somnia: {
           cyan: "#22C7FF",      // Bright cyan
@@ -19,6 +26,12 @@ export default {
           violet: "#8C00FF",    // Violet
           magenta: "#FF0080",   // Magenta
           indigo: "#3C00A5",    // Dark indigo
+        },
+        // Monad specific colors
+        monad: {
+          purple: "#6B46C1",
+          light: "#8B5CF6",
+          dark: "#553C9A",
         },
         // Dark Theme Design System
         bg: {
@@ -36,10 +49,10 @@ export default {
           muted: "#C2C2D6",        // Muted text
           accent: "#22C7FF",       // Accent text
         },
-        // Semantic colors using Somnia palette
-        primary: "#22C7FF",     // Somnia cyan as primary
-        secondary: "#FF0080",   // Somnia magenta as secondary
-        accent: "#8C00FF",      // Somnia violet as accent
+        // Semantic colors using Brand palette
+        primary: "#DBFF4D",     // Logo yellow-green as primary
+        secondary: "#6B46C1",   // Monad purple as secondary
+        accent: "#8B5CF6",      // Light purple as accent
         success: "#00D9A5",
         warning: "#FFB800",
         error: "#FF4757",
@@ -58,20 +71,25 @@ export default {
       },
       backgroundImage: {
         'gradient-main': 'radial-gradient(circle at top left, #0C0C23, #000015)',
+        'gradient-brand': 'linear-gradient(135deg, #DBFF4D 0%, #6B46C1 100%)',
+        'gradient-primary': 'linear-gradient(135deg, #DBFF4D 0%, #8B5CF6 100%)',
+        'gradient-secondary': 'linear-gradient(135deg, #6B46C1 0%, #553C9A 100%)',
+        'gradient-accent': 'linear-gradient(135deg, #8B5CF6 0%, #6B46C1 100%)',
+        'gradient-text': 'linear-gradient(135deg, #DBFF4D 0%, #6B46C1 100%)',
         'gradient-somnia': 'linear-gradient(135deg, #22C7FF 0%, #007BFF 25%, #8C00FF 50%, #FF0080 75%, #3C00A5 100%)',
-        'gradient-primary': 'linear-gradient(135deg, #22C7FF 0%, #007BFF 100%)',
-        'gradient-secondary': 'linear-gradient(135deg, #FF0080 0%, #8C00FF 100%)',
-        'gradient-accent': 'linear-gradient(135deg, #8C00FF 0%, #3C00A5 100%)',
-        'gradient-text': 'linear-gradient(135deg, #22C7FF 0%, #FF0080 100%)',
       },
       boxShadow: {
+        'glow-brand': '0 0 20px rgba(219, 255, 77, 0.3)',
+        'glow-purple': '0 0 20px rgba(107, 70, 193, 0.3)',
         'glow-cyan': '0 0 20px rgba(34, 199, 255, 0.3)',
         'glow-magenta': '0 0 20px rgba(255, 0, 128, 0.3)',
         'glow-violet': '0 0 20px rgba(140, 0, 255, 0.3)',
         'card': '0 8px 32px rgba(0, 0, 0, 0.3)',
         'card-hover': '0 12px 40px rgba(0, 0, 0, 0.4)',
-        'button': '0 4px 16px rgba(34, 199, 255, 0.2)',
-        'button-hover': '0 6px 20px rgba(34, 199, 255, 0.4)',
+        'button': '0 4px 16px rgba(219, 255, 77, 0.2)',
+        'button-hover': '0 6px 20px rgba(219, 255, 77, 0.4)',
+        'button-purple': '0 4px 16px rgba(107, 70, 193, 0.2)',
+        'button-purple-hover': '0 6px 20px rgba(107, 70, 193, 0.4)',
       },
       backdropBlur: {
         'xs': '2px',
@@ -85,7 +103,8 @@ export default {
         'shimmer': 'shimmer 2s linear infinite',
         'color-cycle': 'color-cycle 10s linear infinite',
         'logo-cycle': 'logo-cycle 6s ease-in-out infinite',
-        'somnia-color-cycle': 'somnia-color-cycle 8s linear infinite',
+        'brand-glow': 'brand-glow 3s ease-in-out infinite',
+        'purple-pulse': 'purple-pulse 2s ease-in-out infinite',
       },
               keyframes: {
           'logo-cycle': {
@@ -140,13 +159,21 @@ export default {
             backgroundPosition: '1000px 0'
           }
         },
-        'somnia-color-cycle': {
-          '0%': { filter: 'hue-rotate(0deg)' },
-          '20%': { filter: 'hue-rotate(72deg)' }, // To Violet
-          '40%': { filter: 'hue-rotate(144deg)' }, // To Magenta
-          '60%': { filter: 'hue-rotate(216deg)' }, // To Cyan
-          '80%': { filter: 'hue-rotate(288deg)' }, // To Blue
-          '100%': { filter: 'hue-rotate(360deg)' },
+        'brand-glow': {
+          '0%, 100%': { 
+            filter: 'drop-shadow(0 0 8px rgba(219, 255, 77, 0.3))' 
+          },
+          '50%': { 
+            filter: 'drop-shadow(0 0 16px rgba(219, 255, 77, 0.6))' 
+          },
+        },
+        'purple-pulse': {
+          '0%, 100%': { 
+            boxShadow: '0 0 20px rgba(107, 70, 193, 0.3)' 
+          },
+          '50%': { 
+            boxShadow: '0 0 30px rgba(107, 70, 193, 0.6)' 
+          },
         },
       },
       borderRadius: {

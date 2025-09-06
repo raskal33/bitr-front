@@ -17,26 +17,26 @@ import { GAS_SETTINGS } from '@/config/wagmi';
 import { serializeBigInts } from '@/utils/bigint-helpers';
 
 
-// Convert somniaNetwork to viem Chain format
-const somniaChain: Chain = {
-  id: 50312,
-  name: 'Somnia Testnet',
+// Convert monadNetwork to viem Chain format
+const monadChain: Chain = {
+  id: 10143,
+  name: 'Monad Testnet',
   nativeCurrency: {
     decimals: 18,
-    name: 'STT',
-    symbol: 'STT',
+    name: 'MON',
+    symbol: 'MON',
   },
   rpcUrls: {
     default: {
       http: [
-        process.env.NODE_ENV === 'development' 
-          ? 'http://localhost:3000/api/rpc-proxy'
-          : process.env.NEXT_PUBLIC_RPC_URL || 'https://dream-rpc.somnia.network/'
+        'https://testnet-rpc.monad.xyz/',
+        'https://rpc.ankr.com/monad_testnet',
+        'https://frosty-summer-model.monad-testnet.quiknode.pro/bfedff2990828aad13692971d0dbed22de3c9783/'
       ],
     },
   },
   blockExplorers: {
-    default: { name: 'Somnia Explorer', url: 'https://shannon-explorer.somnia.network' },
+    default: { name: 'Monad Explorer', url: 'https://testnet-explorer.monad.xyz' },
   },
   testnet: true,
 };
@@ -85,7 +85,7 @@ class WagmiStyleClient {
 
   constructor() {
     this.publicClient = createPublicClient({
-      chain: somniaChain,
+      chain: monadChain,
       transport: http()
     });
   }
@@ -141,7 +141,7 @@ class WagmiStyleClient {
 
     const hash = await this.walletClient.sendTransaction({
       account: this.walletAddress,
-      chain: somniaChain,
+      chain: monadChain,
       to: address,
       data,
       value,
@@ -568,7 +568,7 @@ export class OddysseyContractService {
       const errorMessage = (error as Error).message || 'Unknown error';
       
       if (errorMessage.includes('insufficient funds')) {
-        throw new Error('Insufficient funds in wallet. Please check your STT balance.');
+        throw new Error('Insufficient funds in wallet. Please check your MON balance.');
       } else if (errorMessage.includes('user rejected')) {
         throw new Error('Transaction was cancelled by user.');
       } else if (errorMessage.includes('gas')) {

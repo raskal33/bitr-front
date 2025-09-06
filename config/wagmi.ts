@@ -2,26 +2,26 @@ import { createAppKit } from '@reown/appkit/react'
 import { WagmiAdapter } from '@reown/appkit-adapter-wagmi'
 import { mainnet, sepolia, type AppKitNetwork } from '@reown/appkit/networks'
 
-// Somnia Network configuration - CORRECT SETTINGS FROM HARDHAT
-export const somniaNetwork: AppKitNetwork = {
-  id: 50312,
-  name: 'Somnia Testnet',
+// Monad Network configuration - CORRECT SETTINGS FOR MONAD TESTNET
+export const monadNetwork: AppKitNetwork = {
+  id: 10143,
+  name: 'Monad Testnet',
   nativeCurrency: {
     decimals: 18,
-    name: 'STT',
-    symbol: 'STT',
+    name: 'MON',
+    symbol: 'MON',
   },
   rpcUrls: {
     default: {
       http: [
-        process.env.NODE_ENV === 'development' 
-          ? 'http://localhost:3000/api/rpc-proxy'
-          : process.env.NEXT_PUBLIC_RPC_URL || 'https://dream-rpc.somnia.network/'
+        'https://testnet-rpc.monad.xyz/',
+        'https://rpc.ankr.com/monad_testnet',
+        'https://frosty-summer-model.monad-testnet.quiknode.pro/bfedff2990828aad13692971d0dbed22de3c9783/'
       ],
     },
   },
   blockExplorers: {
-    default: { name: 'Somnia Explorer', url: 'https://shannon-explorer.somnia.network' },
+    default: { name: 'Monad Explorer', url: 'https://testnet-explorer.monad.xyz' },
   },
   testnet: true,
 }
@@ -30,7 +30,7 @@ export const somniaNetwork: AppKitNetwork = {
 const projectId = process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID || '6a0514d82fb621e41aa6cad5473883a3'
 
 // Create the networks array
-const networks = [somniaNetwork, mainnet, sepolia] as [AppKitNetwork, ...AppKitNetwork[]]
+const networks = [monadNetwork, mainnet, sepolia] as [AppKitNetwork, ...AppKitNetwork[]]
 
 // Create Wagmi Adapter
 export const wagmiAdapter = new WagmiAdapter({
@@ -46,7 +46,7 @@ export const appKit = createAppKit({
   projectId,
   metadata: {
     name: 'BitRedict - Connect Wallet',
-    description: 'Connect your wallet to access decentralized prediction markets on Somnia Network',
+    description: 'Connect your wallet to access decentralized prediction markets on Monad Network',
     url: 'https://bitredict.vercel.app',
     icons: ['https://bitredict.vercel.app/logo.png'],
   },
@@ -79,29 +79,27 @@ export const appKit = createAppKit({
 
 export const config = wagmiAdapter.wagmiConfig
 
-// Contract addresses for smart contract integration - UPDATED WITH NEW DEPLOYMENT
+// Contract addresses for smart contract integration - MONAD TESTNET DEPLOYMENT
 export const CONTRACT_ADDRESSES = {
-  BITR_TOKEN: (process.env.NEXT_PUBLIC_BITR_TOKEN_ADDRESS || '0xe10e734b6d475f4004C354CA5086CA7968efD4fd') as `0x${string}`,
-  FAUCET: (process.env.NEXT_PUBLIC_FAUCET_ADDRESS || '0xb0816D384EEC3c41dc75083b2B7C3771A01d0618') as `0x${string}`,
-  GUIDED_ORACLE: (process.env.NEXT_PUBLIC_GUIDED_ORACLE_ADDRESS || '0x9F91C01bB21385ac9959a1d51e33E65515688DC8') as `0x${string}`,
-  BITREDICT_POOL: (process.env.NEXT_PUBLIC_BITREDICT_POOL_ADDRESS || '0xBe9ad7A4CA367d45E61Fc20BbC5C44230e83E9f3') as `0x${string}`,
-  OPTIMISTIC_ORACLE: (process.env.NEXT_PUBLIC_OPTIMISTIC_ORACLE_ADDRESS || '0x114832D788b27c530deCe033c72286927036e7CF') as `0x${string}`,
-  BITREDICT_STAKING: (process.env.NEXT_PUBLIC_STAKING_CONTRACT_ADDRESS || '0x286A4690904fe9158a316Dfd5eA506d28F497395') as `0x${string}`,
-  REPUTATION_SYSTEM: (process.env.NEXT_PUBLIC_REPUTATION_SYSTEM_ADDRESS || '0x94DBC95350AaCcC9DeAbdd9cf60B189a149636C7') as `0x${string}`,
-  ODDYSSEY: (process.env.NEXT_PUBLIC_ODDYSSEY_ADDRESS || '0x9f9D719041C8F0EE708440f15AE056Cd858DCF4e') as `0x${string}`,
+  BITR_TOKEN: (process.env.NEXT_PUBLIC_BITR_TOKEN_ADDRESS || '0xbB966Dd2696005c9e893304819237Ea4006A9380') as `0x${string}`,
+  FAUCET: (process.env.NEXT_PUBLIC_BITR_FAUCET_ADDRESS || '0x9320ddf7CA7A2826DA3d557BD6A6661Ec7df13c0') as `0x${string}`,
+  GUIDED_ORACLE: (process.env.NEXT_PUBLIC_GUIDED_ORACLE_ADDRESS || '0x9CFB1097577480BD0eDe1795018c89786c541097') as `0x${string}`,
+  BITR_POOL: (process.env.NEXT_PUBLIC_BITR_POOL_ADDRESS || '0x080dB155ded47b08D9807ad38Be550784D4Df1e6') as `0x${string}`,
+  OPTIMISTIC_ORACLE: (process.env.NEXT_PUBLIC_OPTIMISTIC_ORACLE_ADDRESS || '0x36fddb1844B89D4c0A00497A1C6B56B958bCcFB6') as `0x${string}`,
+  STAKING: (process.env.NEXT_PUBLIC_STAKING_CONTRACT_ADDRESS || '0xD7A8f141320b4C060F8067741C812773166928E4') as `0x${string}`,
+  REPUTATION_SYSTEM: (process.env.NEXT_PUBLIC_REPUTATION_SYSTEM_ADDRESS || '0x86F7B172caFC2BaB08E6c93BD984fab0b08630e2') as `0x${string}`,
+  ODDYSSEY: (process.env.NEXT_PUBLIC_ODDYSSEY_ADDRESS || '0x6E51d91Adb14395B43Ad5b2A1A4f3F6C99332A5A') as `0x${string}`,
 }
 
 // Network configuration for contract calls
 export const NETWORK_CONFIG = {
-  chainId: 50312,
-  rpcUrl: process.env.NODE_ENV === 'development' 
-    ? 'http://localhost:3000/api/rpc-proxy'
-    : process.env.NEXT_PUBLIC_RPC_URL || 'https://dream-rpc.somnia.network/',
-  explorerUrl: 'https://shannon-explorer.somnia.network',
+  chainId: 10143,
+  rpcUrl: 'https://testnet-rpc.monad.xyz/',
+  explorerUrl: 'https://testnet-explorer.monad.xyz',
 }
 
-// Global gas settings - Optimized for Somnia Network
+// Global gas settings - Optimized for Monad Network
 export const GAS_SETTINGS = {
-  gas: BigInt(20000000), // 20M gas limit (sufficient for complex Oddyssey transactions)
-  gasPrice: BigInt(10000000000), // 10 gwei (max for Somnia)
+  gas: BigInt(30000000), // 30M gas limit (sufficient for complex Oddyssey transactions)
+  gasPrice: BigInt(50000000000), // 50 gwei (base fee for Monad)
 }

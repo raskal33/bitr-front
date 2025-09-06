@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 
 interface ButtonProps {
-  variant?: "primary" | "secondary" | "outline" | "ghost" | "accent" | "success" | "warning" | "error";
+  variant?: "primary" | "secondary" | "outline" | "outline-purple" | "ghost" | "accent" | "success" | "warning" | "error";
   size?: "sm" | "md" | "lg" | "xl";
   fullWidth?: boolean;
   disabled?: boolean;
@@ -30,11 +30,12 @@ export default function Button({
   const baseStyles = "inline-flex items-center justify-center gap-2 font-medium rounded-button transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed";
 
   const variants = {
-    primary: "bg-primary text-black shadow-button hover:brightness-110 hover:scale-105 hover:shadow-button-hover focus:ring-primary/50 font-semibold",
-    secondary: "bg-secondary text-white shadow-[0_4px_16px_rgba(255,0,128,0.2)] hover:brightness-110 hover:scale-105 hover:shadow-[0_6px_20px_rgba(255,0,128,0.4)] focus:ring-secondary/50 font-semibold",
-    outline: "bg-transparent border-2 border-primary text-primary hover:bg-primary hover:text-black focus:ring-primary/50",
-    ghost: "bg-transparent text-text-muted hover:bg-[rgba(255,255,255,0.05)] hover:text-text-primary focus:ring-text-accent/50",
-    accent: "bg-accent text-white shadow-[0_4px_16px_rgba(140,0,255,0.2)] hover:brightness-110 hover:scale-105 hover:shadow-[0_6px_20px_rgba(140,0,255,0.4)] focus:ring-accent/50 font-semibold",
+    primary: "bg-brand-primary text-black shadow-button hover:brightness-110 hover:scale-105 hover:shadow-button-hover focus:ring-brand-primary/50 font-semibold glow-brand",
+    secondary: "bg-brand-secondary text-white shadow-button-purple hover:brightness-110 hover:scale-105 hover:shadow-button-purple-hover focus:ring-brand-secondary/50 font-semibold glow-purple",
+    outline: "bg-transparent border-2 border-brand-primary text-brand-primary hover:bg-brand-primary hover:text-black focus:ring-brand-primary/50 transition-all duration-300",
+    "outline-purple": "bg-transparent border-2 border-brand-secondary text-brand-secondary hover:bg-brand-secondary hover:text-white focus:ring-brand-secondary/50 transition-all duration-300",
+    ghost: "bg-transparent text-text-muted hover:bg-[rgba(219,255,77,0.05)] hover:text-brand-primary focus:ring-brand-primary/50 transition-all duration-300",
+    accent: "bg-brand-accent text-white shadow-[0_4px_16px_rgba(139,92,246,0.2)] hover:brightness-110 hover:scale-105 hover:shadow-[0_6px_20px_rgba(139,92,246,0.4)] focus:ring-brand-accent/50 font-semibold",
     success: "bg-success text-white shadow-lg hover:brightness-110 hover:scale-105 focus:ring-success/50",
     warning: "bg-warning text-black shadow-lg hover:brightness-110 hover:scale-105 focus:ring-warning/50",
     error: "bg-error text-white shadow-lg hover:brightness-110 hover:scale-105 focus:ring-error/50",
