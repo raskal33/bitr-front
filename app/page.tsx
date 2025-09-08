@@ -16,7 +16,6 @@ import {
 } from "@heroicons/react/24/outline";
 import {
   BoltIcon as BoltSolid,
-  StarIcon as StarSolid,
   TrophyIcon as TrophySolid,
   ShieldCheckIcon as ShieldSolid
 } from "@heroicons/react/24/solid";
@@ -35,7 +34,6 @@ export default function HomePage() {
   });
   const [loading, setLoading] = useState(true);
   const [activeCategory, setActiveCategory] = useState<string>("");
-  const [currentTestimonial, setCurrentTestimonial] = useState(0);
 
   // Convert home page Pool to EnhancedPool format
   const convertHomePoolToEnhanced = (pool: Pool): EnhancedPool => {
@@ -77,32 +75,6 @@ export default function HomePage() {
     };
   };
 
-  const testimonials = [
-    {
-      name: "CryptoSage",
-      role: "Legendary Predictor",
-      avatar: "🧙‍♂️",
-      content: "Bitredict transformed my prediction skills. The challenge system keeps me sharp and the rewards are incredible!",
-      rating: 5,
-      earnings: "$45,000"
-    },
-    {
-      name: "FootballOracle",
-      role: "Sports Expert",
-      avatar: "⚽",
-      content: "The social features and reputation system make this the best prediction platform I&apos;ve ever used.",
-      rating: 5,
-      earnings: "$28,000"
-    },
-    {
-      name: "StockWizard",
-      role: "Finance Analyst",
-      avatar: "📊",
-      content: "Amazing platform for testing market predictions. The boost system really helps get visibility for quality pools.",
-      rating: 5,
-      earnings: "$32,000"
-    }
-  ];
 
   const fetchPlatformStats = useCallback(async () => {
     try {
@@ -452,12 +424,6 @@ export default function HomePage() {
     fetchPools();
   }, [fetchPlatformStats, fetchPools]);
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentTestimonial((prev) => (prev + 1) % testimonials.length);
-    }, 5000);
-    return () => clearInterval(interval);
-  }, [testimonials.length]);
 
   const filteredPools = pools.filter(pool => 
     activeCategory === "" || pool.category === activeCategory
@@ -610,10 +576,10 @@ export default function HomePage() {
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, delay }}
       viewport={{ once: true }}
-      className="bg-gradient-to-br from-gray-800/50 to-gray-900/50 backdrop-blur-sm border border-gray-700/50 rounded-2xl p-6 text-center group hover:border-cyan-500/30 transition-all duration-300"
+      className="bg-gradient-to-br from-gray-800/50 to-gray-900/50 backdrop-blur-sm border border-gray-700/50 rounded-2xl p-6 text-center group hover:border-primary/30 transition-all duration-300"
     >
       <div className="flex justify-center mb-4">
-        <div className="p-3 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-xl shadow-lg">
+        <div className="p-3 bg-gradient-to-r from-primary to-secondary rounded-xl shadow-lg">
           <Icon className="w-6 h-6 text-white" />
         </div>
       </div>
@@ -639,7 +605,7 @@ export default function HomePage() {
           className="mb-8"
         >
           <h1 className="text-4xl md:text-6xl font-bold text-white mb-6">
-            <span className="bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-primary via-secondary to-accent-light bg-clip-text text-transparent">
               Challenge The Future
               </span>
             </h1>
@@ -833,7 +799,7 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* Testimonials */}
+        {/* Advanced Analytics Dashboard */}
         <section className="py-12 px-4 relative">
           <div className="container mx-auto">
             <motion.div
@@ -844,60 +810,122 @@ export default function HomePage() {
               className="text-center mb-12"
             >
               <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-                <span className="bg-gradient-to-r from-green-400 to-emerald-500 bg-clip-text text-transparent">
-                  Success Stories
+                <span className="bg-gradient-to-r from-accent-cyan to-accent-blue bg-clip-text text-transparent">
+                  Real-Time Analytics
                 </span>
               </h2>
               <p className="text-lg text-gray-400 max-w-3xl mx-auto">
-                Hear from our top predictors who&apos;ve built legendary reputations
+                Advanced insights powered by blockchain technology and AI-driven predictions
               </p>
             </motion.div>
             
-            <div className="max-w-4xl mx-auto">
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={currentTestimonial}
-                  initial={{ opacity: 0, y: 30 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -30 }}
-                  transition={{ duration: 0.5 }}
-                  className="bg-gradient-to-br from-gray-800/50 to-gray-900/50 backdrop-blur-sm border border-gray-700/50 rounded-3xl p-12 text-center"
-                >
-                  <div className="text-6xl mb-6">{testimonials[currentTestimonial].avatar}</div>
-                  <div className="flex justify-center mb-4">
-                    {[...Array(testimonials[currentTestimonial].rating)].map((_, i) => (
-                      <StarSolid key={i} className="w-6 h-6 text-yellow-400" />
-                    ))}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-6xl mx-auto">
+              {/* Live Market Pulse */}
+              <motion.div
+                initial={{ opacity: 0, x: -30 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.8 }}
+                viewport={{ once: true }}
+                className="bg-gradient-to-br from-gray-800/50 to-gray-900/50 backdrop-blur-sm border border-gray-700/50 rounded-3xl p-8 relative overflow-hidden"
+              >
+                <div className="absolute inset-0 bg-gradient-to-r from-accent-cyan/5 to-accent-blue/5"></div>
+                <div className="relative z-10">
+                  <div className="flex items-center gap-3 mb-6">
+                    <div className="p-2 bg-gradient-to-r from-accent-cyan to-accent-blue rounded-lg">
+                      <ChartBarIcon className="w-6 h-6 text-white" />
+                    </div>
+                    <h3 className="text-xl font-bold text-white">Market Pulse</h3>
+                    <div className="ml-auto flex items-center gap-2">
+                      <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                      <span className="text-sm text-gray-400">Live</span>
+                    </div>
                   </div>
-                  <p className="text-xl text-gray-300 mb-6 italic leading-relaxed">
-                    &ldquo;{testimonials[currentTestimonial].content}&rdquo;
-                  </p>
-                  <div className="text-white font-bold text-lg">
-                    {testimonials[currentTestimonial].name}
+                  
+                  <div className="space-y-4">
+                    <div className="flex justify-between items-center">
+                      <span className="text-gray-400">Active Predictions</span>
+                      <span className="text-white font-semibold">{stats.activePools}</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-gray-400">24h Volume</span>
+                      <span className="text-accent-cyan font-semibold">${(stats.totalVolume / 1000).toFixed(0)}k</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-gray-400">Success Rate</span>
+                      <span className="text-green-400 font-semibold">{stats.successRate}%</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-gray-400">Avg Challenge Score</span>
+                      <span className="text-accent-blue font-semibold">{stats.avgChallengeScore}</span>
+                    </div>
                   </div>
-                  <div className="text-gray-400 mb-2">
-                    {testimonials[currentTestimonial].role}
+                  
+                  <div className="mt-6 p-4 bg-gray-800/30 rounded-xl border border-gray-700/30">
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-sm text-gray-400">Market Sentiment</span>
+                      <span className="text-sm text-green-400">Bullish</span>
+                    </div>
+                    <div className="w-full bg-gray-700 rounded-full h-2">
+                      <div className="bg-gradient-to-r from-green-400 to-accent-cyan h-2 rounded-full w-3/4"></div>
+                    </div>
                   </div>
-                  <div className="text-green-400 font-semibold">
-                    Earned: {testimonials[currentTestimonial].earnings}
+                </div>
+              </motion.div>
+
+              {/* AI Prediction Engine */}
+              <motion.div
+                initial={{ opacity: 0, x: 30 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.8 }}
+                viewport={{ once: true }}
+                className="bg-gradient-to-br from-gray-800/50 to-gray-900/50 backdrop-blur-sm border border-gray-700/50 rounded-3xl p-8 relative overflow-hidden"
+              >
+                <div className="absolute inset-0 bg-gradient-to-r from-accent-violet/5 to-accent-magenta/5"></div>
+                <div className="relative z-10">
+                  <div className="flex items-center gap-3 mb-6">
+                    <div className="p-2 bg-gradient-to-r from-accent-violet to-accent-magenta rounded-lg">
+                      <BoltIcon className="w-6 h-6 text-white" />
+                    </div>
+                    <h3 className="text-xl font-bold text-white">AI Engine</h3>
+                    <div className="ml-auto flex items-center gap-2">
+                      <div className="w-2 h-2 bg-accent-violet rounded-full animate-pulse"></div>
+                      <span className="text-sm text-gray-400">Processing</span>
+                    </div>
                   </div>
-                </motion.div>
-              </AnimatePresence>
-              
-              <div className="flex justify-center mt-8 gap-2">
-                {testimonials.map((_, index) => (
-                  <button
-                    key={index}
-                    onClick={() => setCurrentTestimonial(index)}
-                    className={`w-3 h-3 rounded-full transition-all ${
-                      index === currentTestimonial ? 'bg-cyan-400' : 'bg-gray-600'
-                    }`}
-                  />
-                ))}
-              </div>
+                  
+                  <div className="space-y-4">
+                    <div className="flex justify-between items-center">
+                      <span className="text-gray-400">Predictions Analyzed</span>
+                      <span className="text-white font-semibold">{stats.totalBets.toLocaleString()}</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-gray-400">Accuracy Score</span>
+                      <span className="text-accent-violet font-semibold">94.2%</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-gray-400">Active Creators</span>
+                      <span className="text-accent-magenta font-semibold">{stats.totalCreators}</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-gray-400">Neural Networks</span>
+                      <span className="text-white font-semibold">12 Active</span>
+                    </div>
+                  </div>
+                  
+                  <div className="mt-6 p-4 bg-gray-800/30 rounded-xl border border-gray-700/30">
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-sm text-gray-400">AI Confidence</span>
+                      <span className="text-sm text-accent-violet">High</span>
+                    </div>
+                    <div className="w-full bg-gray-700 rounded-full h-2">
+                      <div className="bg-gradient-to-r from-accent-violet to-accent-magenta h-2 rounded-full w-4/5"></div>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
 
       {/* CTA Section */}
         <section className="py-12 px-4 relative">
@@ -910,11 +938,11 @@ export default function HomePage() {
               className="text-center max-w-4xl mx-auto"
             >
               <h2 className="text-3xl md:text-5xl font-bold text-white mb-4">
-                <span className="bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 bg-clip-text text-transparent">
+                <span className="bg-gradient-to-r from-primary via-secondary to-accent-light bg-clip-text text-transparent">
                   Ready to Challenge
                 </span>
                 <br />
-                <span className="bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 bg-clip-text text-transparent">
+                <span className="bg-gradient-to-r from-accent-violet via-accent-magenta to-accent-indigo bg-clip-text text-transparent">
                   The Future?
                 </span>
             </h2>
@@ -929,7 +957,7 @@ export default function HomePage() {
                   <motion.button
                     whileHover={{ scale: 1.05, y: -2 }}
                     whileTap={{ scale: 0.95 }}
-                    className="bg-gradient-to-r from-cyan-500 to-blue-600 text-white px-8 py-4 rounded-xl font-bold text-lg shadow-lg shadow-cyan-500/25 hover:shadow-cyan-500/40 transition-all duration-300 flex items-center gap-3"
+                    className="bg-gradient-to-r from-primary to-secondary text-white px-8 py-4 rounded-xl font-bold text-lg shadow-lg shadow-primary/25 hover:shadow-primary/40 transition-all duration-300 flex items-center gap-3"
                   >
                     <RocketLaunchIcon className="w-6 h-6" />
                     Start Predicting
@@ -939,7 +967,7 @@ export default function HomePage() {
                 <motion.button
                   whileHover={{ scale: 1.05, y: -2 }}
                   whileTap={{ scale: 0.95 }}
-                  className="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-8 py-4 rounded-xl font-bold text-lg shadow-lg shadow-purple-500/25 hover:shadow-purple-500/40 transition-all duration-300 flex items-center gap-3"
+                  className="bg-gradient-to-r from-accent-violet to-accent-magenta text-white px-8 py-4 rounded-xl font-bold text-lg shadow-lg shadow-accent-violet/25 hover:shadow-accent-violet/40 transition-all duration-300 flex items-center gap-3"
                 >
                   <TrophySolid className="w-6 h-6" />
                   Create Pool
