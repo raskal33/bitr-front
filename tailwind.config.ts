@@ -19,13 +19,13 @@ export default {
           accent: "#8B5CF6",      // Light purple variant
           dark: "#553C9A",        // Dark purple variant
         },
-        // Somnia Brand Colors
-        somnia: {
-          cyan: "#22C7FF",      // Bright cyan
-          blue: "#007BFF",      // Light blue
-          violet: "#8C00FF",    // Violet
-          magenta: "#FF0080",   // Magenta
-          indigo: "#3C00A5",    // Dark indigo
+        // Accent Colors (Harmonizing with Brand)
+        accent: {
+          cyan: "#22C7FF",      // Complementary cyan for highlights
+          blue: "#007BFF",      // Supporting blue
+          violet: "#8C00FF",    // Deep violet accent
+          magenta: "#FF0080",   // Vibrant magenta
+          indigo: "#3C00A5",    // Deep indigo for depth
         },
         // Monad specific colors
         monad: {
@@ -52,7 +52,6 @@ export default {
         // Semantic colors using Brand palette
         primary: "#DBFF4D",     // Logo yellow-green as primary
         secondary: "#6B46C1",   // Monad purple as secondary
-        accent: "#8B5CF6",      // Light purple as accent
         success: "#00D9A5",
         warning: "#FFB800",
         error: "#FF4757",
@@ -76,7 +75,7 @@ export default {
         'gradient-secondary': 'linear-gradient(135deg, #6B46C1 0%, #553C9A 100%)',
         'gradient-accent': 'linear-gradient(135deg, #8B5CF6 0%, #6B46C1 100%)',
         'gradient-text': 'linear-gradient(135deg, #DBFF4D 0%, #6B46C1 100%)',
-        'gradient-somnia': 'linear-gradient(135deg, #22C7FF 0%, #007BFF 25%, #8C00FF 50%, #FF0080 75%, #3C00A5 100%)',
+        'gradient-rainbow': 'linear-gradient(135deg, #22C7FF 0%, #007BFF 25%, #8C00FF 50%, #FF0080 75%, #3C00A5 100%)',
       },
       boxShadow: {
         'glow-brand': '0 0 20px rgba(219, 255, 77, 0.3)',
