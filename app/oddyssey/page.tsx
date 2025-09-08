@@ -637,8 +637,8 @@ export default function OddysseyPage() {
             }
             
             // Extract betType and selection for blockchain format
-            const betType = String(predObj.betType || (pred as any).betType || "0");
-            const selection = String(predObj.selection || (pred as any).selection || "");
+            const betType = String(predObj.betType || (pred as { betType?: string }).betType || "0");
+            const selection = String(predObj.selection || (pred as { selection?: string }).selection || "");
             
             // Get team names - use cached data if available, otherwise use backend data
             let homeTeam = predObj.home_team || `Team ${matchId}`;
