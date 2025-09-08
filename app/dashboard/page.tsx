@@ -212,7 +212,7 @@ export default function Page() {
                 transition={{ delay: 0.3 }}
                 className="text-lg lg:text-xl text-text-secondary max-w-3xl"
               >
-                Predict the future, earn rewards. Join the most advanced decentralized prediction market on Somnia Network.
+                Predict the future, earn rewards. Join the most advanced decentralized prediction market on Monad Network.
               </motion.p>
             </div>
             <motion.div
@@ -327,7 +327,7 @@ export default function Page() {
                       <div className="text-xs">
                         <span className="text-text-secondary">Pool: </span>
                         <span className="text-white font-semibold">
-                          {"totalVolume" in pool && typeof pool.totalVolume === "number" ? pool.totalVolume : ("totalPool" in pool ? (pool as { totalPool?: number }).totalPool : 0) ?? 0} SOL
+                          {"totalVolume" in pool && typeof pool.totalVolume === "number" ? pool.totalVolume : ("totalPool" in pool ? (pool as { totalPool?: number }).totalPool : 0) ?? 0} MON
                         </span>
                       </div>
                       <div className="flex gap-1">
@@ -420,7 +420,7 @@ export default function Page() {
                   <div className="space-y-1">
                     <div className="text-xs text-text-secondary">Total Pool</div>
                     <div className="text-base font-bold text-white">
-                      {"totalVolume" in pool && typeof pool.totalVolume === "number" ? pool.totalVolume : ("totalPool" in pool ? (pool as { totalPool?: number }).totalPool : 0) ?? 0} SOL
+                      {"totalVolume" in pool && typeof pool.totalVolume === "number" ? pool.totalVolume : ("totalPool" in pool ? (pool as { totalPool?: number }).totalPool : 0) ?? 0} MON
                     </div>
                   </div>
                   <div className="space-y-1 text-right">

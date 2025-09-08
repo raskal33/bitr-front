@@ -110,7 +110,7 @@ export default function SideMenu() {
                 <BanknotesIconSolid className="h-4 w-4 text-green-400" />
                 <span className="text-xs text-text-muted">Total P&L</span>
               </div>
-              <span className="text-sm font-semibold text-green-400">+640 SOL</span>
+              <span className="text-sm font-semibold text-green-400">+640 MON</span>
             </div>
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">

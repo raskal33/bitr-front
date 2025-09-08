@@ -108,7 +108,7 @@ const recentInsights = [
     id: 4,
     type: "milestone",
     title: "Volume Milestone",
-    description: "You've crossed 25,000 SOL in total trading volume!",
+    description: "You've crossed 25,000 MON in total trading volume!",
     timestamp: "3 days ago",
     icon: <FireSolid className="h-5 w-5" />,
     color: "text-orange-400 bg-orange-500/10 border-orange-500/30"
@@ -172,7 +172,7 @@ export default function Page() {
         {[
           {
             title: "Total Volume",
-            value: `${(performanceMetrics.creator.totalVolume + performanceMetrics.bettor.totalStaked).toLocaleString()} SOL`,
+            value: `${(performanceMetrics.creator.totalVolume + performanceMetrics.bettor.totalStaked).toLocaleString()} MON`,
             change: "+15.2%",
             icon: <BanknotesIcon className="h-6 w-6" />,
             color: "text-blue-400",
@@ -190,7 +190,7 @@ export default function Page() {
           },
           {
             title: "Total Profit",
-            value: `+${(performanceMetrics.bettor.profitLoss + performanceMetrics.creator.totalFees).toLocaleString()} SOL`,
+            value: `+${(performanceMetrics.bettor.profitLoss + performanceMetrics.creator.totalFees).toLocaleString()} MON`,
             change: "+24.5%",
             icon: <ArrowTrendingUpIcon className="h-6 w-6" />,
             color: "text-green-400",
@@ -320,7 +320,7 @@ export default function Page() {
                 </div>
                 
                 <div className="flex items-center justify-between text-sm text-text-muted mb-2">
-                  <span>Volume: {category.volume.toLocaleString()} SOL</span>
+                  <span>Volume: {category.volume.toLocaleString()} MON</span>
                   <span>{category.pools} pools</span>
                 </div>
                 
@@ -363,8 +363,8 @@ export default function Page() {
             {[
               { label: "Total Pools", value: performanceMetrics.creator.totalPools, suffix: "" },
               { label: "Win Rate", value: performanceMetrics.creator.winRate, suffix: "%" },
-              { label: "Avg Pool Size", value: performanceMetrics.creator.averagePoolSize, suffix: " SOL" },
-              { label: "Total Fees", value: performanceMetrics.creator.totalFees, suffix: " SOL" },
+              { label: "Avg Pool Size", value: performanceMetrics.creator.averagePoolSize, suffix: " MON" },
+              { label: "Total Fees", value: performanceMetrics.creator.totalFees, suffix: " MON" },
               { label: "Accuracy", value: performanceMetrics.creator.accuracy, suffix: "%" },
               { label: "Reputation", value: performanceMetrics.creator.reputation, suffix: "/5" }
             ].map((metric, index) => (
@@ -405,8 +405,8 @@ export default function Page() {
             {[
               { label: "Total Bets", value: performanceMetrics.bettor.totalBets, suffix: "" },
               { label: "Win Rate", value: performanceMetrics.bettor.winRate, suffix: "%" },
-              { label: "Avg Bet Size", value: performanceMetrics.bettor.averageBetSize, suffix: " SOL" },
-              { label: "Best Win", value: performanceMetrics.bettor.bestWin, suffix: " SOL" },
+              { label: "Avg Bet Size", value: performanceMetrics.bettor.averageBetSize, suffix: " MON" },
+              { label: "Best Win", value: performanceMetrics.bettor.bestWin, suffix: " MON" },
               { label: "Win Streak", value: performanceMetrics.bettor.streak, suffix: "" },
               { label: "Monthly ROI", value: performanceMetrics.bettor.monthlyROI, suffix: "%" }
             ].map((metric, index) => (

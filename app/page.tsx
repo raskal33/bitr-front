@@ -639,7 +639,7 @@ export default function HomePage() {
           className="mb-8"
         >
           <h1 className="text-4xl md:text-6xl font-bold text-white mb-6">
-            <span className="bg-gradient-to-r from-somnia-cyan via-somnia-blue to-somnia-violet bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
               Challenge The Future
               </span>
             </h1>
@@ -653,7 +653,7 @@ export default function HomePage() {
               <motion.button
                 whileHover={{ scale: 1.05, y: -2 }}
                 whileTap={{ scale: 0.95 }}
-                className="bg-gradient-to-r from-somnia-cyan to-somnia-blue text-white px-8 py-4 rounded-xl font-bold text-lg shadow-lg shadow-somnia-cyan/25 hover:shadow-somnia-cyan/40 transition-all duration-300 flex items-center gap-3"
+                className="bg-gradient-to-r from-primary to-secondary text-white px-8 py-4 rounded-xl font-bold text-lg shadow-lg shadow-primary/25 hover:shadow-primary/40 transition-all duration-300 flex items-center gap-3"
               >
                 <RocketLaunchIcon className="w-6 h-6" />
                 Start Predicting
@@ -663,7 +663,7 @@ export default function HomePage() {
             <motion.button
               whileHover={{ scale: 1.05, y: -2 }}
               whileTap={{ scale: 0.95 }}
-              className="bg-gradient-to-r from-somnia-magenta to-somnia-violet text-white px-8 py-4 rounded-xl font-bold text-lg shadow-lg shadow-somnia-magenta/25 hover:shadow-somnia-magenta/40 transition-all duration-300 flex items-center gap-3"
+              className="bg-gradient-to-r from-accent-magenta to-accent-violet text-white px-8 py-4 rounded-xl font-bold text-lg shadow-lg shadow-accent-magenta/25 hover:shadow-accent-magenta/40 transition-all duration-300 flex items-center gap-3"
             >
               <PlayIcon className="w-6 h-6" />
               Watch Demo
@@ -673,7 +673,7 @@ export default function HomePage() {
               <motion.button
                 whileHover={{ scale: 1.05, y: -2 }}
                 whileTap={{ scale: 0.95 }}
-                className="bg-gradient-to-r from-somnia-violet to-somnia-indigo text-white px-8 py-4 rounded-xl font-bold text-lg shadow-lg shadow-somnia-violet/25 hover:shadow-somnia-violet/40 transition-all duration-300 flex items-center gap-3"
+                className="bg-gradient-to-r from-accent-violet to-accent-indigo text-white px-8 py-4 rounded-xl font-bold text-lg shadow-lg shadow-accent-violet/25 hover:shadow-accent-violet/40 transition-all duration-300 flex items-center gap-3"
               >
                 <TrophySolid className="w-6 h-6" />
                 Create Market

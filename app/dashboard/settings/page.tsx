@@ -170,7 +170,7 @@ export default function Page() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
                 <label className="block text-sm font-medium text-text-secondary mb-2">
-                  Default Stake (SOL)
+                  Default Stake (MON)
                 </label>
                 <input
                   type="number"
@@ -183,7 +183,7 @@ export default function Page() {
               
               <div>
                 <label className="block text-sm font-medium text-text-secondary mb-2">
-                  Max Bet Limit (SOL)
+                  Max Bet Limit (MON)
                 </label>
                 <input
                   type="number"

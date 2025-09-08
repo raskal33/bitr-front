@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from 'react'
-import { useAccount, useSignMessage } from 'wagmi'
+import { useAccount } from 'wagmi'
 import { FiX, FiCheck, FiAlertTriangle, FiExternalLink, FiShield, FiInfo } from 'react-icons/fi'
 import Button from '@/components/button'
 import LoadingSpinner from '@/components/LoadingSpinner'
@@ -31,7 +31,6 @@ interface TermsModalProps {
 
 export default function TermsModal({ isOpen, onAccept, onDecline }: TermsModalProps) {
   const { address } = useAccount()
-  const { signMessage } = useSignMessage()
   
   const [termsData, setTermsData] = useState<TermsData | null>(null)
   const [isLoading, setIsLoading] = useState(true)
@@ -41,31 +40,66 @@ export default function TermsModal({ isOpen, onAccept, onDecline }: TermsModalPr
   const [isAccepting, setIsAccepting] = useState(false)
   const [acceptanceStep, setAcceptanceStep] = useState<'reading' | 'confirming' | 'signing' | 'submitting'>('reading')
 
-  // Fetch terms data
+  // Load static terms data
   useEffect(() => {
     if (isOpen) {
-      fetchTerms()
+      loadTerms()
     }
   }, [isOpen])
 
-  const fetchTerms = async () => {
-    try {
-      setIsLoading(true)
-      setError(null)
-      
-      const response = await fetch('/api/terms/current')
-      if (!response.ok) {
-        throw new Error('Failed to fetch terms')
-      }
-      
-      const data = await response.json()
-      setTermsData(data.terms)
-    } catch (err) {
-      console.error('Error fetching terms:', err)
-      setError('Failed to load terms and conditions. Please try again.')
-    } finally {
-      setIsLoading(false)
+  const loadTerms = () => {
+    setIsLoading(true)
+    setError(null)
+    
+    // Static terms data
+    const staticTerms: TermsData = {
+      version: '1.0',
+      lastUpdated: 'December 2024',
+      title: 'BitRedict Terms of Service',
+      summary: {
+        title: 'Key Points Summary',
+        points: [
+          'This is a testnet application - all tokens are for testing purposes only',
+          'You must be 18+ years old to use this platform',
+          'No real money or value is involved in any transactions',
+          'The platform is provided "as is" without warranties',
+          'We may update these terms at any time',
+          'By using BitRedict, you accept all risks associated with blockchain technology'
+        ]
+      },
+      sections: [
+        {
+          id: 'acceptance',
+          title: '1. Acceptance of Terms',
+          content: 'By accessing and using BitRedict, you accept and agree to be bound by the terms and provision of this agreement.'
+        },
+        {
+          id: 'testnet',
+          title: '2. Testnet Notice',
+          content: 'This application operates on Monad Testnet. All tokens, transactions, and activities are for testing purposes only and have no real-world value.'
+        },
+        {
+          id: 'eligibility',
+          title: '3. Eligibility',
+          content: 'You must be at least 18 years old and legally capable of entering into binding contracts to use this service.'
+        },
+        {
+          id: 'risks',
+          title: '4. Risks and Disclaimers',
+          content: 'Blockchain technology involves inherent risks. You acknowledge and accept all risks associated with using this platform.'
+        },
+        {
+          id: 'modifications',
+          title: '5. Modifications',
+          content: 'We reserve the right to modify these terms at any time. Continued use of the platform constitutes acceptance of modified terms.'
+        }
+      ]
     }
+    
+    setTimeout(() => {
+      setTermsData(staticTerms)
+      setIsLoading(false)
+    }, 500)
   }
 
   const handleAccept = async () => {
@@ -73,44 +107,10 @@ export default function TermsModal({ isOpen, onAccept, onDecline }: TermsModalPr
 
     try {
       setIsAccepting(true)
-      setAcceptanceStep('signing')
+      setAcceptanceStep('confirming')
 
-      // Step 1: Sign authentication message
-      const authMessage = `Authenticate wallet for Bitredict Terms Acceptance\nAddress: ${address}\nVersion: ${termsData.version}\nTimestamp: ${Date.now()}`
-      
-      const authSignature = await signMessage({ message: authMessage })
-      
-      // Step 2: Authenticate wallet
-      setAcceptanceStep('submitting')
-      const authResponse = await fetch('/api/faucet/authenticate', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          address,
-          signature: authSignature,
-          message: authMessage
-        })
-      })
-
-      if (!authResponse.ok) {
-        const authError = await authResponse.json()
-        throw new Error(authError.error || 'Authentication failed')
-      }
-
-      // Step 3: Accept terms
-      const termsResponse = await fetch('/api/faucet/accept-terms', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          address,
-          termsVersion: termsData.version
-        })
-      })
-
-      if (!termsResponse.ok) {
-        const termsError = await termsResponse.json()
-        throw new Error(termsError.error || 'Failed to accept terms')
-      }
+      // Simulate a brief delay for UX
+      await new Promise(resolve => setTimeout(resolve, 1000))
 
       // Success - call parent callback
       onAccept()
@@ -165,7 +165,7 @@ export default function TermsModal({ isOpen, onAccept, onDecline }: TermsModalPr
               <div className="text-center">
                 <FiAlertTriangle className="text-red-400 text-3xl mx-auto mb-3" />
                 <p className="text-red-400 mb-4">{error}</p>
-                <Button onClick={fetchTerms} variant="outline" size="sm">
+                <Button onClick={loadTerms} variant="outline" size="sm">
                   Try Again
                 </Button>
               </div>
@@ -240,9 +240,8 @@ export default function TermsModal({ isOpen, onAccept, onDecline }: TermsModalPr
                     <LoadingSpinner size="sm" />
                     <div>
                       <p className="text-yellow-300 font-medium">
-                        {acceptanceStep === 'signing' && 'Please sign the authentication message...'}
-                        {acceptanceStep === 'submitting' && 'Submitting terms acceptance...'}
                         {acceptanceStep === 'confirming' && 'Confirming acceptance...'}
+                        {acceptanceStep === 'submitting' && 'Submitting terms acceptance...'}
                       </p>
                       <p className="text-sm text-yellow-200">
                         This will authenticate your wallet and record your acceptance.

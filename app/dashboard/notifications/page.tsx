@@ -18,7 +18,7 @@ export default function Page() {
       id: 1,
       type: 'success',
       title: 'Prediction Won!',
-      message: 'Your prediction "Bitcoin reaches $100,000" has been settled. You won 250 SOL!',
+      message: 'Your prediction "Bitcoin reaches $100,000" has been settled. You won 250 MON!',
       timestamp: '2 hours ago',
       read: false
     },

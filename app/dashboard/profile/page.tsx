@@ -35,7 +35,7 @@ export default function Page() {
               </svg>
             </div>
             <div className="text-2xl font-bold text-white mb-2">+2,543</div>
-            <div className="text-text-secondary">Total P&L (SOL)</div>
+            <div className="text-text-secondary">Total P&L (MON)</div>
           </div>
           
           <div className="glass-card p-6 text-center">
@@ -65,7 +65,7 @@ export default function Page() {
                     <div className="text-text-secondary text-sm">2 hours ago</div>
                   </div>
                 </div>
-                <div className="text-green-400 font-bold">+250 SOL</div>
+                <div className="text-green-400 font-bold">+250 MON</div>
               </div>
               
               <div className="flex items-center justify-between p-4 bg-card-bg rounded-lg">
@@ -94,7 +94,7 @@ export default function Page() {
                     <div className="text-text-secondary text-sm">3 days ago</div>
                   </div>
                 </div>
-                <div className="text-red-400 font-bold">-100 SOL</div>
+                <div className="text-red-400 font-bold">-100 MON</div>
               </div>
             </div>
           </div>

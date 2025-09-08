@@ -1359,7 +1359,7 @@ export default function CreateMarketPage() {
                 }`}
               >
                 <div className="font-semibold text-sm sm:text-base">MON</div>
-                <div className="text-xs mt-1">Somnia Network Currency</div>
+                <div className="text-xs mt-1">Monad Network Currency</div>
               </motion.button>
               <motion.button
                 whileHover={{ scale: 1.02 }}

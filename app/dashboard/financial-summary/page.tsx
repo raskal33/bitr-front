@@ -205,7 +205,7 @@ export default function Page() {
         {[
           {
             title: "Total Value",
-            value: `${portfolioSummary.totalValue} SOL`,
+            value: `${portfolioSummary.totalValue} MON`,
             change: roiPercentage >= 0 ? `+${roiPercentage.toFixed(1)}%` : `${roiPercentage.toFixed(1)}%`,
             icon: <WalletIcon className="h-6 w-6" />,
             color: "text-blue-400",
@@ -215,7 +215,7 @@ export default function Page() {
           },
           {
             title: "Unrealized P&L",
-            value: `${portfolioSummary.unrealizedPL >= 0 ? '+' : ''}${portfolioSummary.unrealizedPL} SOL`,
+            value: `${portfolioSummary.unrealizedPL >= 0 ? '+' : ''}${portfolioSummary.unrealizedPL} MON`,
             change: `${((portfolioSummary.unrealizedPL / portfolioSummary.totalInvested) * 100).toFixed(1)}%`,
             icon: <ChartBarIcon className="h-6 w-6" />,
             color: portfolioSummary.unrealizedPL >= 0 ? "text-green-400" : "text-red-400",
@@ -384,10 +384,10 @@ export default function Page() {
                   </div>
                   <div className="text-right">
                     <div className="text-sm font-bold text-text-primary">
-                      {position.currentValue} SOL
+                      {position.currentValue} MON
                     </div>
                     <div className={`text-xs font-medium ${position.unrealizedPL >= 0 ? 'text-green-400' : 'text-red-400'}`}>
-                      {position.unrealizedPL >= 0 ? '+' : ''}{position.unrealizedPL} SOL
+                      {position.unrealizedPL >= 0 ? '+' : ''}{position.unrealizedPL} MON
                     </div>
                   </div>
                 </div>
@@ -421,7 +421,7 @@ export default function Page() {
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
                   <div>
                     <span className="text-text-muted">Invested:</span>
-                    <div className="font-medium text-text-primary">{position.amount} SOL</div>
+                    <div className="font-medium text-text-primary">{position.amount} MON</div>
                   </div>
                   <div>
                     <span className="text-text-muted">Outcome:</span>

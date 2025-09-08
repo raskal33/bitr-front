@@ -2058,8 +2058,8 @@ export default function OddysseyPage() {
                                     isMatchStarted(match.match_date) || isExpired
                                       ? "bg-slate-700/30 text-slate-400 cursor-not-allowed opacity-50"
                                       : picks.find(p => p.id === match.fixture_id && p.pick === "away")
-                                      ? "bg-gradient-to-r from-accent to-accent/80 text-black shadow-lg scale-105 ring-2 ring-accent/50"
-                                      : "bg-accent/15 text-white hover:bg-gradient-to-r hover:from-accent/25 hover:to-accent/20 hover:text-accent border border-accent/20 hover:border-accent/40 hover:shadow-lg hover:scale-102"
+                                      ? "bg-gradient-to-r from-red-500 to-red-400 text-white shadow-lg scale-105 ring-2 ring-red-400/50"
+                                      : "bg-red-500/15 text-white hover:bg-gradient-to-r hover:from-red-500/25 hover:to-red-400/20 hover:text-red-300 border border-red-400/20 hover:border-red-400/40 hover:shadow-lg hover:scale-102"
                                   }`}
                                 >
                                   <div className="text-xs opacity-75">2</div>
@@ -2176,8 +2176,8 @@ export default function OddysseyPage() {
                                     isMatchStarted(match.match_date) || isExpired
                                     ? "bg-slate-700/30 text-slate-400 cursor-not-allowed opacity-50"
                                     : picks.find(p => p.id === match.fixture_id && p.pick === "away")
-                                    ? "bg-gradient-accent text-black shadow-md scale-105"
-                                    : "bg-accent/10 text-white hover:bg-accent/20 hover:text-accent border border-transparent hover:border-accent/30"
+                                    ? "bg-gradient-to-r from-red-500 to-red-400 text-white shadow-md scale-105"
+                                    : "bg-red-500/10 text-white hover:bg-red-500/20 hover:text-red-300 border border-transparent hover:border-red-400/30"
                               }`}
                             >
                                                                     {typeof match.away_odds === 'number' ? formatOdds(match.away_odds) : '0.00'}
@@ -2496,13 +2496,14 @@ export default function OddysseyPage() {
                 </motion.div>
               </>
             ) : activeTab === "slips" ? (
-              <motion.div
-                key="slips"
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -20 }}
-                className="lg:col-span-3"
-              >
+              <>
+                <motion.div
+                  key="slips"
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -20 }}
+                  className="lg:col-span-2"
+                >
                 <div className="glass-card p-4 sm:p-6 bg-gradient-to-br from-cyan-500/5 to-blue-500/5 border border-cyan-500/20 shadow-lg shadow-cyan-500/10">
                   <h2 className="text-xl sm:text-2xl font-bold text-cyan-300 mb-4 sm:mb-6 flex items-center gap-2">
                     <TrophyIcon className="h-5 w-5 sm:h-6 sm:w-6 text-cyan-400" />
@@ -2807,7 +2808,8 @@ export default function OddysseyPage() {
                     )}
                   </AnimatePresence>
                 </div>
-              </motion.div>
+                </motion.div>
+              </>
             ) : activeTab === "results" ? (
               <motion.div
                 key="results"
