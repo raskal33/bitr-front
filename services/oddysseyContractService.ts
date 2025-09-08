@@ -695,10 +695,15 @@ export function useOddysseyContract() {
         cycleId = 0;
       }
       
-      // Try to get matches
+      // Try to get matches with retry logic
       try {
         matches = await OddysseyContractService.getCurrentMatches();
         console.log('✅ Matches fetched:', matches.length);
+        
+        // If we get matches, show success message
+        if (matches.length > 0) {
+          console.log('🎉 Contract connection established successfully!');
+        }
       } catch (err) {
         console.error('❌ Could not fetch matches:', err);
         // Don't throw here, just set empty array and continue

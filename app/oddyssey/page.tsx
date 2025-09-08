@@ -869,6 +869,7 @@ export default function OddysseyPage() {
       fetchCurrentData();
     }
   }, [address, fetchStats, fetchUserSlips, fetchCurrentData]); // Include dependencies
+
   
   // Update slips when team names are fetched
   useEffect(() => {
@@ -1439,10 +1440,12 @@ export default function OddysseyPage() {
     return true;
   }, [chainId, isConnected, showError]);
 
-  // Add retry mechanism for contract data
-  const retryContractData = useCallback(async () => {
+  // Enhanced retry mechanism for contract data with automatic retries
+  const retryContractData = useCallback(async (isAutomatic = false, retryCount = 0) => {
     if (!isConnected || !address) {
-      showError("Wallet Not Connected", "Please connect your wallet first.");
+      if (!isAutomatic) {
+        showError("Wallet Not Connected", "Please connect your wallet first.");
+      }
       return;
     }
     
@@ -1451,19 +1454,62 @@ export default function OddysseyPage() {
       return;
     }
     
+    const maxRetries = 3;
+    
     try {
-      showInfo("Retrying Contract Connection", "Attempting to reconnect to the contract...");
+      if (!isAutomatic) {
+        showInfo("Retrying Contract Connection", "Attempting to reconnect to the contract...");
+      }
       
       // Force re-initialization
       if (refetchAll) {
         await refetchAll();
-        showSuccess("Connection Successful", "Contract data has been refreshed successfully.");
+        
+        // Check if we actually got matches after refetch
+        setTimeout(() => {
+          if (currentMatches && currentMatches.length > 0) {
+            if (!isAutomatic) {
+              showSuccess("Connection Successful", "Contract data has been refreshed successfully.");
+            }
+            console.log('🎉 Contract connection established successfully!');
+          } else if (retryCount < maxRetries) {
+            // Auto-retry if no matches and we haven't exceeded retry limit
+            console.log(`⚠️ No matches after retry ${retryCount + 1}, attempting again in ${(retryCount + 1) * 3} seconds...`);
+            setTimeout(() => {
+              retryContractData(true, retryCount + 1);
+            }, (retryCount + 1) * 3000); // 3s, 6s, 9s delays
+          } else if (!isAutomatic) {
+            showError("Connection Issue", "Unable to fetch contract matches. Please try again or check your network connection.");
+          }
+        }, 2000); // Give it 2 seconds to populate currentMatches
       }
     } catch (error) {
       console.error('❌ Error retrying contract data:', error);
-      showError("Retry Failed", "Failed to reconnect to contract. Please check your network connection.");
+      
+      // Auto-retry on error if we haven't exceeded retry limit
+      if (retryCount < maxRetries) {
+        console.log(`⚠️ Contract retry failed (${retryCount + 1}/${maxRetries}), retrying in ${(retryCount + 1) * 3} seconds...`);
+        setTimeout(() => {
+          retryContractData(true, retryCount + 1);
+        }, (retryCount + 1) * 3000);
+      } else if (!isAutomatic) {
+        showError("Retry Failed", "Failed to reconnect to contract. Please check your network connection.");
+      }
     }
-  }, [isConnected, address, refetchAll, checkNetwork, showError, showInfo, showSuccess]);
+  }, [isConnected, address, refetchAll, checkNetwork, showError, showInfo, showSuccess, currentMatches]);
+
+  // Auto-retry contract connection if initialized but no matches
+  useEffect(() => {
+    if (isInitialized && isConnected && address && (!currentMatches || currentMatches.length === 0)) {
+      console.log('🔄 Contract initialized but no matches found, attempting automatic retry...');
+      // Delay the retry to avoid immediate retry loops
+      const timer = setTimeout(() => {
+        retryContractData(true, 0);
+      }, 5000); // Wait 5 seconds before auto-retry
+      
+      return () => clearTimeout(timer);
+    }
+  }, [isInitialized, isConnected, address, currentMatches, retryContractData]);
 
   // Helper function to format odds correctly (contract uses 1000x scaling)
   const formatOdds = (odds: number) => {
@@ -1992,13 +2038,13 @@ export default function OddysseyPage() {
                                 <button
                                   onClick={() => handlePickSelection(match.fixture_id, "draw")}
                                   disabled={isMatchStarted(match.match_date) || isExpired}
-                                  className={`px-3 py-3 text-center rounded-lg transition-all duration-300 font-bold text-sm shadow-md ${
-                                    isMatchStarted(match.match_date) || isExpired
-                                      ? "bg-slate-700/30 text-slate-400 cursor-not-allowed opacity-50"
-                                      : picks.find(p => p.id === match.fixture_id && p.pick === "draw")
-                                      ? "bg-gradient-to-r from-secondary to-secondary/80 text-black shadow-lg scale-105 ring-2 ring-secondary/50"
-                                      : "bg-secondary/15 text-white hover:bg-gradient-to-r hover:from-secondary/25 hover:to-secondary/20 hover:text-secondary border border-secondary/20 hover:border-secondary/40 hover:shadow-lg hover:scale-102"
-                                  }`}
+                                className={`px-3 py-3 text-center rounded-lg transition-all duration-300 font-bold text-sm shadow-md ${
+                                  isMatchStarted(match.match_date) || isExpired
+                                    ? "bg-slate-700/30 text-slate-400 cursor-not-allowed opacity-50"
+                                    : picks.find(p => p.id === match.fixture_id && p.pick === "draw")
+                                    ? "bg-gradient-to-r from-yellow-500 to-orange-500 text-black shadow-lg scale-105 ring-2 ring-yellow-400/50"
+                                    : "bg-yellow-500/20 text-yellow-200 hover:bg-gradient-to-r hover:from-yellow-500/30 hover:to-orange-500/25 hover:text-yellow-100 border border-yellow-400/30 hover:border-yellow-400/50 hover:shadow-lg hover:scale-102"
+                                }`}
                                 >
                                   <div className="text-xs opacity-75">X</div>
                                   <div>{typeof match.draw_odds === 'number' ? formatOdds(match.draw_odds) : '0.00'}</div>
@@ -2109,13 +2155,13 @@ export default function OddysseyPage() {
                             <button
                                 onClick={() => handlePickSelection(match.fixture_id, "draw")}
                                   disabled={isMatchStarted(match.match_date) || isExpired}
-                                className={`w-full px-2 py-1 text-center rounded transition-all duration-200 font-bold text-xs ${
-                                    isMatchStarted(match.match_date) || isExpired
-                                    ? "bg-slate-700/30 text-slate-400 cursor-not-allowed opacity-50"
-                                    : picks.find(p => p.id === match.fixture_id && p.pick === "draw")
-                                    ? "bg-gradient-secondary text-black shadow-md scale-105"
-                                    : "bg-secondary/10 text-white hover:bg-secondary/20 hover:text-secondary border border-transparent hover:border-secondary/30"
-                              }`}
+                              className={`w-full px-2 py-1 text-center rounded transition-all duration-200 font-bold text-xs ${
+                                  isMatchStarted(match.match_date) || isExpired
+                                  ? "bg-slate-700/30 text-slate-400 cursor-not-allowed opacity-50"
+                                  : picks.find(p => p.id === match.fixture_id && p.pick === "draw")
+                                  ? "bg-gradient-to-r from-yellow-500 to-orange-500 text-black shadow-md scale-105"
+                                  : "bg-yellow-500/20 text-yellow-200 hover:bg-yellow-500/30 hover:text-yellow-100 border border-yellow-400/30 hover:border-yellow-400/50"
+                            }`}
                             >
                                                                     {typeof match.draw_odds === 'number' ? formatOdds(match.draw_odds) : '0.00'}
                             </button>
@@ -2260,7 +2306,7 @@ export default function OddysseyPage() {
                                     <div className="flex items-center justify-between">
                                     <span className={`px-2 py-1 rounded text-xs font-bold ${
                                         pick.pick === "home" ? "bg-primary/20 text-primary" :
-                                        pick.pick === "draw" ? "bg-secondary/20 text-secondary" :
+                                        pick.pick === "draw" ? "bg-yellow-500/20 text-yellow-300" :
                                         pick.pick === "away" ? "bg-accent/20 text-accent" :
                                         pick.pick === "over" ? "bg-blue-500/20 text-blue-300" :
                                         "bg-purple-500/20 text-purple-300"
@@ -2404,7 +2450,7 @@ export default function OddysseyPage() {
                                   variant="secondary"
                                   size="sm"
                                   leftIcon={<BoltIcon className="h-4 w-4" />}
-                                  onClick={retryContractData}
+                                  onClick={() => retryContractData(false, 0)}
                                   className="text-xs"
                                 >
                                   Retry Contract Connection
@@ -2624,7 +2670,7 @@ export default function OddysseyPage() {
                                         </span>
                                         <span className={`px-1.5 sm:px-2 py-1 rounded text-xs font-bold ${
                                           pick.pick === "home" ? "bg-primary/20 text-primary" :
-                                          pick.pick === "draw" ? "bg-secondary/20 text-secondary" :
+                                          pick.pick === "draw" ? "bg-yellow-500/20 text-yellow-300" :
                                           pick.pick === "away" ? "bg-accent/20 text-accent" :
                                           pick.pick === "over" ? "bg-blue-500/20 text-blue-300" :
                                           "bg-purple-500/20 text-purple-300"
