@@ -6,10 +6,10 @@ Set these environment variables in your Vercel dashboard:
 
 ### Backend API Configuration
 ```bash
-NEXT_PUBLIC_API_URL=https://bitredict-backend.fly.dev
-NEXT_PUBLIC_API_BASE_URL=https://bitredict-backend.fly.dev
-BACKEND_URL=https://bitredict-backend.fly.dev
-NEXT_PUBLIC_BACKEND_URL=https://bitredict-backend.fly.dev
+NEXT_PUBLIC_API_URL=https://bitr-backend.fly.dev
+NEXT_PUBLIC_API_BASE_URL=https://bitr-backend.fly.dev
+BACKEND_URL=https://bitr-backend.fly.dev
+NEXT_PUBLIC_BACKEND_URL=https://bitr-backend.fly.dev
 ```
 
 ### Contract Addresses
@@ -33,7 +33,7 @@ NODE_ENV=production
 ## Important Notes
 
 1. **All localhost references have been removed** from the codebase
-2. **Default fallbacks now point to production** (`https://bitredict-backend.fly.dev`)
+2. **Default fallbacks now point to production** (`https://bitr-backend.fly.dev`)
 3. **Environment variables take precedence** over defaults
 4. **Frontend will work correctly** even if some env vars are missing (uses production defaults)
 
@@ -41,12 +41,12 @@ NODE_ENV=production
 
 After setting these variables in Vercel:
 1. Redeploy your frontend
-2. Check browser network tab to ensure API calls go to `bitredict-backend.fly.dev`
+2. Check browser network tab to ensure API calls go to `bitr-backend.fly.dev`
 3. Verify Odyssey matches load correctly
 4. Test all major features (predictions, slips, results)
 
 ## Development vs Production
 
 - **Development**: Uses localhost when running locally
-- **Production**: Uses `https://bitredict-backend.fly.dev` as default
+- **Production**: Uses `https://bitr-backend.fly.dev` as default
 - **Environment variables**: Override defaults when set in Vercel

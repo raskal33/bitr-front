@@ -206,7 +206,7 @@ export default function OddysseyPage() {
       if (missingIds.length === 0) return;
 
       // Fetch fixtures data using batch endpoint
-      const response = await fetch('https://bitredict-backend.fly.dev/api/oddyssey/batch-fixtures', {
+      const response = await fetch('https://bitr-backend.fly.dev/api/oddyssey/batch-fixtures', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -594,7 +594,7 @@ export default function OddysseyPage() {
           // Handle different prediction formats from the API
           const predictions = Array.isArray(slipObj.predictions) ? slipObj.predictions : [];
           
-          return predictions.map((pred: unknown) => {
+          const convertedPredictions = predictions.map((pred: unknown) => {
             // Type guard for prediction object
             if (!pred || typeof pred !== 'object') {
               return null;
@@ -657,12 +657,38 @@ export default function OddysseyPage() {
               });
             }
             
-            // Determine pick type based on prediction value
+            // Determine pick type based on betType and selection hash from blockchain data
             let pick: "home" | "draw" | "away" | "over" | "under" = "home";
-            if (prediction === "X" || prediction === "draw") pick = "draw";
-            else if (prediction === "2" || prediction === "away") pick = "away";
-            else if (prediction === "Over" || prediction === "over" || prediction === "O2.5") pick = "over";
-            else if (prediction === "Under" || prediction === "under" || prediction === "U2.5") pick = "under";
+            
+            // Handle blockchain format with betType and selection hash
+            if (predObj.betType !== undefined && predObj.selection) {
+              const betType = String(predObj.betType);
+              const selection = String(predObj.selection);
+              
+              if (betType === "0") {
+                // Moneyline bet (1X2)
+                if (selection === "0xc89efdaa54c0f20c7adf612882df0950f5a951637e0307cdcb4c672f298b8bc6") {
+                  pick = "home"; // Home win (1)
+                } else if (selection === "0x09492a13c7e2353fdb9d678856a01eb3a777f03982867b5ce379154825ae0e62") {
+                  pick = "draw"; // Draw (X)
+                } else if (selection === "0xe5f3458d553c578199ad9150ab9a1cce5e22e9b34834f66492b28636da59e11b") {
+                  pick = "away"; // Away win (2)
+                }
+              } else if (betType === "1") {
+                // Over/Under bet
+                if (selection === "0x09492a13c7e2353fdb9d678856a01eb3a777f03982867b5ce379154825ae0e62") {
+                  pick = "over"; // Over 2.5
+                } else if (selection === "0xe5f3458d553c578199ad9150ab9a1cce5e22e9b34834f66492b28636da59e11b") {
+                  pick = "under"; // Under 2.5
+                }
+              }
+            } else {
+              // Fallback to text-based parsing
+              if (prediction === "X" || prediction === "draw") pick = "draw";
+              else if (prediction === "2" || prediction === "away") pick = "away";
+              else if (prediction === "Over" || prediction === "over" || prediction === "O2.5") pick = "over";
+              else if (prediction === "Under" || prediction === "under" || prediction === "U2.5") pick = "under";
+            }
             
             return {
               id: matchId,
@@ -687,6 +713,20 @@ export default function OddysseyPage() {
               matchResult: predObj.matchResult
             };
           }).filter(Boolean); // Remove null entries
+          
+          // Calculate correct total odds from individual predictions
+          const calculatedTotalOdds = convertedPredictions.reduce((total, pred) => {
+            if (pred && pred.odd) {
+              return total * pred.odd;
+            }
+            return total;
+          }, 1);
+          
+          // Update each prediction with the calculated total odds
+          return convertedPredictions.map(pred => ({
+            ...pred,
+            totalOdds: calculatedTotalOdds
+          }));
         });
         
         console.log('🔄 Converted slips:', convertedSlips);

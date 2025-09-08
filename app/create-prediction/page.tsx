@@ -165,7 +165,7 @@ export default function CreateMarketPage() {
   // Notify backend about pool creation for immediate indexing
   const notifyPoolCreation = useCallback(async (transactionHash: string) => {
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'https://bitredict-backend.fly.dev'}/api/pools/notify-creation`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'https://bitr-backend.fly.dev'}/api/pools/notify-creation`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

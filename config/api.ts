@@ -1,5 +1,5 @@
 export const API_CONFIG = {
-  baseURL: process.env.NEXT_PUBLIC_API_URL || 'https://bitredict-backend.fly.dev',
+  baseURL: process.env.NEXT_PUBLIC_API_URL || 'https://bitr-backend.fly.dev',
   endpoints: {
     airdrop: '/api/airdrop',
     faucet: '/api/faucet', 
