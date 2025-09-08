@@ -98,8 +98,8 @@ export const NETWORK_CONFIG = {
   explorerUrl: 'https://testnet-explorer.monad.xyz',
 }
 
-// Global gas settings - Optimized for Monad Network
+// Global gas settings - Optimized for Monad Network (FIXED: Reasonable gas limits)
 export const GAS_SETTINGS = {
-  gas: BigInt(30000000), // 30M gas limit (sufficient for complex Oddyssey transactions)
+  gas: BigInt(2000000), // 2M gas limit (sufficient for most transactions, user can increase if needed)
   gasPrice: BigInt(50000000000), // 50 gwei (base fee for Monad)
 }

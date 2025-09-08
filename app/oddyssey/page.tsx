@@ -468,15 +468,15 @@ export default function OddysseyPage() {
       } else {
         console.warn('⚠️ No global stats received, using defaults');
         setStats({
-          totalPlayers: 1234,
-          prizePool: "5.2 MON",
-          completedSlips: "2,847",
-          averageOdds: "8.7x",
-          totalCycles: 127,
-          activeCycles: 3,
-          avgPrizePool: 5.2,
-          winRate: 23.4,
-          avgCorrect: 8.7
+          totalPlayers: 2,
+          prizePool: "1.0 MON",
+          completedSlips: "2",
+          averageOdds: "1.0x",
+          totalCycles: 1,
+          activeCycles: 1,
+          avgPrizePool: 1.0,
+          winRate: 0,
+          avgCorrect: 1.0
         });
       }
 
@@ -669,7 +669,7 @@ export default function OddysseyPage() {
               time: matchTime,
               match: `${homeTeam} vs ${awayTeam}`,
               pick: pick,
-              odd: odds,
+              odd: odds > 100 ? odds / 1000 : odds, // Normalize odds if they're in raw format (1850 -> 1.85)
               team1: homeTeam,
               team2: awayTeam,
               // Add enhanced slip metadata
@@ -1914,8 +1914,8 @@ export default function OddysseyPage() {
                       </div>
                     ) : (
                       <div className="space-y-3">
-                        {/* Mobile-First Table Header */}
-                        <div className="hidden md:grid md:grid-cols-12 gap-2 px-4 py-2 text-xs font-bold text-text-muted uppercase tracking-wider bg-bg-card/30 rounded-button">
+                        {/* Modern Table Header */}
+                        <div className="hidden md:grid md:grid-cols-12 gap-3 px-6 py-4 text-xs font-bold text-text-muted uppercase tracking-wider bg-gradient-to-r from-primary/10 to-secondary/10 rounded-xl border border-primary/20">
                           <div className="col-span-1 text-center">Time</div>
                           <div className="col-span-5">Match</div>
                           <div className="col-span-1 text-center">1</div>
@@ -1932,17 +1932,19 @@ export default function OddysseyPage() {
                           initial={{ opacity: 0, y: 10 }}
                           animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.3, delay: i * 0.02 }}
-                            className="glass-card p-4 hover:bg-primary/5 transition-all duration-200 border-l-2 border-transparent hover:border-primary/50"
+                            className="glass-card p-4 hover:bg-gradient-to-r hover:from-primary/5 hover:to-secondary/5 transition-all duration-300 border border-transparent hover:border-primary/30 rounded-xl shadow-lg hover:shadow-primary/20"
                           >
                             {/* Mobile Layout */}
                             <div className="md:hidden space-y-3">
                               {/* Match Header */}
-                              <div className="flex items-center justify-between">
+                              <div className="flex items-start justify-between gap-3">
                                 <div className="flex-1 min-w-0">
-                                  <div className="text-sm font-semibold text-white truncate">
-                                    {match.home_team} vs {match.away_team}
+                                  <div className="text-sm font-semibold text-white leading-tight">
+                                    <div className="truncate">{match.home_team}</div>
+                                    <div className="text-xs text-text-muted text-center py-1">vs</div>
+                                    <div className="truncate">{match.away_team}</div>
                                   </div>
-                                  <div className="text-xs text-text-secondary truncate mt-1">
+                                  <div className="text-xs text-text-secondary truncate mt-2 bg-primary/10 px-2 py-1 rounded-md">
                                     {match.league_name}
                                   </div>
                                 </div>
@@ -1969,17 +1971,17 @@ export default function OddysseyPage() {
                               </div>
 
                               {/* Odds Row */}
-                              <div className="grid grid-cols-5 gap-1">
+                              <div className="grid grid-cols-5 gap-2">
                                 {/* Home Win (1) */}
                                 <button
                                   onClick={() => handlePickSelection(match.fixture_id, "home")}
                                   disabled={isMatchStarted(match.match_date) || isExpired}
-                                  className={`px-3 py-2 text-center rounded transition-all duration-200 font-bold text-sm ${
+                                  className={`px-3 py-3 text-center rounded-lg transition-all duration-300 font-bold text-sm shadow-md ${
                                     isMatchStarted(match.match_date) || isExpired
                                       ? "bg-slate-700/30 text-slate-400 cursor-not-allowed opacity-50"
                                       : picks.find(p => p.id === match.fixture_id && p.pick === "home")
-                                      ? "bg-gradient-primary text-black shadow-md scale-105"
-                                      : "bg-primary/10 text-white hover:bg-primary/20 hover:text-primary border border-transparent hover:border-primary/30"
+                                      ? "bg-gradient-to-r from-primary to-primary/80 text-black shadow-lg scale-105 ring-2 ring-primary/50"
+                                      : "bg-primary/15 text-white hover:bg-gradient-to-r hover:from-primary/25 hover:to-primary/20 hover:text-primary border border-primary/20 hover:border-primary/40 hover:shadow-lg hover:scale-102"
                                   }`}
                                 >
                                   <div className="text-xs opacity-75">1</div>
@@ -1990,12 +1992,12 @@ export default function OddysseyPage() {
                                 <button
                                   onClick={() => handlePickSelection(match.fixture_id, "draw")}
                                   disabled={isMatchStarted(match.match_date) || isExpired}
-                                  className={`px-3 py-2 text-center rounded transition-all duration-200 font-bold text-sm ${
+                                  className={`px-3 py-3 text-center rounded-lg transition-all duration-300 font-bold text-sm shadow-md ${
                                     isMatchStarted(match.match_date) || isExpired
                                       ? "bg-slate-700/30 text-slate-400 cursor-not-allowed opacity-50"
                                       : picks.find(p => p.id === match.fixture_id && p.pick === "draw")
-                                      ? "bg-gradient-secondary text-black shadow-md scale-105"
-                                      : "bg-secondary/10 text-white hover:bg-secondary/20 hover:text-secondary border border-transparent hover:border-secondary/30"
+                                      ? "bg-gradient-to-r from-secondary to-secondary/80 text-black shadow-lg scale-105 ring-2 ring-secondary/50"
+                                      : "bg-secondary/15 text-white hover:bg-gradient-to-r hover:from-secondary/25 hover:to-secondary/20 hover:text-secondary border border-secondary/20 hover:border-secondary/40 hover:shadow-lg hover:scale-102"
                                   }`}
                                 >
                                   <div className="text-xs opacity-75">X</div>
@@ -2006,12 +2008,12 @@ export default function OddysseyPage() {
                                 <button
                                   onClick={() => handlePickSelection(match.fixture_id, "away")}
                                   disabled={isMatchStarted(match.match_date) || isExpired}
-                                  className={`px-3 py-2 text-center rounded transition-all duration-200 font-bold text-sm ${
+                                  className={`px-3 py-3 text-center rounded-lg transition-all duration-300 font-bold text-sm shadow-md ${
                                     isMatchStarted(match.match_date) || isExpired
                                       ? "bg-slate-700/30 text-slate-400 cursor-not-allowed opacity-50"
                                       : picks.find(p => p.id === match.fixture_id && p.pick === "away")
-                                      ? "bg-gradient-accent text-black shadow-md scale-105"
-                                      : "bg-accent/10 text-white hover:bg-accent/20 hover:text-accent border border-transparent hover:border-accent/30"
+                                      ? "bg-gradient-to-r from-accent to-accent/80 text-black shadow-lg scale-105 ring-2 ring-accent/50"
+                                      : "bg-accent/15 text-white hover:bg-gradient-to-r hover:from-accent/25 hover:to-accent/20 hover:text-accent border border-accent/20 hover:border-accent/40 hover:shadow-lg hover:scale-102"
                                   }`}
                                 >
                                   <div className="text-xs opacity-75">2</div>
@@ -2022,12 +2024,12 @@ export default function OddysseyPage() {
                                 <button
                                   onClick={() => handlePickSelection(match.fixture_id, "over")}
                                   disabled={isMatchStarted(match.match_date) || isExpired}
-                                  className={`px-2 py-2 text-center rounded transition-all duration-200 font-bold text-sm ${
+                                  className={`px-2 py-3 text-center rounded-lg transition-all duration-300 font-bold text-sm shadow-md ${
                                     isMatchStarted(match.match_date) || isExpired
                                       ? "bg-slate-700/30 text-slate-400 cursor-not-allowed opacity-50"
                                       : picks.find(p => p.id === match.fixture_id && p.pick === "over")
-                                      ? "bg-gradient-to-r from-blue-500 to-primary text-black shadow-md scale-105"
-                                      : "bg-blue-500/10 text-white hover:bg-blue-500/20 hover:text-blue-300 border border-transparent hover:border-blue-300/30"
+                                      ? "bg-gradient-to-r from-blue-500 to-blue-400 text-black shadow-lg scale-105 ring-2 ring-blue-400/50"
+                                      : "bg-blue-500/15 text-white hover:bg-gradient-to-r hover:from-blue-500/25 hover:to-blue-400/20 hover:text-blue-300 border border-blue-400/20 hover:border-blue-400/40 hover:shadow-lg hover:scale-102"
                                   }`}
                                 >
                                   <div className="text-xs opacity-75">O</div>
@@ -2038,12 +2040,12 @@ export default function OddysseyPage() {
                                 <button
                                   onClick={() => handlePickSelection(match.fixture_id, "under")}
                                   disabled={isMatchStarted(match.match_date) || isExpired}
-                                  className={`px-2 py-2 text-center rounded transition-all duration-200 font-bold text-sm ${
+                                  className={`px-2 py-3 text-center rounded-lg transition-all duration-300 font-bold text-sm shadow-md ${
                                     isMatchStarted(match.match_date) || isExpired
                                       ? "bg-slate-700/30 text-slate-400 cursor-not-allowed opacity-50"
                                       : picks.find(p => p.id === match.fixture_id && p.pick === "under")
-                                      ? "bg-gradient-to-r from-purple-500 to-blue-600 text-black shadow-md scale-105"
-                                      : "bg-purple-500/10 text-white hover:bg-purple-500/20 hover:text-purple-300 border border-transparent hover:border-purple-300/30"
+                                      ? "bg-gradient-to-r from-purple-500 to-purple-400 text-black shadow-lg scale-105 ring-2 ring-purple-400/50"
+                                      : "bg-purple-500/15 text-white hover:bg-gradient-to-r hover:from-purple-500/25 hover:to-purple-400/20 hover:text-purple-300 border border-purple-400/20 hover:border-purple-400/40 hover:shadow-lg hover:scale-102"
                                   }`}
                                 >
                                   <div className="text-xs opacity-75">U</div>
@@ -2053,7 +2055,7 @@ export default function OddysseyPage() {
                             </div>
 
                             {/* Desktop Layout */}
-                            <div className="hidden md:grid md:grid-cols-12 gap-2">
+                            <div className="hidden md:grid md:grid-cols-12 gap-3 items-center">
                             {/* Time */}
                             <div className="col-span-1 text-center">
                               <div className={`text-xs font-mono px-2 py-1 rounded ${
@@ -2077,11 +2079,11 @@ export default function OddysseyPage() {
                             </div>
 
                             {/* Match */}
-                              <div className="col-span-5 flex items-center justify-center">
-                              <div className="text-sm font-semibold text-white text-center leading-tight">
-                                <div className="truncate">{match.home_team}</div>
-                                <div className="text-xs text-text-muted">vs</div>
-                                <div className="truncate">{match.away_team}</div>
+                              <div className="col-span-5 flex items-center justify-center px-2">
+                              <div className="text-sm font-semibold text-white text-center leading-tight w-full">
+                                <div className="truncate font-bold">{match.home_team}</div>
+                                <div className="text-xs text-text-muted py-1 font-medium">vs</div>
+                                <div className="truncate font-bold">{match.away_team}</div>
                             </div>
                           </div>
 
@@ -2616,18 +2618,23 @@ export default function OddysseyPage() {
                                       <div className="text-xs text-text-muted font-mono">
                                         {pick.time || '00:00'}
                                       </div>
-                                      <span className={`px-1.5 sm:px-2 py-1 rounded text-xs font-bold ${
-                                        pick.pick === "home" ? "bg-primary/20 text-primary" :
-                                        pick.pick === "draw" ? "bg-secondary/20 text-secondary" :
-                                        pick.pick === "away" ? "bg-accent/20 text-accent" :
-                                        pick.pick === "over" ? "bg-blue-500/20 text-blue-300" :
-                                        "bg-purple-500/20 text-purple-300"
-                                      }`}>
-                                        {pick.pick === "home" ? "1" :
-                                         pick.pick === "draw" ? "X" :
-                                         pick.pick === "away" ? "2" :
-                                         pick.pick === "over" ? "O2.5" : "U2.5"}
-                                      </span>
+                                      <div className="flex flex-col items-end gap-1">
+                                        <span className="text-xs text-text-muted">
+                                          {(pick.pick === "home" || pick.pick === "draw" || pick.pick === "away") ? "1X2" : "O/U 2.5"}
+                                        </span>
+                                        <span className={`px-1.5 sm:px-2 py-1 rounded text-xs font-bold ${
+                                          pick.pick === "home" ? "bg-primary/20 text-primary" :
+                                          pick.pick === "draw" ? "bg-secondary/20 text-secondary" :
+                                          pick.pick === "away" ? "bg-accent/20 text-accent" :
+                                          pick.pick === "over" ? "bg-blue-500/20 text-blue-300" :
+                                          "bg-purple-500/20 text-purple-300"
+                                        }`}>
+                                          {pick.pick === "home" ? "1" :
+                                           pick.pick === "draw" ? "X" :
+                                           pick.pick === "away" ? "2" :
+                                           pick.pick === "over" ? "O2.5" : "U2.5"}
+                                        </span>
+                                      </div>
                                     </div>
                                     
                                     <div className="text-xs sm:text-sm text-white font-medium mb-2 sm:mb-3 line-clamp-2 leading-tight">
@@ -2636,10 +2643,10 @@ export default function OddysseyPage() {
                                     
                                     <div className="flex items-center justify-between">
                                       <span className="text-xs text-text-muted">
-                                        {pick.team1 && pick.team2 ? 'Teams' : 'Match ID'}
+                                        {(pick.pick === "home" || pick.pick === "draw" || pick.pick === "away") ? "1X2" : "O/U 2.5"}
                                       </span>
                                       <span className="text-white font-bold text-xs sm:text-sm">
-                                        {typeof pick.odd === 'number' ? pick.odd.toFixed(2) : '0.00'}
+                                        {typeof pick.odd === 'number' ? formatOdds(pick.odd) : '0.00'}
                                       </span>
                                     </div>
                                   </div>
