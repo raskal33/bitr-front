@@ -629,7 +629,16 @@ export default function OddysseyPage() {
             // Handle different prediction object structures
             const matchId = Number(predObj.match_id || predObj.matchId || predObj.id || 0);
             const prediction = String(predObj.prediction || predObj.selection || predObj.betType || "1");
-            const odds = Number(predObj.odds || predObj.selectedOdd || predObj.odd || 1);
+            
+            // Handle odds - selectedOdd from blockchain is in format like "1850" = 1.85
+            let odds = Number(predObj.odds || predObj.selectedOdd || predObj.odd || 1);
+            if (predObj.selectedOdd && odds > 100) {
+              odds = odds / 1000; // Convert blockchain format (1850 -> 1.85)
+            }
+            
+            // Extract betType and selection for blockchain format
+            const betType = String(predObj.betType || (pred as any).betType || "0");
+            const selection = String(predObj.selection || (pred as any).selection || "");
             
             // Get team names - use cached data if available, otherwise use backend data
             let homeTeam = predObj.home_team || `Team ${matchId}`;
@@ -661,9 +670,7 @@ export default function OddysseyPage() {
             let pick: "home" | "draw" | "away" | "over" | "under" = "home";
             
             // Handle blockchain format with betType and selection hash
-            if (predObj.betType !== undefined && predObj.selection) {
-              const betType = String(predObj.betType);
-              const selection = String(predObj.selection);
+            if (betType !== undefined && selection) {
               
               if (betType === "0") {
                 // Moneyline bet (1X2)
@@ -695,7 +702,7 @@ export default function OddysseyPage() {
               time: matchTime,
               match: `${homeTeam} vs ${awayTeam}`,
               pick: pick,
-              odd: odds > 100 ? odds / 1000 : odds, // Normalize odds if they're in raw format (1850 -> 1.85)
+              odd: odds, // Odds already normalized above
               team1: homeTeam,
               team2: awayTeam,
               // Add enhanced slip metadata
