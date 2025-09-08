@@ -29,10 +29,10 @@ console.log('\n📝 Frontend Integration Checklist:');
 
 // Check if frontend environment variables match backend
 const backendAddresses = {
-  rpc: 'https://dream-rpc.somnia.network/',
+  rpc: 'https://testnet-rpc.monad.xyz/',
   faucet: '0x1656712131BB07dDE6EeC7D88757Db24782cab71',
   bitr: '0x4b10fBFFDEE97C42E29899F47A2ECD30a38dBf2C',
-  chainId: '50312'
+  chainId: '0x279F'
 };
 
 const checks = [

@@ -15,7 +15,7 @@ export interface FaucetEligibility {
     betsPlaced: number;
     firstActivity: string | null;
     lastActivity: string | null;
-    totalSTTActions: number;
+    totalMONActions: number;
   };
   requirements: {
     sttActivityRequired: boolean;
@@ -48,7 +48,7 @@ export interface FaucetActivity {
   summary: {
     poolsCreated: number;
     betsPlaced: number;
-    totalSTTActions: number;
+    totalMONActions: number;
     firstActivity: string | null;
     lastActivity: string | null;
   };
@@ -214,7 +214,7 @@ export class FaucetService {
               betsPlaced: 0,
               firstActivity: null,
               lastActivity: null,
-              totalSTTActions: 0,
+              totalMONActions: 0,
             },
             requirements: {
               sttActivityRequired: true,

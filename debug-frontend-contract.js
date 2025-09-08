@@ -9,21 +9,21 @@
 const { createPublicClient, http } = require('viem');
 
 // Frontend chain configuration (exact copy)
-const somniaChain = {
-  id: 50312,
-  name: 'Somnia Testnet',
+const monadChain = {
+  id: 10143,
+  name: 'Monad Testnet',
   nativeCurrency: {
     decimals: 18,
-    name: 'STT',
-    symbol: 'STT',
+    name: 'MON',
+    symbol: 'MON',
   },
   rpcUrls: {
     default: {
-      http: ['https://dream-rpc.somnia.network/'],
+      http: ['https://testnet-rpc.monad.xyz/'],
     },
   },
   blockExplorers: {
-    default: { name: 'Somnia Explorer', url: 'https://somnia-testnet.explorer.caldera.xyz' },
+    default: { name: 'Monad Explorer', url: 'https://testnet-explorer.monad.xyz' },
   },
   testnet: true,
 };
@@ -38,12 +38,12 @@ const ODDYSSEY_ABI = OddysseyArtifact.abi;
 async function debugFrontendContract() {
   console.log('🔍 Debugging Frontend Contract Issue...');
   console.log(`📍 Contract Address: ${ODDYSSEY_ADDRESS}`);
-  console.log(`🌐 Network: ${somniaChain.name} (${somniaChain.id})`);
+  console.log(`🌐 Network: ${monadChain.name} (${monadChain.id})`);
   
   try {
     // Create public client (same as frontend)
     const publicClient = createPublicClient({
-      chain: somniaChain,
+      chain: monadChain,
       transport: http()
     });
 

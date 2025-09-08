@@ -16,13 +16,13 @@ const CONTRACT_ADDRESSES = {
 };
 
 // Frontend chain configuration
-const somniaChain = {
-  id: 50312,
-  name: 'Somnia Testnet',
+const monadChain = {
+  id: 10143,
+  name: 'Monad Testnet',
   nativeCurrency: {
     decimals: 18,
-    name: 'STT',
-    symbol: 'STT',
+    name: 'MON',
+    symbol: 'MON',
   },
   rpcUrls: {
     default: {
@@ -46,7 +46,7 @@ async function testContractFix() {
   try {
     // Create public client
     const publicClient = createPublicClient({
-      chain: somniaChain,
+      chain: monadChain,
       transport: http()
     });
 

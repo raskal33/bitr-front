@@ -430,8 +430,8 @@ export default function MarketsPage() {
                   <span className="text-white font-semibold">{stats.bitrVolume || "0"} BITR</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-300">STT Volume</span>
-                  <span className="text-white font-semibold">{stats.sttVolume || "0"} STT</span>
+                  <span className="text-gray-300">MON Volume</span>
+                  <span className="text-white font-semibold">{stats.sttVolume || "0"} MON</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-gray-300">Active Markets</span>
@@ -487,15 +487,15 @@ export default function MarketsPage() {
               <div className="space-y-2 text-sm">
                 <div className="flex justify-between">
                   <span className="text-orange-400">🥉 Bronze</span>
-                  <span className="text-white">2 STT</span>
+                  <span className="text-white">2 MON</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-gray-300">🥈 Silver</span>
-                  <span className="text-white">3 STT</span>
+                  <span className="text-white">3 MON</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-yellow-400">🥇 Gold</span>
-                  <span className="text-white">5 STT</span>
+                  <span className="text-white">5 MON</span>
                 </div>
               </div>
               <p className="text-xs text-gray-400 mt-3">

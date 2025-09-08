@@ -167,7 +167,7 @@ export default function InfoComp() {
     <div className="glass-card relative overflow-hidden">
       {/* Background banner */}
       <div 
-        className="absolute inset-x-0 top-0 h-40 bg-gradient-to-r from-somnia-blue to-somnia-violet"
+        className="absolute inset-x-0 top-0 h-40 bg-gradient-to-r from-primary to-secondary"
         style={{
           backgroundImage: "url('https://images.unsplash.com/photo-1639322537504-6427a16b0a28?q=80&w=1200&auto=format&fit=crop')",
           backgroundSize: "cover",
@@ -182,7 +182,7 @@ export default function InfoComp() {
           {/* Avatar and basic info */}
           <div className="flex flex-col items-center lg:items-start">
             <div className="relative group">
-              <div className="h-32 w-32 rounded-full bg-gradient-to-r p-1 from-somnia-cyan to-somnia-violet">
+              <div className="h-32 w-32 rounded-full bg-gradient-to-r p-1 from-primary to-secondary">
                 <div 
                   className="h-full w-full rounded-full bg-cover bg-center"
                   style={{
@@ -226,7 +226,7 @@ export default function InfoComp() {
               <div className="flex items-center gap-2">
                 <h2 className="text-2xl font-bold text-white">{userData.displayName}</h2>
                 {userData.rank.percentile <= 10 && (
-                  <span className="rounded-full bg-gradient-to-r from-somnia-cyan to-somnia-blue px-2 py-0.5 text-xs font-bold text-black">
+                  <span className="rounded-full bg-gradient-to-r from-primary to-secondary px-2 py-0.5 text-xs font-bold text-black">
                     TOP {userData.rank.percentile}%
                   </span>
                 )}

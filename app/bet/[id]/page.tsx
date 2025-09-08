@@ -180,7 +180,7 @@ export default function BetPage() {
           shares: Math.floor(Math.random() * 5)
         },
         defeated: 0,
-        currency: poolData.usesBitr ? "BITR" : "STT",
+        currency: poolData.usesBitr ? "BITR" : "MON",
         endDate: poolData.eventEndTime ? new Date(poolData.eventEndTime).toISOString().split('T')[0] : new Date().toISOString().split('T')[0],
         poolType: "single",
         comments: [],
@@ -400,7 +400,7 @@ export default function BetPage() {
         return;
       }
       
-      // For STT pools or if no approval needed, place bet directly
+      // For MON pools or if no approval needed, place bet directly
       console.log('No approval needed, placing bet directly...');
       const useBitr = pool?.currency === 'BITR';
       await placeBet(parseInt(poolId), betAmount.toString(), useBitr);

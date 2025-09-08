@@ -88,7 +88,7 @@ export default function TrendingMarketsPage() {
                     <div className="w-2 h-2 bg-blue-400 rounded-full mt-2 flex-shrink-0"></div>
                     <div>
                       <h4 className="font-semibold text-white">Total Stakes</h4>
-                      <p className="text-sm">Combined BITR/STT committed by all participants</p>
+                      <p className="text-sm">Combined BITR/MON committed by all participants</p>
                     </div>
                   </div>
                   <div className="flex items-start gap-3">

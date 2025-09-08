@@ -380,7 +380,7 @@ class UserService {
   /**
    * Format currency amounts
    */
-  formatCurrency(value: number, currency: 'STT' | 'BITR' = 'STT'): string {
+  formatCurrency(value: number, currency: 'MON' | 'BITR' = 'MON'): string {
     const formatted = value >= 1000 ? this.formatNumber(value) : value.toFixed(2);
     return `${formatted} ${currency}`;
   }

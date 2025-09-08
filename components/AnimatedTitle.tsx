@@ -158,7 +158,7 @@ const AnimatedTitle: React.FC<AnimatedTitleProps> = ({
       </div>
       
       <motion.div 
-        className="mx-auto mb-6 h-1 bg-gradient-somnia rounded-full max-w-xs"
+        className="mx-auto mb-6 h-1 bg-gradient-brand rounded-full max-w-xs"
         variants={separatorVariants}
         initial="initial"
         animate="animate"

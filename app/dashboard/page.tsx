@@ -89,7 +89,7 @@ export default function Page() {
       value: globalStats && typeof globalStats.totalVolume === "number"
         ? globalStats.totalVolume.toLocaleString()
         : "0",
-      unit: "STT",
+      unit: "MON",
       change: "+23.5%", // Would need historical data to calculate real change
       positive: true,
       icon: "💰"
@@ -128,7 +128,7 @@ export default function Page() {
     {
       label: "Total Volume",
       value: "0",
-      unit: "STT",
+      unit: "MON",
       change: "+0%",
       positive: true,
       icon: "💰"

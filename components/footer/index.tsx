@@ -39,7 +39,7 @@ export default function Footer() {
   return (
     <footer className="relative">
       {/* Background with gradient overlay */}
-      <div className="absolute inset-0 bg-gradient-somnia opacity-5" />
+      <div className="absolute inset-0 bg-gradient-brand opacity-5" />
       
       <div className="relative z-10 glass-card" style={{ borderRadius: "0px" }}>
         <div className="container-nav section-padding">
@@ -66,7 +66,7 @@ export default function Footer() {
                 {/* Description */}
                 <p className="text-text-secondary max-w-sm leading-relaxed">
                   The future of decentralized prediction markets. Trade on real-world outcomes 
-                  with transparent, blockchain-powered markets on the Somnia Network.
+                  with transparent, blockchain-powered markets on the Monad Network.
                 </p>
 
                 {/* Social Links */}
@@ -204,7 +204,7 @@ export default function Footer() {
               
               <div className="flex items-center gap-2 text-sm">
                 <span className="text-text-muted">Powered by</span>
-                <span className="gradient-text font-semibold">Somnia Network</span>
+                <span className="gradient-text font-semibold">Monad Network</span>
               </div>
             </div>
           </motion.div>

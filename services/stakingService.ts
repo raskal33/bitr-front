@@ -54,9 +54,9 @@ export interface UserStake {
   durationOption: number;
   claimedRewardBITR: string;
   rewardDebtBITR: string;
-  rewardDebtSTT: string;
+  rewardDebtMON: string;
   pendingBITRRewards: string;
-  pendingSTTRewards: string;
+  pendingMONRewards: string;
 }
 
 export interface UserStakingData {

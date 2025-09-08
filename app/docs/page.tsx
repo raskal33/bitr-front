@@ -327,7 +327,7 @@ export default function DocsPage() {
           </div>
           <div className="p-4 bg-gray-800/30 rounded-xl">
             <h4 className="font-semibold text-white mb-2">🔗 Smart Contracts</h4>
-            <p className="text-sm text-gray-400">Deployed on Somnia with comprehensive security measures</p>
+            <p className="text-sm text-gray-400">Deployed on Monad with comprehensive security measures</p>
           </div>
           <div className="p-4 bg-gray-800/30 rounded-xl">
             <h4 className="font-semibold text-white mb-2">📊 Analytics</h4>

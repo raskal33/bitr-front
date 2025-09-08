@@ -589,9 +589,9 @@ export default function CreateMarketPage() {
       }
       
       // Contract minimum stake requirements
-      const minStake = useBitr ? 20 : 20; // Both STT and BITR have same minimum (20 tokens)
+      const minStake = useBitr ? 20 : 20; // Both MON and BITR have same minimum (20 tokens)
       if (!data.creatorStake || data.creatorStake < minStake) {
-        newErrors.creatorStake = `Creator stake must be at least ${minStake} ${useBitr ? 'BITR' : 'STT'}`;
+        newErrors.creatorStake = `Creator stake must be at least ${minStake} ${useBitr ? 'BITR' : 'MON'}`;
       }
 
       if (!data.predictionOutcome) {
@@ -1320,7 +1320,7 @@ export default function CreateMarketPage() {
               value={data.creatorStake.toString()}
               onChange={(value) => {
                 const numValue = parseFloat(value);
-                const minStake = useBitr ? 20 : 20; // Both STT and BITR have same minimum
+                const minStake = useBitr ? 20 : 20; // Both MON and BITR have same minimum
                 if (!isNaN(numValue) && numValue >= minStake && numValue <= 1000000) {
                   handleInputChange('creatorStake', numValue);
                 }
@@ -1337,8 +1337,8 @@ export default function CreateMarketPage() {
               step={0.1}
               allowDecimals={true}
               decimals={2}
-              currency={useBitr ? 'BITR' : 'STT'}
-              help={`Your stake that acts as liquidity for the market. Minimum: 20 ${useBitr ? 'BITR' : 'STT'}`}
+              currency={useBitr ? 'BITR' : 'MON'}
+              help={`Your stake that acts as liquidity for the market. Minimum: 20 ${useBitr ? 'BITR' : 'MON'}`}
             />
             {errors.creatorStake && (
               <p className="text-red-400 text-sm">{errors.creatorStake}</p>
@@ -1358,7 +1358,7 @@ export default function CreateMarketPage() {
                     : 'border-gray-600 bg-gray-800/50 text-gray-300 hover:border-cyan-400'
                 }`}
               >
-                <div className="font-semibold text-sm sm:text-base">STT</div>
+                <div className="font-semibold text-sm sm:text-base">MON</div>
                 <div className="text-xs mt-1">Somnia Network Currency</div>
               </motion.button>
               <motion.button
@@ -1534,7 +1534,7 @@ export default function CreateMarketPage() {
               }`}
             >
               <div className="font-semibold text-sm">🥉 Bronze</div>
-              <div className="text-xs mt-1">2 {useBitr ? 'BITR' : 'STT'}</div>
+              <div className="text-xs mt-1">2 {useBitr ? 'BITR' : 'MON'}</div>
             </motion.button>
             <motion.button
               whileHover={{ scale: 1.02 }}
@@ -1546,7 +1546,7 @@ export default function CreateMarketPage() {
               }`}
             >
               <div className="font-semibold text-sm">🥈 Silver</div>
-              <div className="text-xs mt-1">3 {useBitr ? 'BITR' : 'STT'}</div>
+              <div className="text-xs mt-1">3 {useBitr ? 'BITR' : 'MON'}</div>
             </motion.button>
             <motion.button
               whileHover={{ scale: 1.02 }}
@@ -1558,7 +1558,7 @@ export default function CreateMarketPage() {
               }`}
             >
               <div className="font-semibold text-sm">🥇 Gold</div>
-              <div className="text-xs mt-1">5 {useBitr ? 'BITR' : 'STT'}</div>
+              <div className="text-xs mt-1">5 {useBitr ? 'BITR' : 'MON'}</div>
             </motion.button>
           </div>
         </div>
@@ -1619,7 +1619,7 @@ export default function CreateMarketPage() {
                 className="w-full px-4 py-2 bg-gray-800 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-cyan-500"
               />
               <div className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 text-sm">
-                {useBitr ? 'BITR' : 'STT'}
+                {useBitr ? 'BITR' : 'MON'}
               </div>
             </div>
             <p className="text-xs text-gray-400">
@@ -1667,7 +1667,7 @@ export default function CreateMarketPage() {
               </div>
               <div className="flex flex-col sm:flex-row sm:justify-between gap-1">
                 <span className="text-gray-300">Your Stake:</span>
-                <span className="text-white">{data.creatorStake} {useBitr ? 'BITR' : 'STT'}</span>
+                <span className="text-white">{data.creatorStake} {useBitr ? 'BITR' : 'MON'}</span>
               </div>
             </div>
           </div>
@@ -1825,11 +1825,11 @@ export default function CreateMarketPage() {
               </div>
               <div className="flex flex-col sm:flex-row sm:justify-between gap-1">
                 <span className="text-gray-300">Your Stake:</span>
-                <span className="text-white font-medium">{data.creatorStake} {useBitr ? 'BITR' : 'STT'}</span>
+                <span className="text-white font-medium">{data.creatorStake} {useBitr ? 'BITR' : 'MON'}</span>
               </div>
               <div className="flex flex-col sm:flex-row sm:justify-between gap-1">
                 <span className="text-gray-300">Payment Token:</span>
-                <span className="text-white font-medium">{useBitr ? 'BITR' : 'STT'}</span>
+                <span className="text-white font-medium">{useBitr ? 'BITR' : 'MON'}</span>
               </div>
               {data.description && (
                 <div className="flex flex-col gap-1">
@@ -1882,11 +1882,11 @@ export default function CreateMarketPage() {
               </div>
               <div className="flex flex-col sm:flex-row sm:justify-between gap-1">
                 <span className="text-gray-300">Your Stake:</span>
-                <span className="text-white font-medium">{data.creatorStake} {useBitr ? 'BITR' : 'STT'}</span>
+                <span className="text-white font-medium">{data.creatorStake} {useBitr ? 'BITR' : 'MON'}</span>
               </div>
               <div className="flex flex-col sm:flex-row sm:justify-between gap-1">
                 <span className="text-gray-300">Payment Token:</span>
-                <span className="text-white font-medium">{useBitr ? 'BITR' : 'STT'}</span>
+                <span className="text-white font-medium">{useBitr ? 'BITR' : 'MON'}</span>
               </div>
               {data.description && (
                 <div className="flex flex-col gap-1">

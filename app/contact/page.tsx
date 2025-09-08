@@ -272,7 +272,7 @@ export default function ContactPage() {
                   </div>
                   <div>
                     <h4 className="font-semibold text-text-primary mb-1">What tokens can I use?</h4>
-                    <p className="text-text-secondary text-sm">BitRedict supports STT (Somnia Testnet Token) and BITR tokens for betting and staking.</p>
+                    <p className="text-text-secondary text-sm">BitRedict supports MON (Somnia Testnet Token) and BITR tokens for betting and staking.</p>
                   </div>
                   <div>
                     <h4 className="font-semibold text-text-primary mb-1">Is my wallet secure?</h4>

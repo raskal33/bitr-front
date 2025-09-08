@@ -1,4 +1,4 @@
-/* Custom AppKit Styling for BitRedict */
+ /* Custom AppKit Styling for BitRedict */
 
 /* Override AppKit styles to match BitRedict design */
 .w3m-modal {
@@ -15,7 +15,7 @@
 
 /* Header styling */
 .w3m-header {
-  background: linear-gradient(135deg, #22C7FF 0%, #00A3FF 100%) !important;
+  background: linear-gradient(135deg, #DBFF4D 0%, #6B46C1 100%) !important;
   border-radius: 16px 16px 0 0 !important;
   padding: 24px !important;
 }
@@ -93,7 +93,7 @@
 
 /* Button styling */
 .w3m-button {
-  background: linear-gradient(135deg, #22C7FF 0%, #00A3FF 100%) !important;
+  background: linear-gradient(135deg, #DBFF4D 0%, #6B46C1 100%) !important;
   border: none !important;
   border-radius: 12px !important;
   color: #000000 !important;
@@ -105,7 +105,7 @@
 
 .w3m-button:hover {
   transform: translateY(-1px) !important;
-  box-shadow: 0 4px 16px rgba(34, 199, 255, 0.3) !important;
+  box-shadow: 0 4px 16px rgba(219, 255, 77, 0.3) !important;
 }
 
 .w3m-button:active {
@@ -139,12 +139,12 @@
 
 /* Loading spinner styling */
 .w3m-loading {
-  color: #22C7FF !important;
+  color: #DBFF4D !important;
 }
 
 .w3m-loading-spinner {
-  border-color: rgba(34, 199, 255, 0.2) !important;
-  border-top-color: #22C7FF !important;
+  border-color: rgba(219, 255, 77, 0.2) !important;
+  border-top-color: #DBFF4D !important;
 }
 
 /* Error message styling */

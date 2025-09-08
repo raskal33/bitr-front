@@ -423,7 +423,7 @@ export default function StakingPage() {
               </div>
             </div>
             <p className="text-xs text-gray-400 mt-3">
-              Monthly distribution of platform revenue in BITR + STT
+              Monthly distribution of platform revenue in BITR + MON
             </p>
           </motion.div>
         </div>
@@ -461,7 +461,7 @@ export default function StakingPage() {
               </div>
               <h4 className="text-lg font-semibold text-white mb-2">3. Revenue Share</h4>
               <p className="text-gray-300 text-sm">
-                Monthly distribution of platform fees (BITR + STT) proportional to your tier and stake size.
+                Monthly distribution of platform fees (BITR + MON) proportional to your tier and stake size.
               </p>
             </div>
             <div className="text-center">
@@ -482,7 +482,7 @@ export default function StakingPage() {
               <li>• <strong>Revenue Share:</strong> Distributed monthly on the 1st, claim when available</li>
               <li>• <strong>Unstaking:</strong> Only possible after lock period expires, includes all unclaimed rewards</li>
               <li>• <strong>Early Exit:</strong> Unstaking before expiry forfeits all pending rewards</li>
-              <li>• <strong>Gas Fees:</strong> All transactions require STT for gas on Somnia Network</li>
+              <li>• <strong>Gas Fees:</strong> All transactions require MON for gas on Somnia Network</li>
             </ul>
           </div>
         </motion.div>
@@ -561,15 +561,15 @@ export default function StakingPage() {
                 
                 <div className="text-center">
                   <FaGem className="h-8 w-8 text-blue-400 mx-auto mb-2" />
-                  <p className="text-gray-400 text-sm">Pending STT</p>
-                  <p className="text-xl font-bold text-white">{staking.pendingRevenueSTT}</p>
+                  <p className="text-gray-400 text-sm">Pending MON</p>
+                  <p className="text-xl font-bold text-white">{staking.pendingRevenueMON}</p>
                 </div>
 
                 <div className="flex items-center">
                   <Button
                     onClick={handleClaimRevenueShare}
                     disabled={
-                      (parseFloat(staking.pendingRevenueBITR) === 0 && parseFloat(staking.pendingRevenueSTT) === 0) ||
+                      (parseFloat(staking.pendingRevenueBITR) === 0 && parseFloat(staking.pendingRevenueMON) === 0) ||
                       staking.isClaimingRevenue ||
                       staking.isPending ||
                       staking.isConfirming

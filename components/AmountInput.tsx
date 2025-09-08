@@ -40,7 +40,7 @@ const AmountInput: React.FC<AmountInputProps> = ({
   error,
   help,
   disabled = false,
-  currency = 'STT',
+  currency = 'MON',
   min = 0,
   max,
   decimals = 18,

@@ -344,7 +344,7 @@ export default function OddysseyPage() {
     console.log('🔗 Chain ID changed:', chainId);
     
     // Clear any network errors if we're on the correct network
-    if (isConnected && chainId === 50312) {
+    if (isConnected && chainId === 10143) {
       console.log('✅ On correct network, clearing any network errors');
       // The error will be cleared automatically by the transaction feedback system
     }
@@ -456,7 +456,7 @@ export default function OddysseyPage() {
         console.log('✅ Global stats received:', globalStatsResult.data);
         setStats({
           totalPlayers: globalStatsResult.data.totalPlayers || 1234,
-          prizePool: `${globalStatsResult.data.avgPrizePool || 5.2} STT`,
+          prizePool: `${globalStatsResult.data.avgPrizePool || 5.2} MON`,
           completedSlips: globalStatsResult.data.totalSlips?.toLocaleString() || "2,847",
           averageOdds: `${globalStatsResult.data.avgCorrect || 8.7}x`,
           totalCycles: globalStatsResult.data.totalCycles || 127,
@@ -469,7 +469,7 @@ export default function OddysseyPage() {
         console.warn('⚠️ No global stats received, using defaults');
         setStats({
           totalPlayers: 1234,
-          prizePool: "5.2 STT",
+          prizePool: "5.2 MON",
           completedSlips: "2,847",
           averageOdds: "8.7x",
           totalCycles: 127,
@@ -501,7 +501,7 @@ export default function OddysseyPage() {
       // Set default stats on error
       setStats({
         totalPlayers: 1234,
-        prizePool: "5.2 STT",
+        prizePool: "5.2 MON",
         completedSlips: "2,847",
         averageOdds: "8.7x",
         totalCycles: 127,
@@ -1342,7 +1342,7 @@ export default function OddysseyPage() {
       
       // Provide more specific error messages based on the error type
       if (errorMessage.includes("insufficient funds")) {
-        showError("Insufficient Funds", "You don't have enough STT tokens to place this slip. Please check your wallet balance.");
+        showError("Insufficient Funds", "You don't have enough MON tokens to place this slip. Please check your wallet balance.");
       } else if (errorMessage.includes("user rejected") || errorMessage.includes("cancelled")) {
         showError("Transaction Cancelled", "You cancelled the transaction in your wallet. No charges were made.");
       } else if (errorMessage.includes("gas")) {
@@ -1429,13 +1429,13 @@ export default function OddysseyPage() {
     }
     
     // Use Wagmi chainId instead of window.ethereum.chainId
-    if (chainId !== 50312) { // Somnia Network chain ID in decimal
-      console.log(`❌ Wrong network detected: ${chainId}, expected: 50312`);
-      showError("Wrong Network", "Please switch to Somnia Network to use Oddyssey. Current network is not supported.");
+    if (chainId !== 10143) { // Monad Network chain ID in decimal
+      console.log(`❌ Wrong network detected: ${chainId}, expected: 10143`);
+      showError("Wrong Network", "Please switch to Monad Network to use Oddyssey. Current network is not supported.");
       return false;
     }
     
-    console.log('✅ Network check passed: Somnia Network detected');
+    console.log('✅ Network check passed: Monad Network detected');
     return true;
   }, [chainId, isConnected, showError]);
 
@@ -1538,7 +1538,7 @@ export default function OddysseyPage() {
               </motion.div>
             </div>
             
-            <div className="mx-auto mb-6 h-1 w-64 bg-gradient-somnia rounded-full opacity-60"></div>
+            <div className="mx-auto mb-6 h-1 w-64 bg-gradient-brand rounded-full opacity-60"></div>
             
             <p className="text-xl text-text-secondary max-w-2xl mx-auto">
               The ultimate prediction challenge. Select outcomes for 10 matches, compete with the highest odds, and claim your share of the prize pool.
@@ -2302,12 +2302,12 @@ export default function OddysseyPage() {
                             <div className="flex justify-between items-center text-sm">
                               <span className="text-text-muted">Entry Fee:</span>
                               <span className="text-white font-bold">
-                                {contractEntryFee || DEFAULT_ENTRY_FEE} STT
+                                {contractEntryFee || DEFAULT_ENTRY_FEE} MON
                               </span>
                             </div>
                             <div className="flex justify-between items-center text-sm">
                               <span className="text-text-muted">Potential Win:</span>
-                              <span className="text-secondary font-bold">{calculatePotentialPayout(Number(totalOdd))} STT</span>
+                              <span className="text-secondary font-bold">{calculatePotentialPayout(Number(totalOdd))} MON</span>
                             </div>
                           </div>
 
@@ -2329,13 +2329,13 @@ export default function OddysseyPage() {
                               <div className="flex justify-between items-center text-sm mt-1">
                                 <span className="text-text-muted">Entry Fee:</span>
                                 <span className="text-white font-bold">
-                                  {contractEntryFee || DEFAULT_ENTRY_FEE} STT
+                                  {contractEntryFee || DEFAULT_ENTRY_FEE} MON
                                 </span>
                               </div>
                               <div className="flex justify-between items-center text-sm mt-1">
                                 <span className="text-text-muted">Potential Payout:</span>
                                 <span className="text-primary font-bold">
-                                  {(parseFloat(totalOdd) * parseFloat(contractEntryFee || DEFAULT_ENTRY_FEE)).toFixed(2)} STT
+                                  {(parseFloat(totalOdd) * parseFloat(contractEntryFee || DEFAULT_ENTRY_FEE)).toFixed(2)} MON
                                 </span>
                               </div>
                             </motion.div>
@@ -2585,7 +2585,7 @@ export default function OddysseyPage() {
                                   </div>
                                   <div className="flex items-center gap-2">
                                     <span className="text-text-muted">Entry Fee:</span>
-                                    <span className="text-white font-bold">{contractEntryFee || DEFAULT_ENTRY_FEE} STT</span>
+                                    <span className="text-white font-bold">{contractEntryFee || DEFAULT_ENTRY_FEE} MON</span>
                                   </div>
                                   <div className="flex items-center gap-2">
                                     <span className="text-text-muted">Submitted:</span>
@@ -2694,7 +2694,7 @@ export default function OddysseyPage() {
                                           </span>
                                         </div>
                                         <p className="text-sm text-text-muted mb-1">
-                                          Prize Amount: <span className="text-yellow-400 font-bold">{calculatePrizeAmount(firstPick.leaderboardRank)} STT</span>
+                                          Prize Amount: <span className="text-yellow-400 font-bold">{calculatePrizeAmount(firstPick.leaderboardRank)} MON</span>
                                         </p>
                                         <p className="text-xs text-text-muted">
                                           Congratulations on your outstanding performance!
@@ -2861,7 +2861,7 @@ export default function OddysseyPage() {
                         </div>
                         
                         <div className="text-center">
-                          <div className="text-3xl font-bold text-green-400 mb-2">{(stats.avgPrizePool || 0).toFixed(1)} STT</div>
+                          <div className="text-3xl font-bold text-green-400 mb-2">{(stats.avgPrizePool || 0).toFixed(1)} MON</div>
                           <div className="text-lg text-text-secondary">Avg Prize Pool</div>
                           <div className="text-sm text-text-muted">Per cycle</div>
                         </div>

@@ -25,12 +25,12 @@
   --monad-purple-light: #8B5CF6; /* Lighter purple variant */
   --monad-purple-dark: #553C9A;  /* Darker purple variant */
   
-  /* Somnia Brand Colors */
-  --somnia-cyan: #22C7FF;
-  --somnia-blue: #007BFF;
-  --somnia-violet: #8C00FF;
-  --somnia-magenta: #FF0080;
-  --somnia-indigo: #3C00A5;
+  /* Accent Colors (Harmonizing with Brand) */
+  --accent-cyan: #22C7FF;      /* Complementary cyan for highlights */
+  --accent-blue: #007BFF;      /* Supporting blue */
+  --accent-violet: #8C00FF;    /* Deep violet accent */
+  --accent-magenta: #FF0080;   /* Vibrant magenta */
+  --accent-indigo: #3C00A5;    /* Deep indigo for depth */
   
   /* Semantic Colors */
   --color-accent: var(--logo-yellow-green);
@@ -49,7 +49,7 @@
   --gradient-brand: linear-gradient(135deg, var(--logo-yellow-green) 0%, var(--monad-purple) 100%);
   --gradient-primary: linear-gradient(135deg, var(--logo-yellow-green) 0%, var(--monad-purple-light) 100%);
   --gradient-secondary: linear-gradient(135deg, var(--monad-purple) 0%, var(--monad-purple-dark) 100%);
-  --gradient-somnia: linear-gradient(135deg, var(--somnia-cyan) 0%, var(--somnia-blue) 25%, var(--somnia-violet) 50%, var(--somnia-magenta) 75%, var(--somnia-indigo) 100%);
+  --gradient-accent: linear-gradient(135deg, var(--accent-cyan) 0%, var(--accent-blue) 25%, var(--accent-violet) 50%, var(--accent-magenta) 75%, var(--accent-indigo) 100%);
   
   /* Spacing */
   --section-padding: clamp(2rem, 5vw, 4rem);
@@ -190,8 +190,8 @@ body {
     animation: gradient-flow 3s ease infinite;
   }
 
-  .gradient-text-somnia {
-    background: var(--gradient-somnia);
+  .gradient-text-accent {
+    background: var(--gradient-accent);
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -366,25 +366,25 @@ body {
     box-shadow: 0 0 20px rgba(140, 0, 255, 0.3);
   }
 
-  /* Somnia Color Utilities */
-  .text-somnia-cyan { color: var(--somnia-cyan); }
-  .text-somnia-blue { color: var(--somnia-blue); }
-  .text-somnia-violet { color: var(--somnia-violet); }
-  .text-somnia-magenta { color: var(--somnia-magenta); }
-  .text-somnia-indigo { color: var(--somnia-indigo); }
+  /* Accent Color Utilities */
+  .text-accent-cyan { color: var(--accent-cyan); }
+  .text-accent-blue { color: var(--accent-blue); }
+  .text-accent-violet { color: var(--accent-violet); }
+  .text-accent-magenta { color: var(--accent-magenta); }
+  .text-accent-indigo { color: var(--accent-indigo); }
   
-  .bg-somnia-cyan { background-color: var(--somnia-cyan); }
-  .bg-somnia-blue { background-color: var(--somnia-blue); }
-  .bg-somnia-violet { background-color: var(--somnia-violet); }
-  .bg-somnia-magenta { background-color: var(--somnia-magenta); }
-  .bg-somnia-indigo { background-color: var(--somnia-indigo); }
+  .bg-accent-cyan { background-color: var(--accent-cyan); }
+  .bg-accent-blue { background-color: var(--accent-blue); }
+  .bg-accent-violet { background-color: var(--accent-violet); }
+  .bg-accent-magenta { background-color: var(--accent-magenta); }
+  .bg-accent-indigo { background-color: var(--accent-indigo); }
   
-  .from-somnia-cyan { --tw-gradient-from: var(--somnia-cyan); }
-  .to-somnia-blue { --tw-gradient-to: var(--somnia-blue); }
-  .from-somnia-magenta { --tw-gradient-from: var(--somnia-magenta); }
-  .to-somnia-violet { --tw-gradient-to: var(--somnia-violet); }
-  .from-somnia-blue { --tw-gradient-from: var(--somnia-blue); }
-  .to-somnia-indigo { --tw-gradient-to: var(--somnia-indigo); }
+  .from-accent-cyan { --tw-gradient-from: var(--accent-cyan); }
+  .to-accent-blue { --tw-gradient-to: var(--accent-blue); }
+  .from-accent-magenta { --tw-gradient-from: var(--accent-magenta); }
+  .to-accent-violet { --tw-gradient-to: var(--accent-violet); }
+  .from-accent-blue { --tw-gradient-from: var(--accent-blue); }
+  .to-accent-indigo { --tw-gradient-to: var(--accent-indigo); }
 
   /* Animated Gradient Borders */
   .gradient-border {
@@ -759,7 +759,7 @@ w3m-account-button {
   --w3m-color-mix-strength: 20 !important;
   --w3m-border-radius-master: 12px !important;
   
-  /* Background colors to match Somnia design */
+  /* Background colors to match Monad design */
   --w3m-background-color: #0A0A1A !important;
   --w3m-foreground-color: rgba(22, 24, 48, 0.95) !important;
   

@@ -327,7 +327,7 @@ export default function PrizeClaimModal({ isOpen, onClose, userAddress }: PrizeC
                           </h4>
                           <div className="flex items-center gap-4 text-sm text-gray-400">
                             <span>{position.poolType === 'combo' ? 'Combo' : 'Single'} Pool</span>
-                            <span>Stake: {parseFloat(formatEther(BigInt(position.userStake))).toFixed(2)} {position.usesBitr ? 'BITR' : 'STT'}</span>
+                            <span>Stake: {parseFloat(formatEther(BigInt(position.userStake))).toFixed(2)} {position.usesBitr ? 'BITR' : 'MON'}</span>
                             <span>Settled: {position.settledAt.toLocaleDateString()}</span>
                           </div>
                         </div>
@@ -338,7 +338,7 @@ export default function PrizeClaimModal({ isOpen, onClose, userAddress }: PrizeC
                           <div className={`font-bold ${
                             position.isWinner ? 'text-green-400' : 'text-red-400'
                           }`}>
-                            {position.isWinner ? '+' : ''}{parseFloat(formatEther(BigInt(position.potentialPayout))).toFixed(2)} {position.usesBitr ? 'BITR' : 'STT'}
+                            {position.isWinner ? '+' : ''}{parseFloat(formatEther(BigInt(position.potentialPayout))).toFixed(2)} {position.usesBitr ? 'BITR' : 'MON'}
                           </div>
                           <div className="text-xs text-gray-400">
                             {position.isWinner ? 'Winnings' : 'Lost'}
