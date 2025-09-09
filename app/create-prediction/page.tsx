@@ -886,7 +886,7 @@ export default function CreateMarketPage() {
           useBitr: useBitr,
           description: data.description,
           isPrivate: data.isPrivate || false,
-          maxBetPerUser: data.maxBetPerUser || 500
+          maxBetPerUser: data.maxBetPerUser || 0
         };
 
         console.log('Creating crypto market via backend API:', marketData);
