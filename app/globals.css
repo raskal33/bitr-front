@@ -842,6 +842,17 @@ footer {
   width: 100%;
 }
 
+/* Ensure body and html take full height */
+html, body {
+  height: 100%;
+  min-height: 100vh;
+}
+
+/* Ensure main content expands to push footer down */
+main {
+  flex: 1;
+}
+
 /* Logo original colors - no color shifting */
 .logo-original {
   /* Preserve original logo colors */
