@@ -824,18 +824,28 @@ w3m-modal {
   background-color: rgba(10, 10, 26, 0.8);
 }
 
+/* Compact navbar styling */
+.container-nav {
+  max-height: 80px; /* Limit navbar height */
+}
+
+.container-nav > div {
+  min-height: 60px; /* Ensure minimum height for content */
+  max-height: 80px; /* Prevent excessive height */
+}
+
 /* Logo original colors - no color shifting */
 .logo-original {
   /* Preserve original logo colors */
   filter: none !important;
   mix-blend-mode: initial !important;
   /* Ensure stable logo size - override any other styles */
-  width: 180px !important;
-  height: 180px !important;
-  max-width: 180px !important;
-  max-height: 180px !important;
-  min-width: 180px !important;
-  min-height: 180px !important;
+  width: 160px !important;
+  height: 160px !important;
+  max-width: 160px !important;
+  max-height: 160px !important;
+  min-width: 160px !important;
+  min-height: 160px !important;
   /* Prevent any responsive behavior */
   object-fit: contain !important;
   flex-shrink: 0 !important;
@@ -845,24 +855,24 @@ w3m-modal {
 .logo-original[data-nimg="fill"],
 .logo-original[data-nimg="responsive"],
 .logo-original[data-nimg="intrinsic"] {
-  width: 180px !important;
-  height: 180px !important;
-  max-width: 180px !important;
-  max-height: 180px !important;
-  min-width: 180px !important;
-  min-height: 180px !important;
+  width: 160px !important;
+  height: 160px !important;
+  max-width: 160px !important;
+  max-height: 160px !important;
+  min-width: 160px !important;
+  min-height: 160px !important;
 }
 
 /* Target specific logo instances in header */
 header .logo-original,
 header img.logo-original,
 .container-nav .logo-original {
-  width: 180px !important;
-  height: 180px !important;
-  max-width: 180px !important;
-  max-height: 180px !important;
-  min-width: 180px !important;
-  min-height: 180px !important;
+  width: 160px !important;
+  height: 160px !important;
+  max-width: 160px !important;
+  max-height: 160px !important;
+  min-width: 160px !important;
+  min-height: 160px !important;
   /* Prevent any size changes */
   transition: none !important;
   transform: none !important;

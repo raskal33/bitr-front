@@ -111,15 +111,15 @@ export default function Header() {
           } inset-x-0 top-0 z-50 border-b border-border-card transition-all duration-300 nav-glass`}
         >
           <div className="container-nav">
-            <div className="flex items-center justify-between py-4">
+            <div className="flex items-center justify-between py-2">
               {/* Left Side - Logo */}
               <div className="flex items-center gap-8">
                 <Link href="/" className="flex items-center gap-3">
                   <Image 
                     src="/logo.png" 
                     alt="BitRedict Logo" 
-                    width={180} 
-                    height={180} 
+                    width={160} 
+                    height={160} 
                     className="logo-original logo-glow"
                     priority 
                   />
