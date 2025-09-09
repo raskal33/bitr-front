@@ -565,6 +565,8 @@ export default function OddysseyPage() {
     try {
       setApiCallInProgress(true);
       console.log('🎯 Fetching user slips for address:', address);
+      console.log('📱 User agent:', navigator.userAgent);
+      console.log('📱 Is mobile:', /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent));
       
       const result = await oddysseyService.getUserSlips(address);
       
@@ -747,6 +749,8 @@ export default function OddysseyPage() {
         console.log('🔄 Converted slips:', convertedSlips);
         // Keep slips as separate arrays, filter out empty slips
         const validSlips = convertedSlips.filter(slip => slip.length > 0) as Pick[][];
+        console.log('📱 Valid slips after filtering:', validSlips.length);
+        console.log('📱 Valid slips data:', validSlips);
         setSlips(validSlips);
         
         // Extract all match IDs and fetch team names
@@ -764,10 +768,20 @@ export default function OddysseyPage() {
         }
       } else {
         console.warn('⚠️ No user slips received');
+        console.log('📱 Result object:', result);
+        console.log('📱 Result success:', result.success);
+        console.log('📱 Result data:', result.data);
+        console.log('📱 Result data length:', result.data?.length);
         setSlips([]);
       }
     } catch (error) {
       console.error('❌ Error fetching user slips:', error);
+      console.log('📱 Error details:', {
+        message: error instanceof Error ? error.message : 'Unknown error',
+        stack: error instanceof Error ? error.stack : undefined,
+        address: address,
+        userAgent: navigator.userAgent
+      });
       setSlips([]);
     } finally {
       setApiCallInProgress(false);
@@ -952,9 +966,13 @@ export default function OddysseyPage() {
 
   useEffect(() => {
     if (address) {
+      console.log('📱 useEffect triggered with address:', address);
+      console.log('📱 User agent in useEffect:', navigator.userAgent);
       fetchStats();
       fetchUserSlips();
       fetchCurrentData();
+    } else {
+      console.log('📱 useEffect triggered but no address available');
     }
   }, [address, fetchStats, fetchUserSlips, fetchCurrentData]); // Include dependencies
 
@@ -2325,7 +2343,7 @@ export default function OddysseyPage() {
                               <div className="text-xs text-text-muted">
                                 <p>• Cycles require 10 matches to be created</p>
                                 <p>• Check back later for new cycles</p>
-                                <p>• View yesterday's matches for recent results</p>
+                                <p>• View yesterday&apos;s matches for recent results</p>
                               </div>
                             </div>
                           </div>
@@ -2666,6 +2684,11 @@ export default function OddysseyPage() {
                   </div>
                   
                   <AnimatePresence mode="wait">
+                    {(() => {
+                      console.log('📱 Rendering slips section - slips.length:', slips.length);
+                      console.log('📱 Slips data:', slips);
+                      return null;
+                    })()}
                     {slips.length > 0 ? (
                       <motion.div
                         key="with-slips"
