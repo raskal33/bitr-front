@@ -141,6 +141,14 @@ const DEFAULT_ENTRY_FEE = "0.5";
 export default function OddysseyPage() {
   const { address, isConnected } = useAccount();
   const chainId = useChainId();
+  
+  // Debug component mount
+  useEffect(() => {
+    console.log('📱 OddysseyPage component mounted!');
+    console.log('📱 Initial address:', address);
+    console.log('📱 Initial isConnected:', isConnected);
+    console.log('📱 User agent:', navigator.userAgent);
+  }, [address, isConnected]);
     const {
     placeSlip, 
     isPending, 
@@ -175,6 +183,13 @@ export default function OddysseyPage() {
   const [picks, setPicks] = useState<Pick[]>([]);
   const [slips, setSlips] = useState<Pick[][]>([]);
   const [activeTab, setActiveTab] = useState<"today" | "slips" | "stats" | "results">("today");
+  
+  // Debug activeTab changes
+  useEffect(() => {
+    console.log('📱 Active tab changed to:', activeTab);
+    console.log('📱 Current address:', address);
+    console.log('📱 Is connected:', isConnected);
+  }, [activeTab, address, isConnected]);
   const [selectedDate, setSelectedDate] = useState<"yesterday" | "today">("today");
   const [matches, setMatches] = useState<Match[]>([]);
   const [matchesData, setMatchesData] = useState<MatchesData | null>(null);
@@ -1931,7 +1946,12 @@ export default function OddysseyPage() {
               <span className="sm:hidden">Matches</span>
             </button>
             <button
-              onClick={() => setActiveTab("slips")}
+              onClick={() => {
+                console.log('📱 Slips tab clicked!');
+                console.log('📱 Current address:', address);
+                console.log('📱 Current slips length:', slips.length);
+                setActiveTab("slips");
+              }}
               className={`px-4 md:px-8 py-2 md:py-3 rounded-button font-semibold transition-all duration-300 flex items-center gap-1 md:gap-2 text-sm md:text-base relative overflow-hidden ${
                 activeTab === "slips"
                   ? "bg-gradient-to-r from-cyan-500/20 to-blue-500/20 text-cyan-300 shadow-lg shadow-cyan-500/25 scale-105 border border-cyan-500/30"
@@ -2620,6 +2640,12 @@ export default function OddysseyPage() {
               </>
             ) : activeTab === "slips" ? (
               <>
+                {(() => {
+                  console.log('📱 Rendering slips tab!');
+                  console.log('📱 Current slips state:', slips);
+                  console.log('📱 Slips length:', slips.length);
+                  return null;
+                })()}
                 <motion.div
                   key="slips"
                   initial={{ opacity: 0, x: 20 }}
@@ -2632,6 +2658,20 @@ export default function OddysseyPage() {
                     <TrophyIcon className="h-5 w-5 sm:h-6 sm:w-6 text-cyan-400" />
                     <span className="hidden sm:inline">My Submitted Slips</span>
                     <span className="sm:hidden">My Slips</span>
+                    <button 
+                      onClick={() => {
+                        console.log('📱 Manual fetch triggered!');
+                        console.log('📱 Address:', address);
+                        if (address) {
+                          fetchUserSlips();
+                        } else {
+                          console.log('📱 No address available for manual fetch');
+                        }
+                      }}
+                      className="ml-auto px-3 py-1 bg-cyan-500/20 text-cyan-300 rounded text-xs hover:bg-cyan-500/30"
+                    >
+                      Refresh
+                    </button>
                   </h2>
                   
                   {/* Date Filtering Controls */}
