@@ -874,16 +874,13 @@ main {
   min-height: 160px !important;
 }
 
-/* Target specific logo instances in header */
+/* Target specific logo instances in header (compact navbar) */
 header .logo-original,
-header img.logo-original,
-.container-nav .logo-original {
-  width: 160px !important;
-  height: 160px !important;
-  max-width: 160px !important;
-  max-height: 160px !important;
-  min-width: 160px !important;
-  min-height: 160px !important;
+header img.logo-original {
+  height: 56px !important;
+  max-height: 56px !important;
+  min-height: 56px !important;
+  width: auto !important;
   /* Prevent any size changes */
   transition: none !important;
   transform: none !important;

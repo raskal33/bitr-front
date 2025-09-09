@@ -126,7 +126,7 @@ export default function CreateMarketPage() {
   const { address, isConnected } = useAccount();
 
   const { connectWallet, isConnecting } = useWalletConnection();
-  const { createFootballMarket } = useGuidedMarketCreation();
+  const { createFootballMarket, createCryptoMarket } = useGuidedMarketCreation();
   const { getUserReputation, canCreateMarket, addReputationAction } = useReputationStore();
   const { data: hash, error: writeError, isPending } = useWriteContract(); // writeContract removed as not currently used
   const { isLoading: isConfirming, isSuccess } = useWaitForTransactionReceipt({ hash });
@@ -871,7 +871,7 @@ export default function CreateMarketPage() {
         }
 
       } else if (data.category === 'cryptocurrency' && data.selectedCrypto) {
-        // For crypto markets, use the existing backend API for now
+        // For crypto markets, use the new wallet integration flow
         const marketData = {
           cryptocurrency: {
             symbol: data.selectedCrypto.symbol,
@@ -889,26 +889,29 @@ export default function CreateMarketPage() {
           maxBetPerUser: data.maxBetPerUser || 0
         };
 
-        console.log('Creating crypto market via backend API:', marketData);
+        console.log('Creating crypto market via wallet integration:', marketData);
         
-        const result = await GuidedMarketService.createCryptoMarket(marketData);
+        // Use the proper wallet service that handles wallet integration
+        showInfo('Creating Market', 'Preparing cryptocurrency market creation transaction...');
         
-        if (!result.success) {
-          showError('Market Creation Failed', result.error || 'Failed to create crypto market');
-        setIsLoading(false);
-        return;
-      }
-      
-        console.log('Crypto market created successfully:', result.data);
-        showSuccess('Market Created!', 'Your cryptocurrency prediction market has been created successfully!', result.data.transactionHash);
+        const result = await createCryptoMarket(marketData);
         
-        // Add reputation for market creation
-        if (address) {
-          addReputationAction(address, {
-            type: 'market_created',
-            points: 10,
-            description: 'Created a cryptocurrency prediction market'
-          });
+        if (result.success) {
+          showSuccess('Market Created!', 'Your cryptocurrency prediction market has been created successfully!', result.transactionHash);
+          
+          // Add reputation for market creation
+          if (address) {
+            addReputationAction(address, {
+              type: 'market_created',
+              points: 10,
+              description: 'Created a cryptocurrency prediction market'
+            });
+          }
+          
+          // Reset form and go to success step
+          setStep(3);
+        } else {
+          showError('Market Creation Failed', result.error || 'Failed to create cryptocurrency market');
         }
 
       } else {

@@ -629,8 +629,33 @@ export class GuidedMarketService {
     isPrivate?: boolean;
     maxBetPerUser?: number;
   }): Promise<{ success: boolean; data?: any; error?: string }> {
+    console.warn('⚠️ createCryptoMarket is deprecated. Use prepareCryptoMarket + wallet transaction + confirmCryptoMarket instead.');
+    
+    // For now, just prepare the transaction data
+    return this.prepareCryptoMarket(marketData);
+  }
+
+  /**
+   * Prepare cryptocurrency market transaction data for frontend wallet integration
+   */
+  static async prepareCryptoMarket(marketData: {
+    cryptocurrency: {
+      symbol: string;
+      name: string;
+    };
+    targetPrice: number;
+    direction: 'above' | 'below';
+    timeframe: string;
+    predictedOutcome: string;
+    odds: number;
+    creatorStake: number;
+    useBitr?: boolean;
+    description?: string;
+    isPrivate?: boolean;
+    maxBetPerUser?: number;
+  }): Promise<{ success: boolean; data?: any; error?: string }> {
     try {
-      const response = await fetch(`${API_BASE_URL}/guided-markets/cryptocurrency`, {
+      const response = await fetch(`${API_BASE_URL}/guided-markets/cryptocurrency/prepare`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -643,7 +668,7 @@ export class GuidedMarketService {
       if (!result.success) {
         return {
           success: false,
-          error: result.error || 'Failed to create crypto market'
+          error: result.error || 'Failed to prepare crypto market'
         };
       }
 
@@ -652,7 +677,48 @@ export class GuidedMarketService {
         data: result.data
       };
     } catch (error) {
-      console.error('Error creating crypto market:', error);
+      console.error('Error preparing crypto market:', error);
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : 'Network error'
+      };
+    }
+  }
+
+  /**
+   * Confirm cryptocurrency market creation after successful transaction
+   */
+  static async confirmCryptoMarket(
+    transactionHash: string,
+    marketDetails: any
+  ): Promise<{ success: boolean; data?: any; error?: string }> {
+    try {
+      const response = await fetch(`${API_BASE_URL}/guided-markets/cryptocurrency/confirm`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          transactionHash,
+          marketDetails
+        }),
+      });
+
+      const result = await response.json();
+      
+      if (!result.success) {
+        return {
+          success: false,
+          error: result.error || 'Failed to confirm crypto market'
+        };
+      }
+
+      return {
+        success: true,
+        data: result.data
+      };
+    } catch (error) {
+      console.error('Error confirming crypto market:', error);
       return {
         success: false,
         error: error instanceof Error ? error.message : 'Network error'

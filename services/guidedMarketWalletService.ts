@@ -40,6 +40,23 @@ export interface CreateFootballMarketParams {
   maxBetPerUser?: number;
 }
 
+export interface CreateCryptoMarketParams {
+  cryptocurrency: {
+    symbol: string;
+    name: string;
+  };
+  targetPrice: number;
+  direction: 'above' | 'below';
+  timeframe: string;
+  predictedOutcome: string;
+  odds: number;
+  creatorStake: number;
+  useBitr?: boolean;
+  description?: string;
+  isPrivate?: boolean;
+  maxBetPerUser?: number;
+}
+
 export class GuidedMarketWalletService {
   /**
    * Create a football market using the new prepare/confirm flow
@@ -143,6 +160,115 @@ export class GuidedMarketWalletService {
       
     } catch (error) {
       console.error('❌ Error creating football market:', error);
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : 'Unknown error occurred'
+      };
+    }
+  }
+
+  /**
+   * Create a cryptocurrency market using the new prepare/confirm flow
+   */
+  static async createCryptoMarketWithWallet(
+    marketData: CreateCryptoMarketParams,
+    walletClient: any,
+    publicClient: any,
+    address: Address
+  ): Promise<{
+    success: boolean;
+    transactionHash?: string;
+    marketId?: string;
+    error?: string;
+  }> {
+    try {
+      console.log('🚀 Starting guided cryptocurrency market creation...');
+      console.log('📋 Market data:', marketData);
+      
+      // Step 1: Prepare transaction data via backend
+      console.log('📡 Step 1: Preparing transaction data...');
+      const prepareResult = await GuidedMarketService.prepareCryptoMarket(marketData);
+      
+      if (!prepareResult.success) {
+        return {
+          success: false,
+          error: `Failed to prepare transaction: ${prepareResult.error}`
+        };
+      }
+      
+      const transactionData = prepareResult.data as GuidedMarketTransactionData;
+      console.log('✅ Transaction data prepared:', {
+        contractAddress: transactionData.contractAddress,
+        functionName: transactionData.functionName,
+        marketId: transactionData.marketDetails.marketId
+      });
+      
+      // Step 2: Handle BITR approval if needed
+      if (marketData.useBitr) {
+        console.log('🪙 Step 2: Handling BITR token approval...');
+        
+        // Use totalRequiredWei which includes the 50 BITR creation fee
+        const totalRequiredWei = transactionData.totalRequiredWei || transactionData.parameters[2];
+        
+        const approvalResult = await this.handleBitrApproval(
+          totalRequiredWei, // totalRequiredWei (creatorStake + 50 BITR fee)
+          walletClient,
+          publicClient,
+          address
+        );
+        
+        if (!approvalResult.success) {
+          return {
+            success: false,
+            error: `BITR approval failed: ${approvalResult.error}`
+          };
+        }
+        
+        console.log('✅ BITR approval completed');
+      }
+      
+      // Step 3: Execute the main transaction via wallet
+      console.log('💳 Step 3: Executing transaction via wallet...');
+      
+      const txResult = await this.executeTransaction(
+        transactionData,
+        walletClient,
+        publicClient,
+        address
+      );
+      
+      if (!txResult.success) {
+        return {
+          success: false,
+          error: `Transaction execution failed: ${txResult.error}`
+        };
+      }
+      
+      console.log('✅ Transaction executed:', txResult.hash);
+      
+      // Step 4: Confirm transaction via backend for indexing
+      console.log('📡 Step 4: Confirming transaction with backend...');
+      
+      const confirmResult = await GuidedMarketService.confirmCryptoMarket(
+        txResult.hash!,
+        transactionData.marketDetails
+      );
+      
+      if (!confirmResult.success) {
+        console.warn('⚠️ Backend confirmation failed, but transaction was successful:', confirmResult.error);
+        // Don't fail the entire process if backend confirmation fails
+      } else {
+        console.log('✅ Backend confirmation completed');
+      }
+      
+      return {
+        success: true,
+        transactionHash: txResult.hash,
+        marketId: transactionData.marketDetails.marketId
+      };
+      
+    } catch (error) {
+      console.error('❌ Error creating cryptocurrency market:', error);
       return {
         success: false,
         error: error instanceof Error ? error.message : 'Unknown error occurred'
@@ -312,9 +438,31 @@ export function useGuidedMarketCreation() {
       address
     );
   };
+
+  const createCryptoMarket = async (marketData: CreateCryptoMarketParams) => {
+    if (!isConnected || !address) {
+      throw new Error('Wallet not connected');
+    }
+    
+    if (!walletClient) {
+      throw new Error('Wallet client not available');
+    }
+    
+    if (!publicClient) {
+      throw new Error('Public client not available');
+    }
+    
+    return await GuidedMarketWalletService.createCryptoMarketWithWallet(
+      marketData,
+      walletClient,
+      publicClient,
+      address
+    );
+  };
   
   return {
     createFootballMarket,
+    createCryptoMarket,
     isConnected,
     address,
     walletClient: !!walletClient,
