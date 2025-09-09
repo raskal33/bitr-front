@@ -2314,11 +2314,28 @@ export default function OddysseyPage() {
                         </motion.div>
                       ))}
 
-                        {matches.length === 0 && (
+                        {matches.length === 0 && selectedDate === 'today' && (
+                          <div className="text-center py-8 text-text-muted">
+                            <div className="glass-card p-6 border border-orange-500/30 bg-gradient-to-br from-orange-500/10 to-yellow-500/10">
+                              <CalendarIcon className="h-12 w-12 mx-auto mb-4 text-orange-400" />
+                              <h3 className="text-lg font-semibold text-orange-300 mb-2">No Active Cycle Today</h3>
+                              <p className="text-sm text-text-secondary mb-4">
+                                There are no active matches for today. A new cycle will be created when sufficient fixtures are available.
+                              </p>
+                              <div className="text-xs text-text-muted">
+                                <p>• Cycles require 10 matches to be created</p>
+                                <p>• Check back later for new cycles</p>
+                                <p>• View yesterday's matches for recent results</p>
+                              </div>
+                            </div>
+                          </div>
+                        )}
+                        
+                        {matches.length === 0 && selectedDate !== 'today' && (
                           <div className="text-center py-8 text-text-muted">
                             <CalendarIcon className="h-12 w-12 mx-auto mb-4 opacity-50" />
                             <p>No matches available for {getDateTabLabel(selectedDate).label}</p>
-                    </div>
+                          </div>
                         )}
                       </div>
                     )}
