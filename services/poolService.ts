@@ -5,37 +5,89 @@ import { API_CONFIG } from '@/config/api';
 const API_BASE_URL = `${API_CONFIG.baseURL}/api`;
 
 export interface Pool {
-  poolId: number; // Changed from 'id' to match backend
+  // Core pool fields
+  id: number; // Primary ID field
+  poolId: number; // Alternative ID field for backend compatibility
+  pool_id?: number; // Backend field name
+  number?: number; // Display field name
+  pool_number?: number; // Alternative display field name
+  
   creator: string;
   odds: number;
   creatorStake: string;
   totalBettorStake: string;
   predictedOutcome: string;
+  originalPredictedOutcome?: string; // Keep original hash
   marketId: string;
-  eventStartTime: string; // Changed from number to string to match backend ISO format
-  eventEndTime: string; // Changed from number to string to match backend ISO format
-  bettingEndTime: string; // Changed from number to string to match backend ISO format
+  
+  // Enhanced display fields from fixture mapping
+  title?: string; // User-friendly title with team names
+  homeTeam?: string; // Home team name
+  awayTeam?: string; // Away team name
+  betMarketType?: string; // Market type like "Over/Under 2.5"
+  oddsDisplay?: {
+    odds: number;
+    market: string;
+    selection: string;
+  };
+  
+  // Timing fields
+  eventStartTime: string; // ISO format
+  eventEndTime: string; // ISO format
+  bettingEndTime: string; // ISO format
+  resultTimestamp?: string | null; // ISO format
+  arbitrationDeadline?: string | null; // ISO format
+  
+  // Pool metadata
   league: string;
   category: string;
   region: string;
   isPrivate: boolean;
   usesBitr: boolean;
   settled: boolean;
-  creatorSideWon: boolean | null; // Changed to match backend
-  boostTier?: "NONE" | "BRONZE" | "SILVER" | "GOLD"; // Made optional
-  boostExpiry?: number; // Made optional
+  creatorSideWon: boolean | null;
+  status?: string;
+  
+  // Boost and social features
+  boostTier?: "NONE" | "BRONZE" | "SILVER" | "GOLD";
+  boostExpiry?: number;
+  trending?: boolean;
+  socialStats?: {
+    likes: number;
+    comments: number;
+    views: number;
+  };
+  change24h?: number;
+  
+  // Staking and betting
   maxBetPerUser: string;
-  // Additional fields from backend
-  filledAbove60?: boolean;
-  oracleType?: string;
   totalCreatorSideStake?: string;
   maxBettorStake?: string;
+  filledAbove60?: boolean;
+  oracleType?: string;
+  
+  // Results and settlement
   result?: string | null;
-  resultTimestamp?: string | null;
-  arbitrationDeadline?: string | null;
+  
+  // Transaction data
   txHash?: string;
   blockNumber?: number;
   createdAt?: string;
+  updatedAt?: string;
+  
+  // Indexed data for enhanced display
+  indexedData?: {
+    participantCount: number;
+    fillPercentage: number;
+    totalVolume: string;
+    timeToFill?: number;
+    betCount: number;
+    avgBetSize: string;
+    creatorReputation: number;
+    categoryRank: number;
+    isHot: boolean;
+    lastActivity: Date;
+  };
 }
 
 export interface PoolStats {

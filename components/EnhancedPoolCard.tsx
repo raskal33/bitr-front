@@ -69,6 +69,16 @@ export interface EnhancedPool {
     isHot: boolean;
     lastActivity: Date;
   };
+  
+  // Additional display properties
+  title?: string;
+  homeTeam?: string;
+  awayTeam?: string;
+  betMarketType?: string;
+  oddsDisplay?: {
+    market: string;
+    selection: string;
+  };
 }
 
 interface EnhancedPoolCardProps {
@@ -287,10 +297,12 @@ export default function EnhancedPoolCard({
                         pool.odds >= 200 ? 'ADVANCED' : 
                         pool.odds >= 150 ? 'INTERMEDIATE' : 'BEGINNER';
   
-  // Generate a proper title from the pool data
-  const displayTitle = pool.predictedOutcome && pool.predictedOutcome !== '0x' && pool.predictedOutcome.length > 10 
-    ? generateProfessionalTitle(pool.predictedOutcome, pool.category || 'sports')
-    : `${(pool.category || 'sports').charAt(0).toUpperCase() + (pool.category || 'sports').slice(1)} Pool #${pool.id}`;
+  // Generate a proper title from the pool data - use enriched data if available
+  const displayTitle = pool.title || 
+    (pool.homeTeam && pool.awayTeam ? `${pool.homeTeam} vs ${pool.awayTeam}` : null) ||
+    (pool.predictedOutcome && pool.predictedOutcome !== '0x' && pool.predictedOutcome.length > 10 
+      ? generateProfessionalTitle(pool.predictedOutcome, pool.category || 'sports')
+      : `${(pool.category || 'sports').charAt(0).toUpperCase() + (pool.category || 'sports').slice(1)} Pool #${pool.id}`);
   
   const formatStake = (stake: string) => {
     try {
@@ -462,6 +474,27 @@ export default function EnhancedPoolCard({
       <h3 className="text-base font-bold text-white line-clamp-2 mb-3 group-hover:text-primary transition-colors flex-shrink-0" style={{ minHeight: '2.5rem' }}>
         {displayTitle}
       </h3>
+
+      {/* Market Type and Selection Display */}
+      {(pool.betMarketType || pool.oddsDisplay) && (
+        <div className="mb-3 p-2 glass-card bg-gradient-to-br from-blue-500/10 to-purple-500/10 rounded-lg border border-blue-500/20 flex-shrink-0">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <div className="text-xs text-blue-400 font-medium">
+                {pool.betMarketType || pool.oddsDisplay?.market || 'Prediction Market'}
+              </div>
+              {pool.oddsDisplay?.selection && (
+                <div className="text-xs text-white bg-blue-500/20 px-2 py-1 rounded-full">
+                  {pool.oddsDisplay.selection}
+                </div>
+              )}
+            </div>
+            <div className="text-xs text-gray-400">
+              {pool.league}
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Progress Bar - Indexed Data */}
       {indexedData && (

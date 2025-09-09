@@ -14,7 +14,7 @@ interface CryptoMarket {
   currentPrice: number;
   targetPrice: number;
   direction: 'above' | 'below';
-  timeframe: '1h' | '24h' | '7d' | '30d';
+  timeframe: '1h' | '4h' | '1d' | '1w' | '1m';
   difficulty: 'easy' | 'medium' | 'hard';
   volatility: number;
 }
@@ -27,7 +27,7 @@ interface CryptoMarketSelectorProps {
 
 const CryptoMarketSelector: React.FC<CryptoMarketSelectorProps> = ({
   onMarketSelect,
-  selectedTimeframe = '24h',
+  selectedTimeframe = '1d',
   selectedDifficulty = 'all'
 }) => {
   const [cryptos, setCryptos] = useState<CryptoData[]>([]);
@@ -200,7 +200,7 @@ const CryptoMarketSelector: React.FC<CryptoMarketSelectorProps> = ({
       currentPrice: selectedCrypto.price,
       targetPrice: target.targetPrice,
       direction: target.direction,
-      timeframe: timeframe as '1h' | '24h' | '7d' | '30d',
+      timeframe: timeframe as '1h' | '4h' | '1d' | '1w' | '1m',
       difficulty: target.difficulty,
       volatility: selectedCrypto.volatility || 5
     };
@@ -351,9 +351,10 @@ const CryptoMarketSelector: React.FC<CryptoMarketSelectorProps> = ({
           className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
         >
           <option value="1h">1 Hour</option>
-          <option value="24h">24 Hours</option>
-          <option value="7d">7 Days</option>
-          <option value="30d">30 Days</option>
+          <option value="4h">4 Hours</option>
+          <option value="1d">1 Day</option>
+          <option value="1w">1 Week</option>
+          <option value="1m">1 Month</option>
         </select>
         
         <select

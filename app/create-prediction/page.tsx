@@ -1177,11 +1177,11 @@ export default function CreateMarketPage() {
                   className="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-cyan-500"
                 >
                   <option value="">Select timeframe</option>
-                  <option value="1hour">1 Hour</option>
-                  <option value="4hours">4 Hours</option>
-                  <option value="1day">1 Day</option>
-                  <option value="3days">3 Days</option>
-                  <option value="1week">1 Week</option>
+                  <option value="1h">1 Hour</option>
+                  <option value="4h">4 Hours</option>
+                  <option value="1d">1 Day</option>
+                  <option value="1w">1 Week</option>
+                  <option value="1m">1 Month</option>
                 </select>
                 {errors.timeframe && (
                   <p className="text-red-400 text-sm mt-2">{errors.timeframe}</p>
