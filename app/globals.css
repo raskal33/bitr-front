@@ -834,6 +834,14 @@ w3m-modal {
   max-height: 80px; /* Prevent excessive height */
 }
 
+/* Ensure footer stays at bottom */
+footer {
+  margin-top: auto !important;
+  position: relative;
+  bottom: 0;
+  width: 100%;
+}
+
 /* Logo original colors - no color shifting */
 .logo-original {
   /* Preserve original logo colors */
