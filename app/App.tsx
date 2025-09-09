@@ -10,13 +10,13 @@ export default function App({
   children: React.ReactNode;
 }>) {
   return (
-    <>
+    <div className="flex min-h-screen flex-col">
       <Header />
       <main className={`container-nav mx-auto my-16 flex-1`}>
         {children}
       </main>
       <Footer />
       <WalletConnectionDebug />
-    </>
+    </div>
   );
 }
