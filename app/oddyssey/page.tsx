@@ -628,7 +628,7 @@ export default function OddysseyPage() {
             
             // Handle different prediction object structures
             const matchId = Number(predObj.match_id || predObj.matchId || predObj.id || 0);
-            const prediction = String(predObj.prediction || predObj.selection || predObj.betType || "1");
+            const prediction = String(predObj.prediction || predObj.selection || "home");
             
             // Handle odds - selectedOdd from blockchain is in format like "1850" = 1.85
             let odds = Number(predObj.odds || predObj.selectedOdd || predObj.odd || 1);
@@ -671,6 +671,7 @@ export default function OddysseyPage() {
             
             // Handle blockchain format with betType and selection hash
             if (betType !== undefined && selection) {
+              console.log(`🔍 Processing prediction: betType=${betType}, selection=${selection}`);
               
               if (betType === "0") {
                 // Moneyline bet (1X2)
@@ -680,6 +681,8 @@ export default function OddysseyPage() {
                   pick = "draw"; // Draw (X)
                 } else if (selection === "0xe5f3458d553c578199ad9150ab9a1cce5e22e9b34834f66492b28636da59e11b") {
                   pick = "away"; // Away win (2)
+                } else {
+                  console.warn(`⚠️ Unknown moneyline selection hash: ${selection}`);
                 }
               } else if (betType === "1") {
                 // Over/Under bet
@@ -687,10 +690,15 @@ export default function OddysseyPage() {
                   pick = "over"; // Over 2.5
                 } else if (selection === "0xe5f3458d553c578199ad9150ab9a1cce5e22e9b34834f66492b28636da59e11b") {
                   pick = "under"; // Under 2.5
+                } else {
+                  console.warn(`⚠️ Unknown over/under selection hash: ${selection}`);
                 }
               }
+              
+              console.log(`✅ Mapped to pick: ${pick}`);
             } else {
               // Fallback to text-based parsing
+              console.log(`📝 Using text-based parsing for prediction: ${prediction}`);
               if (prediction === "X" || prediction === "draw") pick = "draw";
               else if (prediction === "2" || prediction === "away") pick = "away";
               else if (prediction === "Over" || prediction === "over" || prediction === "O2.5") pick = "over";
@@ -836,7 +844,7 @@ export default function OddysseyPage() {
             };
             
             const matchId = Number(predObj.match_id || predObj.matchId || predObj.id || 0);
-            const prediction = String(predObj.prediction || predObj.selection || predObj.betType || "1");
+            const prediction = String(predObj.prediction || predObj.selection || "home");
             const odds = Number(predObj.odds || predObj.selectedOdd || predObj.odd || 1);
             
             const homeTeam = predObj.home_team || `Team ${matchId}`;
@@ -852,11 +860,44 @@ export default function OddysseyPage() {
               });
             }
             
+            // Determine pick type based on betType and selection hash from blockchain data
             let pick: "home" | "draw" | "away" | "over" | "under" = "home";
-            if (prediction === "X" || prediction === "draw") pick = "draw";
-            else if (prediction === "2" || prediction === "away") pick = "away";
-            else if (prediction === "Over" || prediction === "over" || prediction === "O2.5") pick = "over";
-            else if (prediction === "Under" || prediction === "under" || prediction === "U2.5") pick = "under";
+            
+            // Handle blockchain format with betType and selection hash
+            if (predObj.betType !== undefined && predObj.selection) {
+              console.log(`🔍 Processing prediction (alt): betType=${predObj.betType}, selection=${predObj.selection}`);
+              
+              if (predObj.betType === "0") {
+                // Moneyline bet (1X2)
+                if (predObj.selection === "0xc89efdaa54c0f20c7adf612882df0950f5a951637e0307cdcb4c672f298b8bc6") {
+                  pick = "home"; // Home win (1)
+                } else if (predObj.selection === "0x09492a13c7e2353fdb9d678856a01eb3a777f03982867b5ce379154825ae0e62") {
+                  pick = "draw"; // Draw (X)
+                } else if (predObj.selection === "0xe5f3458d553c578199ad9150ab9a1cce5e22e9b34834f66492b28636da59e11b") {
+                  pick = "away"; // Away win (2)
+                } else {
+                  console.warn(`⚠️ Unknown moneyline selection hash (alt): ${predObj.selection}`);
+                }
+              } else if (predObj.betType === "1") {
+                // Over/Under bet
+                if (predObj.selection === "0x09492a13c7e2353fdb9d678856a01eb3a777f03982867b5ce379154825ae0e62") {
+                  pick = "over"; // Over 2.5
+                } else if (predObj.selection === "0xe5f3458d553c578199ad9150ab9a1cce5e22e9b34834f66492b28636da59e11b") {
+                  pick = "under"; // Under 2.5
+                } else {
+                  console.warn(`⚠️ Unknown over/under selection hash (alt): ${predObj.selection}`);
+                }
+              }
+              
+              console.log(`✅ Mapped to pick (alt): ${pick}`);
+            } else {
+              // Fallback to text-based parsing
+              console.log(`📝 Using text-based parsing (alt) for prediction: ${prediction}`);
+              if (prediction === "X" || prediction === "draw") pick = "draw";
+              else if (prediction === "2" || prediction === "away") pick = "away";
+              else if (prediction === "Over" || prediction === "over" || prediction === "O2.5") pick = "over";
+              else if (prediction === "Under" || prediction === "under" || prediction === "U2.5") pick = "under";
+            }
             
             return {
               id: matchId,
