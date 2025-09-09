@@ -56,15 +56,20 @@ export default function Header() {
 
   // Update current profile when wallet connects and auto-close modal
   useEffect(() => {
-    if (address && isConnected) {
-      setCurrentProfile(address);
-      // Remove auto-close behavior for mobile menu to prevent instability
-      // Auto-close AppKit modal if it's open
-      // Note: AppKit modal should close automatically when wallet connects
-      console.log('Wallet connected, AppKit modal should close automatically');
-    } else {
-      setCurrentProfile(null);
-    }
+    // Debounce wallet state changes to prevent menu shaking
+    const timeoutId = setTimeout(() => {
+      if (address && isConnected) {
+        setCurrentProfile(address);
+        // Remove auto-close behavior for mobile menu to prevent instability
+        // Auto-close AppKit modal if it's open
+        // Note: AppKit modal should close automatically when wallet connects
+        console.log('Wallet connected, AppKit modal should close automatically');
+      } else {
+        setCurrentProfile(null);
+      }
+    }, 100); // 100ms debounce
+
+    return () => clearTimeout(timeoutId);
   }, [address, isConnected, setCurrentProfile]);
 
   const newY = y || 1;
@@ -113,8 +118,8 @@ export default function Header() {
                   <Image 
                     src="/logo.png" 
                     alt="BitRedict Logo" 
-                    width={140} 
-                    height={140} 
+                    width={180} 
+                    height={180} 
                     className="logo-original logo-glow"
                     priority 
                   />
@@ -265,7 +270,10 @@ export default function Header() {
               </nav>
 
               {/* Right Side Actions */}
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-3 min-w-0 flex-shrink-0" style={{ 
+                transform: 'translateZ(0)', // Force hardware acceleration
+                willChange: 'auto' // Prevent layout shifts
+              }}>
                 {/* Error Display */}
                 {error && (
                   <div className="hidden sm:block">
@@ -343,8 +351,13 @@ export default function Header() {
                       handleClose();
                     }
                   }}
-                  className="lg:hidden relative z-50 p-2 rounded-button bg-bg-card text-text-secondary hover:bg-[rgba(255,255,255,0.05)] hover:text-text-primary transition-colors border border-border-card"
+                  className="lg:hidden relative z-50 p-2 rounded-button bg-bg-card text-text-secondary hover:bg-[rgba(255,255,255,0.05)] hover:text-text-primary transition-colors border border-border-card min-w-[44px] min-h-[44px] flex items-center justify-center"
                   aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+                  style={{ 
+                    position: 'relative',
+                    transform: 'translateZ(0)', // Force hardware acceleration
+                    willChange: 'auto' // Prevent layout shifts
+                  }}
                 >
                   <AnimatePresence mode="wait">
                     {isMenuOpen ? (
@@ -397,7 +410,12 @@ export default function Header() {
                 exit={{ x: "100%" }}
                 transition={{ type: "spring", damping: 25, stiffness: 200 }}
                 className="absolute right-0 top-0 h-full w-72 max-w-[85vw] glass-card"
-                style={{ borderRadius: "0px" }}
+                style={{ 
+                  borderRadius: "0px",
+                  transform: 'translateZ(0)', // Force hardware acceleration
+                  willChange: 'transform', // Optimize for transform animations
+                  backfaceVisibility: 'hidden' // Prevent flickering
+                }}
                 onClick={(e) => e.stopPropagation()}
               >
                 <div className="flex flex-col h-full">
