@@ -653,9 +653,7 @@ export default function OddysseyPage() {
               odds = odds / 1000; // Convert blockchain format (1850 -> 1.85)
             }
             
-            // Extract betType and selection for blockchain format
-            const betType = String(predObj.betType || (pred as { betType?: string }).betType || "0");
-            const selection = String(predObj.selection || (pred as { selection?: string }).selection || "");
+            // Note: betType and selection are available in predObj if needed for blockchain format
             
             // Get team names - use cached data if available, otherwise use backend data
             let homeTeam = predObj.home_team || `Team ${matchId}`;
