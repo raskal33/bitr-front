@@ -607,6 +607,7 @@ export default function OddysseyPage() {
             placed_at?: string;
             status?: string;
             total_odds?: number;
+            evaluation_data?: Record<string, any>;
           };
           
           // Handle different prediction formats from the API
@@ -655,6 +656,15 @@ export default function OddysseyPage() {
             let odds = Number(predObj.odds || predObj.selectedOdd || predObj.odd || 1);
             if (predObj.selectedOdd && odds > 100) {
               odds = odds / 1000; // Convert blockchain format (1850 -> 1.85)
+            }
+            
+            // Also check evaluation_data for correct odds if available
+            if (slipObj.evaluation_data && typeof slipObj.evaluation_data === 'object') {
+              const evalData = slipObj.evaluation_data as Record<string, any>;
+              const predIndex = predictions.indexOf(pred);
+              if (evalData[predIndex] && evalData[predIndex].odds) {
+                odds = evalData[predIndex].odds / 1000; // Convert from database format
+              }
             }
             
             // Note: betType and selection are available in predObj if needed for blockchain format
@@ -729,10 +739,42 @@ export default function OddysseyPage() {
               placedAt: slipObj.submitted_time || slipObj.placed_at, // Use enhanced submission time
               status: slipObj.status || (slipObj.is_evaluated ? "Evaluated" : "Pending"),
               totalOdds: slipObj.total_odds,
-              // Add evaluation data
-              isCorrect: predObj.isCorrect,
-              actualResult: predObj.actualResult,
-              matchResult: predObj.matchResult
+              // Add evaluation data from slip evaluation_data or prediction object
+              isCorrect: (() => {
+                if (predObj.isCorrect !== undefined) return predObj.isCorrect;
+                if (slipObj.evaluation_data && typeof slipObj.evaluation_data === 'object') {
+                  const evalData = slipObj.evaluation_data as Record<string, any>;
+                  const predIndex = predictions.indexOf(pred);
+                  return evalData[predIndex]?.isCorrect ?? null;
+                }
+                return null;
+              })(),
+              actualResult: (() => {
+                if (predObj.actualResult) return predObj.actualResult;
+                if (slipObj.evaluation_data && typeof slipObj.evaluation_data === 'object') {
+                  const evalData = slipObj.evaluation_data as Record<string, any>;
+                  const predIndex = predictions.indexOf(pred);
+                  return evalData[predIndex]?.actualResult ?? null;
+                }
+                return null;
+              })(),
+              matchResult: (() => {
+                if (predObj.matchResult) return predObj.matchResult;
+                if (slipObj.evaluation_data && typeof slipObj.evaluation_data === 'object') {
+                  const evalData = slipObj.evaluation_data as Record<string, any>;
+                  const predIndex = predictions.indexOf(pred);
+                  const evalEntry = evalData[predIndex];
+                  if (evalEntry && (evalEntry.homeScore !== undefined || evalEntry.awayScore !== undefined)) {
+                    return {
+                      homeScore: evalEntry.homeScore ?? null,
+                      awayScore: evalEntry.awayScore ?? null,
+                      result: evalEntry.matchResult ?? null,
+                      status: 'finished'
+                    };
+                  }
+                }
+                return null;
+              })()
             };
           }).filter(Boolean); // Remove null entries
           
@@ -827,6 +869,7 @@ export default function OddysseyPage() {
             placed_at?: string;
             status?: string;
             total_odds?: number;
+            evaluation_data?: Record<string, any>;
           };
           
           const predictions = Array.isArray(slipObj.predictions) ? slipObj.predictions : [];
@@ -867,7 +910,21 @@ export default function OddysseyPage() {
             
             const matchId = Number(predObj.match_id || predObj.matchId || predObj.id || 0);
             const prediction = String(predObj.prediction || predObj.selection || "home");
-            const odds = Number(predObj.odds || predObj.selectedOdd || predObj.odd || 1);
+            let odds = Number(predObj.odds || predObj.selectedOdd || predObj.odd || 1);
+            
+            // Handle odds conversion from blockchain format and evaluation data
+            if (predObj.selectedOdd && odds > 100) {
+              odds = odds / 1000; // Convert blockchain format (1850 -> 1.85)
+            }
+            
+            // Also check evaluation_data for correct odds if available
+            if (slipObj.evaluation_data && typeof slipObj.evaluation_data === 'object') {
+              const evalData = slipObj.evaluation_data as Record<string, any>;
+              const predIndex = predictions.indexOf(pred);
+              if (evalData[predIndex] && evalData[predIndex].odds) {
+                odds = evalData[predIndex].odds / 1000; // Convert from database format
+              }
+            }
             
             const homeTeam = predObj.home_team || `Team ${matchId}`;
             const awayTeam = predObj.away_team || `Team ${matchId}`;
@@ -937,10 +994,42 @@ export default function OddysseyPage() {
               placedAt: slipObj.placed_at || slipObj.submitted_time,
               status: slipObj.status,
               totalOdds: slipObj.total_odds,
-              // Add evaluation data
-              isCorrect: predObj.isCorrect,
-              actualResult: predObj.actualResult,
-              matchResult: predObj.matchResult
+              // Add evaluation data from slip evaluation_data or prediction object
+              isCorrect: (() => {
+                if (predObj.isCorrect !== undefined) return predObj.isCorrect;
+                if (slipObj.evaluation_data && typeof slipObj.evaluation_data === 'object') {
+                  const evalData = slipObj.evaluation_data as Record<string, any>;
+                  const predIndex = predictions.indexOf(pred);
+                  return evalData[predIndex]?.isCorrect ?? null;
+                }
+                return null;
+              })(),
+              actualResult: (() => {
+                if (predObj.actualResult) return predObj.actualResult;
+                if (slipObj.evaluation_data && typeof slipObj.evaluation_data === 'object') {
+                  const evalData = slipObj.evaluation_data as Record<string, any>;
+                  const predIndex = predictions.indexOf(pred);
+                  return evalData[predIndex]?.actualResult ?? null;
+                }
+                return null;
+              })(),
+              matchResult: (() => {
+                if (predObj.matchResult) return predObj.matchResult;
+                if (slipObj.evaluation_data && typeof slipObj.evaluation_data === 'object') {
+                  const evalData = slipObj.evaluation_data as Record<string, any>;
+                  const predIndex = predictions.indexOf(pred);
+                  const evalEntry = evalData[predIndex];
+                  if (evalEntry && (evalEntry.homeScore !== undefined || evalEntry.awayScore !== undefined)) {
+                    return {
+                      homeScore: evalEntry.homeScore ?? null,
+                      awayScore: evalEntry.awayScore ?? null,
+                      result: evalEntry.matchResult ?? null,
+                      status: 'finished'
+                    };
+                  }
+                }
+                return null;
+              })()
             };
           }).filter(pred => pred !== null);
         }).filter(slip => slip.length > 0);
@@ -2850,6 +2939,16 @@ export default function OddysseyPage() {
                                     <div className="text-xs sm:text-sm text-white font-medium mb-2 sm:mb-3 line-clamp-2 leading-tight">
                                       {pick.team1 && pick.team2 ? `${pick.team1} vs ${pick.team2}` : `Match ${pick.id}`}
                                     </div>
+                                    
+                                    {/* Final Score Display */}
+                                    {isEvaluated && pick.matchResult && (pick.matchResult.homeScore !== null || pick.matchResult.awayScore !== null) && (
+                                      <div className="text-center mb-2 p-1 bg-slate-800/50 rounded text-xs">
+                                        <span className="text-text-muted">Final: </span>
+                                        <span className="text-white font-bold">
+                                          {pick.matchResult.homeScore} - {pick.matchResult.awayScore}
+                                        </span>
+                                      </div>
+                                    )}
                                     
                                     <div className="flex items-center justify-between">
                                       <span className="text-xs text-text-muted">
