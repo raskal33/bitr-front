@@ -6,10 +6,10 @@ export async function GET() {
     // const date = searchParams.get('date'); // Optional: specific date - not currently used
 
     const backendUrl = process.env.NEXT_PUBLIC_API_URL || 'https://bitr-backend.fly.dev';
-    // Use contract-matches endpoint to get data directly from contract with correct data types
-    const url = `${backendUrl}/api/oddyssey/contract-matches`;
+    // Use fixtures/upcoming endpoint to get data with correct odds from database
+    const url = `${backendUrl}/api/fixtures/upcoming`;
 
-    console.log('🎯 Fetching Oddyssey contract matches from:', url);
+    console.log('🎯 Fetching Oddyssey matches from database via:', url);
 
     const response = await fetch(url, {
       method: 'GET',
@@ -26,47 +26,48 @@ export async function GET() {
     }
 
     const data = await response.json();
-    console.log('✅ Backend contract response:', data);
+    console.log('✅ Backend database response:', data);
 
-    // Transform the contract matches data to match the expected format
+    // Transform the database fixtures data to match the expected format
     const transformMatches = (matches: Array<{
-      id: number;
-      startTime: number;
-      oddsHome: number;
-      oddsDraw: number;
-      oddsAway: number;
-      oddsOver: number;
-      oddsUnder: number;
-      homeTeam: string;
-      awayTeam: string;
-      leagueName: string;
-      displayOrder: number;
+      id: string;
+      name: string;
+      homeTeam: { id: string; name: string; logoUrl: string };
+      awayTeam: { id: string; name: string; logoUrl: string };
+      league: { id: string; name: string };
+      matchDate: string;
+      startingAt: string;
+      home_odds: number | null;
+      draw_odds: number | null;
+      away_odds: number | null;
+      over_25_odds: number | null;
+      under_25_odds: number | null;
     }>) => {
-      return matches.map((match) => {
+      return matches.map((match, index) => {
         return {
-          id: match.id, // This is now a number, matching contract data type
-          fixture_id: match.id,
-          home_team: match.homeTeam,
-          away_team: match.awayTeam,
-          match_date: new Date(match.startTime * 1000).toISOString(),
-          league_name: match.leagueName,
-          home_odds: match.oddsHome / 1000, // Convert from scaled format
-          draw_odds: match.oddsDraw / 1000,
-          away_odds: match.oddsAway / 1000,
-          over_odds: match.oddsOver / 1000,
-          under_odds: match.oddsUnder / 1000,
+          id: parseInt(match.id), // Convert string ID to number
+          fixture_id: parseInt(match.id),
+          home_team: match.homeTeam.name,
+          away_team: match.awayTeam.name,
+          match_date: match.matchDate || match.startingAt,
+          league_name: match.league.name,
+          home_odds: match.home_odds || 2.0, // Use database odds directly (no scaling needed)
+          draw_odds: match.draw_odds || 3.0,
+          away_odds: match.away_odds || 2.5,
+          over_odds: match.over_25_odds || 1.8,
+          under_odds: match.under_25_odds || 2.0,
           market_type: 'moneyline',
-          display_order: match.displayOrder
+          display_order: index + 1
         };
       });
     };
 
-    // Transform contract data to expected format
+    // Transform database fixtures data to expected format
     const transformedData = {
       today: {
         date: new Date().toISOString().split('T')[0],
-        matches: transformMatches(data.data || []),
-        count: data.data?.length || 0
+        matches: transformMatches(data.matches || []), // Use 'matches' property from fixtures response
+        count: data.matches?.length || 0
       },
       tomorrow: {
         date: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString().split('T')[0],

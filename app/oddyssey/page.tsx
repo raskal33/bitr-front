@@ -584,7 +584,7 @@ export default function OddysseyPage() {
       console.log('📱 Is mobile:', /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent));
       console.log('📱 Screen dimensions:', { width: window.innerWidth, height: window.innerHeight });
       
-      const result = await oddysseyService.getUserSlips(address);
+      const result = await oddysseyService.getUserSlipsWithEvaluation(address);
       
       if (result.success && result.data && result.data.length > 0) {
         console.log('✅ User slips received:', result.data);
@@ -2870,7 +2870,7 @@ export default function OddysseyPage() {
                                     <>
                                       <div className="flex items-center gap-2">
                                         <span className="text-text-muted text-sm">Final Score:</span>
-                                        <span className="text-white font-bold">{typeof finalScore === 'number' ? Math.round(finalScore).toLocaleString() : finalScore}</span>
+                                        <span className="text-white font-bold">{typeof finalScore === 'number' ? finalScore.toFixed(3) : finalScore}</span>
                                       </div>
                                       <div className="flex items-center gap-2">
                                         <span className="text-text-muted text-sm">Correct:</span>

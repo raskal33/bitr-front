@@ -702,7 +702,7 @@ class OddysseyService {
         status: string;
         total_odds: number;
       }>;
-    }>(`${this.baseEndpoint}/user-slips/${address}`);
+    }>(`${this.baseEndpoint}/user-slips/${address}/evaluated`);
   }
 
   /**
