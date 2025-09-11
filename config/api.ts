@@ -4,9 +4,10 @@ export const API_CONFIG = {
     airdrop: '/api/airdrop',
     faucet: '/api/faucet', 
     pools: '/api/guided-markets/pools',
+    bitrPool: '/api/bitr-pool',
     analytics: '/api/analytics',
     social: '/api/social',
-    health: '/health',
+    health: '/api/health',
     crypto: '/api/crypto',
     fixtures: '/api/fixtures',
     oddyssey: '/api/oddyssey',
@@ -14,7 +15,13 @@ export const API_CONFIG = {
     users: '/api/users',
     reputation: '/api/reputation',
     guidedMarkets: '/api/guided-markets',
-    optimisticOracle: '/api/optimistic-oracle'
+    optimisticOracle: '/api/optimistic-oracle',
+    matches: '/api/matches',
+    terms: '/api/terms',
+    cycleMonitoring: '/api/cycle-monitoring',
+    cronCoordination: '/api/cron-coordination',
+    monitoringDashboard: '/api/monitoring-dashboard',
+    admin: '/api/admin'
   }
 } as const;
 

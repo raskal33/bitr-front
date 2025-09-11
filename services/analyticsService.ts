@@ -252,13 +252,49 @@ export class AnalyticsService {
     sortBy: string = 'total_volume',
     sortOrder: string = 'desc'
   ): Promise<{ categories: EnhancedCategoryStats[]; pagination: any }> {
+    // Use the existing categories endpoint since category-stats doesn't exist
     const response = await apiRequest<AnalyticsResponse<{
-      categories: EnhancedCategoryStats[];
-      pagination: any;
+      distribution: CategoryDistribution;
+      detailed: CategoryStats[];
     }>>(
-      `${this.baseURL}/category-stats?limit=${limit}&offset=${offset}&sortBy=${sortBy}&sortOrder=${sortOrder}`
+      `${this.baseURL}/categories`
     );
-    return response.data;
+    
+    // Transform the response to match the expected format
+    const categories: EnhancedCategoryStats[] = response.data.detailed.map((cat, index) => ({
+      category_name: cat.category,
+      total_pools: cat.poolCount,
+      total_volume: cat.totalVolume,
+      total_participants: cat.participantCount,
+      avg_pool_size: cat.avgPoolSize,
+      most_popular_market_type: 0,
+      most_popular_market_type_name: 'Unknown',
+      last_activity: new Date().toISOString(),
+      icon: this.getCategoryIcon(cat.category),
+      color: this.getCategoryColor(cat.category)
+    }));
+    
+    return { categories, pagination: {} };
+  }
+  
+  private static getCategoryIcon(category: string): string {
+    switch (category.toLowerCase()) {
+      case 'football': return '⚽';
+      case 'basketball': return '🏀';
+      case 'cryptocurrency': return '₿';
+      case 'combo': return '⭐';
+      default: return '🎯';
+    }
+  }
+  
+  private static getCategoryColor(category: string): string {
+    switch (category.toLowerCase()) {
+      case 'football': return '#22C7FF';
+      case 'basketball': return '#FF6B35';
+      case 'cryptocurrency': return '#F7931A';
+      case 'combo': return '#9B59B6';
+      default: return '#95A5A6';
+    }
   }
 
   /**
@@ -270,13 +306,9 @@ export class AnalyticsService {
     sortBy: string = 'total_volume',
     sortOrder: string = 'desc'
   ): Promise<{ leagues: LeagueStats[]; pagination: any }> {
-    const response = await apiRequest<AnalyticsResponse<{
-      leagues: LeagueStats[];
-      pagination: any;
-    }>>(
-      `${this.baseURL}/league-stats?limit=${limit}&offset=${offset}&sortBy=${sortBy}&sortOrder=${sortOrder}`
-    );
-    return response.data;
+    // League stats endpoint doesn't exist in backend, return empty data
+    console.warn('League stats endpoint not available in backend');
+    return { leagues: [], pagination: {} };
   }
 
   /**
@@ -289,24 +321,9 @@ export class AnalyticsService {
     sortOrder: string = 'desc',
     userAddress?: string
   ): Promise<{ users: UserStats[]; pagination: any }> {
-    const params = new URLSearchParams({
-      limit: limit.toString(),
-      offset: offset.toString(),
-      sortBy,
-      sortOrder
-    });
-    
-    if (userAddress) {
-      params.append('address', userAddress);
-    }
-
-    const response = await apiRequest<AnalyticsResponse<{
-      users: UserStats[];
-      pagination: any;
-    }>>(
-      `${this.baseURL}/user-stats?${params.toString()}`
-    );
-    return response.data;
+    // User stats endpoint doesn't exist in backend, return empty data
+    console.warn('User stats endpoint not available in backend');
+    return { users: [], pagination: {} };
   }
 
   /**
@@ -318,13 +335,9 @@ export class AnalyticsService {
     sortBy: string = 'total_volume',
     sortOrder: string = 'desc'
   ): Promise<{ marketTypes: MarketTypeStats[]; pagination: any }> {
-    const response = await apiRequest<AnalyticsResponse<{
-      marketTypes: MarketTypeStats[];
-      pagination: any;
-    }>>(
-      `${this.baseURL}/market-type-stats?limit=${limit}&offset=${offset}&sortBy=${sortBy}&sortOrder=${sortOrder}`
-    );
-    return response.data;
+    // Market type stats endpoint doesn't exist in backend, return empty data
+    console.warn('Market type stats endpoint not available in backend');
+    return { marketTypes: [], pagination: {} };
   }
 
   /**

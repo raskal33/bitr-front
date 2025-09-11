@@ -552,7 +552,7 @@ class OddysseyService {
         auto_claim: boolean;
         notifications: boolean;
       };
-    }>(`${this.baseEndpoint}/user-preferences/${address}`);
+    }>(`${this.baseEndpoint}/preferences`);
   }
 
   /**
@@ -615,7 +615,7 @@ class OddysseyService {
         prizeClaimed: boolean;
         txHash?: string;
       };
-    }>(`${this.baseEndpoint}/slips/${slipId}/evaluated`);
+    }>(`${this.baseEndpoint}/evaluated-slip/${slipId}`);
   }
 
   /**
@@ -762,8 +762,8 @@ class OddysseyService {
     return apiRequest<{
       success: boolean;
       message: string;
-    }>(`${this.baseEndpoint}/preferences/${address}`, {
-      method: 'PUT',
+    }>(`${this.baseEndpoint}/preferences`, {
+      method: 'POST',
       body: JSON.stringify(preferences),
     });
   }

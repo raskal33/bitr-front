@@ -223,7 +223,7 @@ export class PoolService {
         boostTier
       });
       
-      const response = await fetch(`${API_BASE_URL}/bitredict-pool/pools`, {
+      const response = await fetch(`${API_BASE_URL}/bitr-pool/pools`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

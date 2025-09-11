@@ -221,7 +221,7 @@ export default function OddysseyPage() {
       if (missingIds.length === 0) return;
 
       // Fetch fixtures data using batch endpoint
-      const response = await fetch('https://bitr-backend.fly.dev/api/oddyssey/batch-fixtures', {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'https://bitr-backend.fly.dev'}/api/oddyssey/batch-fixtures`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -2875,7 +2875,7 @@ export default function OddysseyPage() {
                                     <>
                                       <div className="flex items-center gap-2">
                                         <span className="text-text-muted text-sm">Final Score:</span>
-                                        <span className="text-white font-bold">{finalScore}</span>
+                                        <span className="text-white font-bold">{finalScore.toLocaleString()}</span>
                                       </div>
                                       <div className="flex items-center gap-2">
                                         <span className="text-text-muted text-sm">Correct:</span>
