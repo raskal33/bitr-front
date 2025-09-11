@@ -582,6 +582,7 @@ export default function OddysseyPage() {
       console.log('🎯 Fetching user slips for address:', address);
       console.log('📱 User agent:', navigator.userAgent);
       console.log('📱 Is mobile:', /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent));
+      console.log('📱 Screen dimensions:', { width: window.innerWidth, height: window.innerHeight });
       
       const result = await oddysseyService.getUserSlips(address);
       
@@ -708,6 +709,7 @@ export default function OddysseyPage() {
               else if (prediction === "2" || prediction === "away") pick = "away";
               else if (prediction === "Over" || prediction === "over" || prediction === "O2.5") pick = "over";
               else if (prediction === "Under" || prediction === "under" || prediction === "U2.5") pick = "under";
+              else if (prediction === "1" || prediction === "home") pick = "home";
             }
             
             return {
@@ -2642,7 +2644,7 @@ export default function OddysseyPage() {
                   initial={{ opacity: 0, x: 20 }}
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: -20 }}
-                  className="lg:col-span-2"
+                  className="lg:col-span-2 w-full"
                 >
                 <div className="glass-card p-4 sm:p-6 bg-gradient-to-br from-cyan-500/5 to-blue-500/5 border border-cyan-500/20 shadow-lg shadow-cyan-500/10">
                   <h2 className="text-xl sm:text-2xl font-bold text-cyan-300 mb-4 sm:mb-6 flex items-center gap-2">
@@ -2718,6 +2720,8 @@ export default function OddysseyPage() {
                     {(() => {
                       console.log('📱 Rendering slips section - slips.length:', slips.length);
                       console.log('📱 Slips data:', slips);
+                      console.log('📱 Is mobile device:', /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent));
+                      console.log('📱 Screen width:', window.innerWidth);
                       return null;
                     })()}
                     {slips.length > 0 ? (
@@ -2866,7 +2870,7 @@ export default function OddysseyPage() {
                                     <>
                                       <div className="flex items-center gap-2">
                                         <span className="text-text-muted text-sm">Final Score:</span>
-                                        <span className="text-white font-bold">{typeof finalScore === 'number' ? finalScore.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 3 }) : finalScore}</span>
+                                        <span className="text-white font-bold">{typeof finalScore === 'number' ? Math.round(finalScore).toLocaleString() : finalScore}</span>
                                       </div>
                                       <div className="flex items-center gap-2">
                                         <span className="text-text-muted text-sm">Correct:</span>
@@ -2956,6 +2960,12 @@ export default function OddysseyPage() {
                         <p className="text-text-muted text-sm mb-6">
                           Start building your first slip to compete for prizes
                         </p>
+                        <div className="mb-4 p-3 bg-yellow-500/10 border border-yellow-500/20 rounded text-xs text-yellow-300">
+                          <p>Debug Info:</p>
+                          <p>Address: {address ? 'Connected' : 'Not connected'}</p>
+                          <p>Slips length: {slips.length}</p>
+                          <p>Is mobile: {/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ? 'Yes' : 'No'}</p>
+                        </div>
                         <Button
                           variant="primary"
                           onClick={() => setActiveTab("today")}

@@ -348,15 +348,19 @@ class OddysseyService {
       timestamp: string;
     };
   }> {
-    return apiRequest<{
-      success: boolean;
-      data: OddysseySlip[];
-      meta?: {
-        count: number;
-        address: string;
-        timestamp: string;
-      };
-    }>(`${this.baseEndpoint}/user-slips/${address}`);
+    // Use the frontend API route instead of calling backend directly
+    const response = await fetch(`/api/oddyssey/slips?address=${address}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`Failed to fetch user slips: ${response.status}`);
+    }
+
+    return response.json();
   }
 
   /**
