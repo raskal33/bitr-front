@@ -683,38 +683,25 @@ export default function OddysseyPage() {
               });
             }
             
-            // Determine pick type based on betType and selection hash from blockchain data
+            // Use backend's decoded prediction data instead of hash decoding
             let pick: "home" | "draw" | "away" | "over" | "under" = "home";
             
-            // Handle blockchain format with betType and selection hash
-            if (betType !== undefined && selection) {
-              console.log(`🔍 Processing prediction: betType=${betType}, selection=${selection}`);
+            // Use the backend's decodedSelection and predictionText if available
+            if (predObj.decodedSelection) {
+              console.log(`🔍 Using backend decoded selection: ${predObj.decodedSelection}`);
+              console.log(`🔍 Backend prediction text: ${predObj.predictionText}`);
+              console.log(`🔍 Backend market type: ${predObj.marketType}`);
               
-              if (betType === "0") {
-                // Moneyline bet (1X2)
-                if (selection === "0xc89efdaa54c0f20c7adf612882df0950f5a951637e0307cdcb4c672f298b8bc6") {
-                  pick = "home"; // Home win (1)
-                } else if (selection === "0x09492a13c7e2353fdb9d678856a01eb3a777f03982867b5ce379154825ae0e62") {
-                  pick = "draw"; // Draw (X)
-                } else if (selection === "0xe5f3458d553c578199ad9150ab9a1cce5e22e9b34834f66492b28636da59e11b") {
-                  pick = "away"; // Away win (2)
-                } else {
-                  console.warn(`⚠️ Unknown moneyline selection hash: ${selection}`);
-                }
-              } else if (betType === "1") {
-                // Over/Under bet
-                if (selection === "0x09492a13c7e2353fdb9d678856a01eb3a777f03982867b5ce379154825ae0e62") {
-                  pick = "over"; // Over 2.5
-                } else if (selection === "0xe5f3458d553c578199ad9150ab9a1cce5e22e9b34834f66492b28636da59e11b") {
-                  pick = "under"; // Under 2.5
-                } else {
-                  console.warn(`⚠️ Unknown over/under selection hash: ${selection}`);
-                }
-              }
+              // Map decoded selection to pick format
+              if (predObj.decodedSelection === '1') pick = "home";
+              else if (predObj.decodedSelection === 'X') pick = "draw";
+              else if (predObj.decodedSelection === '2') pick = "away";
+              else if (predObj.decodedSelection === 'Over') pick = "over";
+              else if (predObj.decodedSelection === 'Under') pick = "under";
               
               console.log(`✅ Mapped to pick: ${pick}`);
             } else {
-              // Fallback to text-based parsing
+              // Fallback to text-based parsing for legacy data
               console.log(`📝 Using text-based parsing for prediction: ${prediction}`);
               if (prediction === "X" || prediction === "draw") pick = "draw";
               else if (prediction === "2" || prediction === "away") pick = "away";
@@ -2875,7 +2862,7 @@ export default function OddysseyPage() {
                                     <>
                                       <div className="flex items-center gap-2">
                                         <span className="text-text-muted text-sm">Final Score:</span>
-                                        <span className="text-white font-bold">{finalScore.toLocaleString()}</span>
+                                        <span className="text-white font-bold">{typeof finalScore === 'number' ? finalScore.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 3 }) : finalScore}</span>
                                       </div>
                                       <div className="flex items-center gap-2">
                                         <span className="text-text-muted text-sm">Correct:</span>

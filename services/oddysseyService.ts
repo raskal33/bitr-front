@@ -646,6 +646,9 @@ class OddysseyService {
         id: number;
         isCorrect?: boolean | null;
         actualResult?: string | null;
+        decodedSelection?: string;
+        predictionText?: string;
+        marketType?: string;
       }>;
       final_score: string;
       correct_count: number;
@@ -682,6 +685,9 @@ class OddysseyService {
           id: number;
           isCorrect?: boolean | null;
           actualResult?: string | null;
+          decodedSelection?: string;
+          predictionText?: string;
+          marketType?: string;
         }>;
         final_score: string;
         correct_count: number;
