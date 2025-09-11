@@ -635,6 +635,9 @@ export default function OddysseyPage() {
               status?: string;
               isCorrect?: boolean;
               actualResult?: string;
+              decodedSelection?: string;
+              predictionText?: string;
+              marketType?: string;
               matchResult?: {
                 homeScore?: number;
                 awayScore?: number;
@@ -849,6 +852,9 @@ export default function OddysseyPage() {
               status?: string;
               isCorrect?: boolean;
               actualResult?: string;
+              decodedSelection?: string;
+              predictionText?: string;
+              marketType?: string;
               matchResult?: {
                 homeScore?: number;
                 awayScore?: number;
