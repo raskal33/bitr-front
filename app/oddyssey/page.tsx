@@ -71,9 +71,9 @@ interface Pick {
   isCorrect?: boolean | null;
   actualResult?: string | null;
   matchResult?: {
-    homeScore?: number;
-    awayScore?: number;
-    result?: string;
+    homeScore?: number | null;
+    awayScore?: number | null;
+    result?: string | null;
     status?: string;
   } | null;
 }
