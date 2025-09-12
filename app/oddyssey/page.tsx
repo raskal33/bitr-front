@@ -1,5 +1,15 @@
 "use client";
 
+// Type definitions for evaluation data
+interface EvaluationEntry {
+  odds?: number;
+  isCorrect?: boolean;
+  actualResult?: string;
+  homeScore?: number;
+  awayScore?: number;
+  matchResult?: string;
+}
+
 import Button from "@/components/button";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect, useCallback, useRef } from "react";
@@ -607,7 +617,7 @@ export default function OddysseyPage() {
             placed_at?: string;
             status?: string;
             total_odds?: number;
-            evaluation_data?: Record<string, any>;
+            evaluation_data?: Record<string, EvaluationEntry>;
           };
           
           // Handle different prediction formats from the API
@@ -660,10 +670,11 @@ export default function OddysseyPage() {
             
             // Also check evaluation_data for correct odds if available
             if (slipObj.evaluation_data && typeof slipObj.evaluation_data === 'object') {
-              const evalData = slipObj.evaluation_data as Record<string, any>;
+              const evalData = slipObj.evaluation_data as Record<string, EvaluationEntry>;
               const predIndex = predictions.indexOf(pred);
-              if (evalData[predIndex] && evalData[predIndex].odds) {
-                odds = evalData[predIndex].odds / 1000; // Convert from database format
+              const evalEntry = evalData[predIndex];
+              if (evalEntry && evalEntry.odds) {
+                odds = evalEntry.odds / 1000; // Convert from database format
               }
             }
             
@@ -743,7 +754,7 @@ export default function OddysseyPage() {
               isCorrect: (() => {
                 if (predObj.isCorrect !== undefined) return predObj.isCorrect;
                 if (slipObj.evaluation_data && typeof slipObj.evaluation_data === 'object') {
-                  const evalData = slipObj.evaluation_data as Record<string, any>;
+                  const evalData = slipObj.evaluation_data as Record<string, EvaluationEntry>;
                   const predIndex = predictions.indexOf(pred);
                   return evalData[predIndex]?.isCorrect ?? null;
                 }
@@ -752,7 +763,7 @@ export default function OddysseyPage() {
               actualResult: (() => {
                 if (predObj.actualResult) return predObj.actualResult;
                 if (slipObj.evaluation_data && typeof slipObj.evaluation_data === 'object') {
-                  const evalData = slipObj.evaluation_data as Record<string, any>;
+                  const evalData = slipObj.evaluation_data as Record<string, EvaluationEntry>;
                   const predIndex = predictions.indexOf(pred);
                   return evalData[predIndex]?.actualResult ?? null;
                 }
@@ -761,7 +772,7 @@ export default function OddysseyPage() {
               matchResult: (() => {
                 if (predObj.matchResult) return predObj.matchResult;
                 if (slipObj.evaluation_data && typeof slipObj.evaluation_data === 'object') {
-                  const evalData = slipObj.evaluation_data as Record<string, any>;
+                  const evalData = slipObj.evaluation_data as Record<string, EvaluationEntry>;
                   const predIndex = predictions.indexOf(pred);
                   const evalEntry = evalData[predIndex];
                   if (evalEntry && (evalEntry.homeScore !== undefined || evalEntry.awayScore !== undefined)) {
@@ -869,7 +880,7 @@ export default function OddysseyPage() {
             placed_at?: string;
             status?: string;
             total_odds?: number;
-            evaluation_data?: Record<string, any>;
+            evaluation_data?: Record<string, EvaluationEntry>;
           };
           
           const predictions = Array.isArray(slipObj.predictions) ? slipObj.predictions : [];
@@ -919,10 +930,11 @@ export default function OddysseyPage() {
             
             // Also check evaluation_data for correct odds if available
             if (slipObj.evaluation_data && typeof slipObj.evaluation_data === 'object') {
-              const evalData = slipObj.evaluation_data as Record<string, any>;
+              const evalData = slipObj.evaluation_data as Record<string, EvaluationEntry>;
               const predIndex = predictions.indexOf(pred);
-              if (evalData[predIndex] && evalData[predIndex].odds) {
-                odds = evalData[predIndex].odds / 1000; // Convert from database format
+              const evalEntry = evalData[predIndex];
+              if (evalEntry && evalEntry.odds) {
+                odds = evalEntry.odds / 1000; // Convert from database format
               }
             }
             
@@ -998,7 +1010,7 @@ export default function OddysseyPage() {
               isCorrect: (() => {
                 if (predObj.isCorrect !== undefined) return predObj.isCorrect;
                 if (slipObj.evaluation_data && typeof slipObj.evaluation_data === 'object') {
-                  const evalData = slipObj.evaluation_data as Record<string, any>;
+                  const evalData = slipObj.evaluation_data as Record<string, EvaluationEntry>;
                   const predIndex = predictions.indexOf(pred);
                   return evalData[predIndex]?.isCorrect ?? null;
                 }
@@ -1007,7 +1019,7 @@ export default function OddysseyPage() {
               actualResult: (() => {
                 if (predObj.actualResult) return predObj.actualResult;
                 if (slipObj.evaluation_data && typeof slipObj.evaluation_data === 'object') {
-                  const evalData = slipObj.evaluation_data as Record<string, any>;
+                  const evalData = slipObj.evaluation_data as Record<string, EvaluationEntry>;
                   const predIndex = predictions.indexOf(pred);
                   return evalData[predIndex]?.actualResult ?? null;
                 }
@@ -1016,7 +1028,7 @@ export default function OddysseyPage() {
               matchResult: (() => {
                 if (predObj.matchResult) return predObj.matchResult;
                 if (slipObj.evaluation_data && typeof slipObj.evaluation_data === 'object') {
-                  const evalData = slipObj.evaluation_data as Record<string, any>;
+                  const evalData = slipObj.evaluation_data as Record<string, EvaluationEntry>;
                   const predIndex = predictions.indexOf(pred);
                   const evalEntry = evalData[predIndex];
                   if (evalEntry && (evalEntry.homeScore !== undefined || evalEntry.awayScore !== undefined)) {
