@@ -666,6 +666,9 @@ export default function OddysseyPage() {
             let odds = Number(predObj.odds || predObj.selectedOdd || predObj.odd || 1);
             if (predObj.selectedOdd && odds > 100) {
               odds = odds / 1000; // Convert blockchain format (1850 -> 1.85)
+            } else if (predObj.selectedOdd && odds <= 10) {
+              // If odds are already in decimal format (like 1.65), use them as-is
+              odds = odds;
             }
             
             // Also check evaluation_data for correct odds if available
@@ -926,6 +929,9 @@ export default function OddysseyPage() {
             // Handle odds conversion from blockchain format and evaluation data
             if (predObj.selectedOdd && odds > 100) {
               odds = odds / 1000; // Convert blockchain format (1850 -> 1.85)
+            } else if (predObj.selectedOdd && odds <= 10) {
+              // If odds are already in decimal format (like 1.65), use them as-is
+              odds = odds;
             }
             
             // Also check evaluation_data for correct odds if available
@@ -959,13 +965,13 @@ export default function OddysseyPage() {
               console.log(`🔍 Processing prediction (alt): betType=${predObj.betType}, selection=${predObj.selection}`);
               
               if (predObj.betType === "0") {
-                // Moneyline bet (1X2)
+                // Moneyline bet (1X2) - CORRECTED HASH MAPPINGS
                 if (predObj.selection === "0xc89efdaa54c0f20c7adf612882df0950f5a951637e0307cdcb4c672f298b8bc6") {
                   pick = "home"; // Home win (1)
-                } else if (predObj.selection === "0x09492a13c7e2353fdb9d678856a01eb3a777f03982867b5ce379154825ae0e62") {
-                  pick = "draw"; // Draw (X)
-                } else if (predObj.selection === "0xe5f3458d553c578199ad9150ab9a1cce5e22e9b34834f66492b28636da59e11b") {
-                  pick = "away"; // Away win (2)
+                } else if (predObj.selection === "0x550c64a15031c3064454c19adc6243a6122c138a242eaa098da50bb114fc8d56") {
+                  pick = "draw"; // Draw (X) - FIXED!
+                } else if (predObj.selection === "0xad7c5bef027816a800da1736444fb58a807ef4c9603b7848673f7e3a68eb14a5") {
+                  pick = "away"; // Away win (2) - FIXED!
                 } else {
                   console.warn(`⚠️ Unknown moneyline selection hash (alt): ${predObj.selection}`);
                 }
@@ -2952,16 +2958,6 @@ export default function OddysseyPage() {
                                       {pick.team1 && pick.team2 ? `${pick.team1} vs ${pick.team2}` : `Match ${pick.id}`}
                                     </div>
                                     
-                                    {/* Final Score Display */}
-                                    {isEvaluated && pick.matchResult && (pick.matchResult.homeScore !== null || pick.matchResult.awayScore !== null) && (
-                                      <div className="text-center mb-2 p-1 bg-slate-800/50 rounded text-xs">
-                                        <span className="text-text-muted">Final: </span>
-                                        <span className="text-white font-bold">
-                                          {pick.matchResult.homeScore} - {pick.matchResult.awayScore}
-                                        </span>
-                                      </div>
-                                    )}
-                                    
                                     <div className="flex items-center justify-between">
                                       <span className="text-xs text-text-muted">
                                         {(pick.pick === "home" || pick.pick === "draw" || pick.pick === "away") ? "1X2" : "O/U 2.5"}
@@ -2970,6 +2966,16 @@ export default function OddysseyPage() {
                                         {typeof pick.odd === 'number' ? formatOdds(pick.odd) : '0.00'}
                                       </span>
                                     </div>
+                                    
+                                    {/* Final Score Display - Bottom Left Corner */}
+                                    {isEvaluated && pick.matchResult && (pick.matchResult.homeScore !== null || pick.matchResult.awayScore !== null) && (
+                                      <div className="mt-2 p-1 bg-slate-800/50 rounded text-xs text-left">
+                                        <span className="text-text-muted">Final: </span>
+                                        <span className="text-white font-bold">
+                                          {pick.matchResult.homeScore} - {pick.matchResult.awayScore}
+                                        </span>
+                                      </div>
+                                    )}
                                   </div>
                                 ))}
                               </div>
