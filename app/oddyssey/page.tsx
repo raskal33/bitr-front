@@ -69,13 +69,13 @@ interface Pick {
   prizeClaimed?: boolean;
   // Evaluation fields
   isCorrect?: boolean | null;
-  actualResult?: string;
+  actualResult?: string | null;
   matchResult?: {
     homeScore?: number;
     awayScore?: number;
     result?: string;
     status?: string;
-  };
+  } | null;
 }
 
 interface Match {
