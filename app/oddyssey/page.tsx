@@ -2942,7 +2942,7 @@ export default function OddysseyPage() {
                                         <span className={`px-1.5 sm:px-2 py-1 rounded text-xs font-bold ${
                                           pick.pick === "home" ? "bg-primary/20 text-primary" :
                                           pick.pick === "draw" ? "bg-yellow-500/20 text-yellow-300" :
-                                          pick.pick === "away" ? "bg-accent/20 text-accent" :
+                                          pick.pick === "away" ? "bg-red-500/20 text-red-400" :
                                           pick.pick === "over" ? "bg-blue-500/20 text-blue-300" :
                                           "bg-purple-500/20 text-purple-300"
                                         }`}>
