@@ -24,6 +24,10 @@ export interface GuidedMarketTransactionData {
   marketDetails: any;
 }
 
+export interface TransactionStatusCallback {
+  (type: 'info' | 'pending' | 'confirming' | 'success' | 'error', title: string, message: string, hash?: string): void;
+}
+
 export interface CreateFootballMarketParams {
   fixtureId: string;
   homeTeam: string;
@@ -65,7 +69,8 @@ export class GuidedMarketWalletService {
     marketData: CreateFootballMarketParams,
     walletClient: any,
     publicClient: any,
-    address: Address
+    address: Address,
+    statusCallback?: TransactionStatusCallback
   ): Promise<{
     success: boolean;
     transactionHash?: string;
@@ -78,9 +83,12 @@ export class GuidedMarketWalletService {
       
       // Step 1: Prepare transaction data via backend
       console.log('📡 Step 1: Preparing transaction data...');
+      statusCallback?.('info', 'Preparing Transaction', 'Preparing market creation transaction...');
+      
       const prepareResult = await GuidedMarketService.prepareFootballMarket(marketData);
       
       if (!prepareResult.success) {
+        statusCallback?.('error', 'Preparation Failed', `Failed to prepare transaction: ${prepareResult.error}`);
         return {
           success: false,
           error: `Failed to prepare transaction: ${prepareResult.error}`
@@ -97,6 +105,7 @@ export class GuidedMarketWalletService {
       // Step 2: Handle BITR approval if needed
       if (marketData.useBitr) {
         console.log('🪙 Step 2: Handling BITR token approval...');
+        statusCallback?.('pending', 'BITR Approval', 'Requesting BITR token approval...');
         
         // Use totalRequiredWei which includes the 50 BITR creation fee
         const totalRequiredWei = transactionData.totalRequiredWei || transactionData.parameters[2];
@@ -105,10 +114,12 @@ export class GuidedMarketWalletService {
           totalRequiredWei, // totalRequiredWei (creatorStake + 50 BITR fee)
           walletClient,
           publicClient,
-          address
+          address,
+          statusCallback
         );
         
         if (!approvalResult.success) {
+          statusCallback?.('error', 'Approval Failed', `BITR approval failed: ${approvalResult.error}`);
           return {
             success: false,
             error: `BITR approval failed: ${approvalResult.error}`
@@ -116,19 +127,23 @@ export class GuidedMarketWalletService {
         }
         
         console.log('✅ BITR approval completed');
+        statusCallback?.('info', 'Approval Complete', 'BITR token approval successful');
       }
       
       // Step 3: Execute the main transaction via wallet
       console.log('💳 Step 3: Executing transaction via wallet...');
+      statusCallback?.('confirming', 'Creating Market', 'Executing market creation transaction...');
       
       const txResult = await this.executeTransaction(
         transactionData,
         walletClient,
         publicClient,
-        address
+        address,
+        statusCallback
       );
       
       if (!txResult.success) {
+        statusCallback?.('error', 'Transaction Failed', `Transaction execution failed: ${txResult.error}`);
         return {
           success: false,
           error: `Transaction execution failed: ${txResult.error}`
@@ -136,9 +151,11 @@ export class GuidedMarketWalletService {
       }
       
       console.log('✅ Transaction executed:', txResult.hash);
+      statusCallback?.('confirming', 'Transaction Confirmed', 'Transaction confirmed on blockchain', txResult.hash);
       
       // Step 4: Confirm transaction via backend for indexing
       console.log('📡 Step 4: Confirming transaction with backend...');
+      statusCallback?.('info', 'Finalizing Market', 'Confirming market creation with backend...');
       
       const confirmResult = await GuidedMarketService.confirmFootballMarket(
         txResult.hash!,
@@ -147,9 +164,11 @@ export class GuidedMarketWalletService {
       
       if (!confirmResult.success) {
         console.warn('⚠️ Backend confirmation failed, but transaction was successful:', confirmResult.error);
+        statusCallback?.('warning', 'Backend Warning', 'Transaction successful but backend confirmation failed');
         // Don't fail the entire process if backend confirmation fails
       } else {
         console.log('✅ Backend confirmation completed');
+        statusCallback?.('success', 'Market Created!', 'Your football prediction market has been created successfully!', txResult.hash);
       }
       
       return {
@@ -160,6 +179,7 @@ export class GuidedMarketWalletService {
       
     } catch (error) {
       console.error('❌ Error creating football market:', error);
+      statusCallback?.('error', 'Creation Failed', error instanceof Error ? error.message : 'Unknown error occurred');
       return {
         success: false,
         error: error instanceof Error ? error.message : 'Unknown error occurred'
@@ -174,7 +194,8 @@ export class GuidedMarketWalletService {
     marketData: CreateCryptoMarketParams,
     walletClient: any,
     publicClient: any,
-    address: Address
+    address: Address,
+    statusCallback?: TransactionStatusCallback
   ): Promise<{
     success: boolean;
     transactionHash?: string;
@@ -187,9 +208,12 @@ export class GuidedMarketWalletService {
       
       // Step 1: Prepare transaction data via backend
       console.log('📡 Step 1: Preparing transaction data...');
+      statusCallback?.('info', 'Preparing Transaction', 'Preparing cryptocurrency market creation transaction...');
+      
       const prepareResult = await GuidedMarketService.prepareCryptoMarket(marketData);
       
       if (!prepareResult.success) {
+        statusCallback?.('error', 'Preparation Failed', `Failed to prepare transaction: ${prepareResult.error}`);
         return {
           success: false,
           error: `Failed to prepare transaction: ${prepareResult.error}`
@@ -206,6 +230,7 @@ export class GuidedMarketWalletService {
       // Step 2: Handle BITR approval if needed
       if (marketData.useBitr) {
         console.log('🪙 Step 2: Handling BITR token approval...');
+        statusCallback?.('pending', 'BITR Approval', 'Requesting BITR token approval...');
         
         // Use totalRequiredWei which includes the 50 BITR creation fee
         const totalRequiredWei = transactionData.totalRequiredWei || transactionData.parameters[2];
@@ -214,10 +239,12 @@ export class GuidedMarketWalletService {
           totalRequiredWei, // totalRequiredWei (creatorStake + 50 BITR fee)
           walletClient,
           publicClient,
-          address
+          address,
+          statusCallback
         );
         
         if (!approvalResult.success) {
+          statusCallback?.('error', 'Approval Failed', `BITR approval failed: ${approvalResult.error}`);
           return {
             success: false,
             error: `BITR approval failed: ${approvalResult.error}`
@@ -225,19 +252,23 @@ export class GuidedMarketWalletService {
         }
         
         console.log('✅ BITR approval completed');
+        statusCallback?.('info', 'Approval Complete', 'BITR token approval successful');
       }
       
       // Step 3: Execute the main transaction via wallet
       console.log('💳 Step 3: Executing transaction via wallet...');
+      statusCallback?.('confirming', 'Creating Market', 'Executing cryptocurrency market creation transaction...');
       
       const txResult = await this.executeTransaction(
         transactionData,
         walletClient,
         publicClient,
-        address
+        address,
+        statusCallback
       );
       
       if (!txResult.success) {
+        statusCallback?.('error', 'Transaction Failed', `Transaction execution failed: ${txResult.error}`);
         return {
           success: false,
           error: `Transaction execution failed: ${txResult.error}`
@@ -245,9 +276,11 @@ export class GuidedMarketWalletService {
       }
       
       console.log('✅ Transaction executed:', txResult.hash);
+      statusCallback?.('confirming', 'Transaction Confirmed', 'Transaction confirmed on blockchain', txResult.hash);
       
       // Step 4: Confirm transaction via backend for indexing
       console.log('📡 Step 4: Confirming transaction with backend...');
+      statusCallback?.('info', 'Finalizing Market', 'Confirming market creation with backend...');
       
       const confirmResult = await GuidedMarketService.confirmCryptoMarket(
         txResult.hash!,
@@ -256,9 +289,11 @@ export class GuidedMarketWalletService {
       
       if (!confirmResult.success) {
         console.warn('⚠️ Backend confirmation failed, but transaction was successful:', confirmResult.error);
+        statusCallback?.('warning', 'Backend Warning', 'Transaction successful but backend confirmation failed');
         // Don't fail the entire process if backend confirmation fails
       } else {
         console.log('✅ Backend confirmation completed');
+        statusCallback?.('success', 'Market Created!', 'Your cryptocurrency prediction market has been created successfully!', txResult.hash);
       }
       
       return {
@@ -269,6 +304,7 @@ export class GuidedMarketWalletService {
       
     } catch (error) {
       console.error('❌ Error creating cryptocurrency market:', error);
+      statusCallback?.('error', 'Creation Failed', error instanceof Error ? error.message : 'Unknown error occurred');
       return {
         success: false,
         error: error instanceof Error ? error.message : 'Unknown error occurred'
@@ -283,7 +319,8 @@ export class GuidedMarketWalletService {
     stakeAmount: string,
     walletClient: any,
     publicClient: any,
-    address: Address
+    address: Address,
+    statusCallback?: TransactionStatusCallback
   ): Promise<{ success: boolean; error?: string; hash?: string }> {
     try {
       console.log('🔍 Checking BITR allowance...');
@@ -307,6 +344,8 @@ export class GuidedMarketWalletService {
       console.log(`   Required: ${requiredAmount.toString()}`);
       console.log(`   Current: ${currentAllowance.toString()}`);
       
+      statusCallback?.('pending', 'Approval Transaction', 'Please confirm the BITR approval transaction in your wallet...');
+      
       // Request approval using walletClient (correct wagmi v2 API)
       const approvalHash = await walletClient.writeContract({
         address: CONTRACT_ADDRESSES.BITR_TOKEN,
@@ -317,6 +356,7 @@ export class GuidedMarketWalletService {
       });
       
       console.log('⏳ Waiting for approval confirmation...');
+      statusCallback?.('confirming', 'Approval Confirming', 'Waiting for BITR approval confirmation...', approvalHash);
       
       // Wait for approval transaction using publicClient
       const approvalReceipt = await publicClient.waitForTransactionReceipt({
@@ -355,7 +395,8 @@ export class GuidedMarketWalletService {
     transactionData: GuidedMarketTransactionData,
     walletClient: any,
     publicClient: any,
-    address: Address
+    address: Address,
+    statusCallback?: TransactionStatusCallback
   ): Promise<{ success: boolean; hash?: string; error?: string }> {
     try {
       console.log('🎯 Executing main transaction...');
@@ -365,6 +406,8 @@ export class GuidedMarketWalletService {
         value: transactionData.value,
         gasEstimate: transactionData.gasEstimate
       });
+      
+      statusCallback?.('pending', 'Transaction Pending', 'Please confirm the market creation transaction in your wallet...');
       
       // Execute the transaction
       const hash = await walletClient.writeContract({
@@ -378,6 +421,7 @@ export class GuidedMarketWalletService {
       });
       
       console.log('⏳ Waiting for transaction confirmation...');
+      statusCallback?.('confirming', 'Transaction Confirming', 'Waiting for transaction confirmation on blockchain...', hash);
       
       // Wait for transaction confirmation using publicClient (correct wagmi v2 API)
       const receipt = await publicClient.waitForTransactionReceipt({ hash });
@@ -418,7 +462,7 @@ export function useGuidedMarketCreation() {
   const { data: walletClient } = useWalletClient();
   const publicClient = usePublicClient();
   
-  const createFootballMarket = async (marketData: CreateFootballMarketParams) => {
+  const createFootballMarket = async (marketData: CreateFootballMarketParams, statusCallback?: TransactionStatusCallback) => {
     if (!isConnected || !address) {
       throw new Error('Wallet not connected');
     }
@@ -435,11 +479,12 @@ export function useGuidedMarketCreation() {
       marketData,
       walletClient,
       publicClient,
-      address
+      address,
+      statusCallback
     );
   };
 
-  const createCryptoMarket = async (marketData: CreateCryptoMarketParams) => {
+  const createCryptoMarket = async (marketData: CreateCryptoMarketParams, statusCallback?: TransactionStatusCallback) => {
     if (!isConnected || !address) {
       throw new Error('Wallet not connected');
     }
@@ -456,7 +501,8 @@ export function useGuidedMarketCreation() {
       marketData,
       walletClient,
       publicClient,
-      address
+      address,
+      statusCallback
     );
   };
   
@@ -469,5 +515,3 @@ export function useGuidedMarketCreation() {
     publicClient: !!publicClient
   };
 }
-
-
