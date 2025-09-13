@@ -6,8 +6,8 @@ export async function GET() {
     // const date = searchParams.get('date'); // Optional: specific date - not currently used
 
     const backendUrl = process.env.NEXT_PUBLIC_API_URL || 'https://bitr-backend.fly.dev';
-    // Use fixtures/upcoming endpoint to get data with correct odds from database
-    const url = `${backendUrl}/api/fixtures/upcoming`;
+    // Use oddyssey/matches endpoint to get Oddyssey cycle matches
+    const url = `${backendUrl}/api/oddyssey/matches`;
 
     console.log('🎯 Fetching Oddyssey matches from database via:', url);
 
@@ -28,57 +28,11 @@ export async function GET() {
     const data = await response.json();
     console.log('✅ Backend database response:', data);
 
-    // Transform the database fixtures data to match the expected format
-    const transformMatches = (matches: Array<{
-      id: string;
-      name: string;
-      homeTeam: { id: string; name: string; logoUrl: string };
-      awayTeam: { id: string; name: string; logoUrl: string };
-      league: { id: string; name: string };
-      matchDate: string;
-      startingAt: string;
-      home_odds: number | null;
-      draw_odds: number | null;
-      away_odds: number | null;
-      over_25_odds: number | null;
-      under_25_odds: number | null;
-    }>) => {
-      return matches.map((match, index) => {
-        return {
-          id: parseInt(match.id), // Convert string ID to number
-          fixture_id: parseInt(match.id),
-          home_team: match.homeTeam.name,
-          away_team: match.awayTeam.name,
-          match_date: match.matchDate || match.startingAt,
-          league_name: match.league.name,
-          home_odds: match.home_odds || 2.0, // Use database odds directly (no scaling needed)
-          draw_odds: match.draw_odds || 3.0,
-          away_odds: match.away_odds || 2.5,
-          over_odds: match.over_25_odds || 1.8,
-          under_odds: match.under_25_odds || 2.0,
-          market_type: 'moneyline',
-          display_order: index + 1
-        };
-      });
-    };
-
-    // Transform database fixtures data to expected format
-    const transformedData = {
-      today: {
-        date: new Date().toISOString().split('T')[0],
-        matches: transformMatches(data.matches || []), // Use 'matches' property from fixtures response
-        count: data.matches?.length || 0
-      },
-      tomorrow: {
-        date: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString().split('T')[0],
-        matches: [],
-        count: 0
-      },
-      yesterday: {
-        date: new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString().split('T')[0],
-        matches: [],
-        count: 0
-      }
+    // The backend /api/oddyssey/matches already returns the correct format
+    // Just pass through the data from the backend
+    const transformedData = data.data || {
+      today: { date: new Date().toISOString().split('T')[0], matches: [], count: 0 },
+      yesterday: { date: new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString().split('T')[0], matches: [], count: 0 }
     };
 
     console.log('✅ Transformed data:', transformedData);
