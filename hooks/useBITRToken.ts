@@ -43,8 +43,8 @@ export function useBITRToken() {
   const { data: stakingAllowance, refetch: refetchStakingAllowance } = useReadContract({
     ...CONTRACTS.BITR_TOKEN,
     functionName: 'allowance',
-    args: address && CONTRACTS.BITREDICT_STAKING ? [address, CONTRACTS.BITREDICT_STAKING.address] : undefined,
-    query: { enabled: !!(address && CONTRACTS.BITREDICT_STAKING) }
+    args: address && CONTRACTS.BITR_STAKING ? [address, CONTRACTS.BITR_STAKING.address] : undefined,
+    query: { enabled: !!(address && CONTRACTS.BITR_STAKING) }
   });
 
   // Get allowance for faucet contract
@@ -57,10 +57,10 @@ export function useBITRToken() {
 
   // Update allowances when data changes
   useEffect(() => {
-    if (stakingAllowance !== undefined && stakingAllowance !== null && CONTRACTS.BITREDICT_STAKING) {
+    if (stakingAllowance !== undefined && stakingAllowance !== null && CONTRACTS.BITR_STAKING) {
       setAllowances(prev => ({
         ...prev,
-        [CONTRACTS.BITREDICT_STAKING.address]: stakingAllowance as bigint
+        [CONTRACTS.BITR_STAKING.address]: stakingAllowance as bigint
       }));
     }
   }, [stakingAllowance]);

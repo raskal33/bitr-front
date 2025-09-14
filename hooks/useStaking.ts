@@ -49,48 +49,48 @@ export function useStaking() {
 
   // Read contract data
   const { data: totalStaked, refetch: refetchTotalStaked } = useReadContract({
-    ...CONTRACTS.BITREDICT_STAKING,
+    ...CONTRACTS.BITR_STAKING,
     functionName: 'totalStaked',
   });
 
   const { data: totalRewardsPaid } = useReadContract({
-    ...CONTRACTS.BITREDICT_STAKING,
+    ...CONTRACTS.BITR_STAKING,
     functionName: 'totalRewardsPaid',
   });
 
   const { data: totalRevenuePaid } = useReadContract({
-    ...CONTRACTS.BITREDICT_STAKING,
+    ...CONTRACTS.BITR_STAKING,
     functionName: 'totalRevenuePaid',
   });
 
   const { data: tiers, refetch: refetchTiers } = useReadContract({
-    ...CONTRACTS.BITREDICT_STAKING,
+    ...CONTRACTS.BITR_STAKING,
     functionName: 'getTiers',
   });
 
   const { data: durationOptions } = useReadContract({
-    ...CONTRACTS.BITREDICT_STAKING,
+    ...CONTRACTS.BITR_STAKING,
     functionName: 'getDurationOptions',
   });
 
   // Duration options loaded
 
   const { data: userStakes, refetch: refetchUserStakes } = useReadContract({
-    ...CONTRACTS.BITREDICT_STAKING,
+    ...CONTRACTS.BITR_STAKING,
     functionName: 'getUserStakes',
     args: address ? [address] : undefined,
     query: { enabled: !!address }
   });
 
   const { data: pendingRevenueBITR, refetch: refetchRevenueBITR } = useReadContract({
-    ...CONTRACTS.BITREDICT_STAKING,
+    ...CONTRACTS.BITR_STAKING,
     functionName: 'pendingRevenueBITR',
     args: address ? [address] : undefined,
     query: { enabled: !!address }
   });
 
   const { data: pendingRevenueMON, refetch: refetchRevenueMON } = useReadContract({
-    ...CONTRACTS.BITREDICT_STAKING,
+    ...CONTRACTS.BITR_STAKING,
     functionName: 'pendingRevenueMON',
     args: address ? [address] : undefined,
     query: { enabled: !!address }
@@ -171,7 +171,7 @@ export function useStaking() {
     try {
       const stakeAmount = parseUnits(amount, 18);
       writeContract({
-        ...CONTRACTS.BITREDICT_STAKING,
+        ...CONTRACTS.BITR_STAKING,
         functionName: 'stake',
         args: [stakeAmount, BigInt(tierId), BigInt(durationOption)],
       });
@@ -186,7 +186,7 @@ export function useStaking() {
     
     try {
       const result = writeContract({
-        ...CONTRACTS.BITREDICT_STAKING,
+        ...CONTRACTS.BITR_STAKING,
         functionName: 'claim',
         args: [BigInt(stakeIndex)],
       });
@@ -203,7 +203,7 @@ export function useStaking() {
     setUnstakingStakeIndex(stakeIndex);
     try {
       writeContract({
-        ...CONTRACTS.BITREDICT_STAKING,
+        ...CONTRACTS.BITR_STAKING,
         functionName: 'unstake',
         args: [BigInt(stakeIndex)],
       });
@@ -217,7 +217,7 @@ export function useStaking() {
     setIsClaimingRevenue(true);
     try {
       writeContract({
-        ...CONTRACTS.BITREDICT_STAKING,
+        ...CONTRACTS.BITR_STAKING,
         functionName: 'claimRevenueShare',
         args: [],
       });

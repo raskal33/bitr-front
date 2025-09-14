@@ -1,12 +1,12 @@
 import { CONTRACT_ADDRESSES } from '@/config/wagmi';
 
-// Import ABIs
-import BitredictTokenABI from './abis/BitredictToken.json';
+// Import ABIs - Updated to use correct artifact files
+import BitrTokenABI from './abis/BitrToken.json';
 import BitrFaucetABI from './abis/BitrFaucet.json';
 import GuidedOracleABI from './abis/GuidedOracle.json';
 import OptimisticOracleABI from './abis/OptimisticOracle.json';
-import BitredictPoolABI from './abis/BitredictPool.json';
-import BitredictStakingABI from './abis/BitredictStaking.json';
+import BitrPoolABI from './abis/BitrPool.json';
+import BitrStakingABI from './abis/BitrStaking.json';
 import ReputationSystemABI from './abis/ReputationSystem.json';
 import OddysseyABI from './abis/Oddyssey.json';
 
@@ -14,7 +14,7 @@ import OddysseyABI from './abis/Oddyssey.json';
 export const CONTRACTS = {
   BITR_TOKEN: {
     address: CONTRACT_ADDRESSES.BITR_TOKEN,
-    abi: BitredictTokenABI.abi,
+    abi: BitrTokenABI.abi,
   },
   FAUCET: {
     address: CONTRACT_ADDRESSES.FAUCET,
@@ -28,13 +28,13 @@ export const CONTRACTS = {
     address: CONTRACT_ADDRESSES.OPTIMISTIC_ORACLE,
     abi: OptimisticOracleABI.abi,
   },
-  BITREDICT_POOL: {
+  BITR_POOL: {
     address: CONTRACT_ADDRESSES.BITR_POOL,
-    abi: BitredictPoolABI.abi,
+    abi: BitrPoolABI.abi,
   },
-  BITREDICT_STAKING: {
+  BITR_STAKING: {
     address: CONTRACT_ADDRESSES.STAKING,
-    abi: BitredictStakingABI.abi,
+    abi: BitrStakingABI.abi,
   },
   REPUTATION_SYSTEM: {
     address: CONTRACT_ADDRESSES.REPUTATION_SYSTEM,
@@ -48,12 +48,12 @@ export const CONTRACTS = {
 
 // Export ABIs for direct use
 export {
-  BitredictTokenABI,
+  BitrTokenABI,
   BitrFaucetABI,
   GuidedOracleABI,
   OptimisticOracleABI,
-  BitredictPoolABI,
-  BitredictStakingABI,
+  BitrPoolABI,
+  BitrStakingABI,
   ReputationSystemABI,
   OddysseyABI,
 };
@@ -78,13 +78,13 @@ export const CONTRACT_EVENTS = {
     OUTCOME_DISPUTED: 'OutcomeDisputed',
     MARKET_RESOLVED: 'MarketResolved',
   },
-  BITREDICT_POOL: {
+  BITR_POOL: {
     POOL_CREATED: 'PoolCreated',
     BET_PLACED: 'BetPlaced',
     POOL_SETTLED: 'PoolSettled',
     WINNINGS_CLAIMED: 'WinningsClaimed',
   },
-  BITREDICT_STAKING: {
+  BITR_STAKING: {
     STAKED: 'Staked',
     UNSTAKED: 'Unstaked',
     REWARDS_CLAIMED: 'RewardsClaimed',

@@ -70,7 +70,7 @@ export default function StakingPage() {
   // Check if approval is needed
   useEffect(() => {
     if (stakeAmount && token.balance) {
-      const allowance = token.getAllowance(CONTRACTS.BITREDICT_STAKING.address);
+      const allowance = token.getAllowance(CONTRACTS.BITR_STAKING.address);
       const stakeAmountWei = parseUnits(stakeAmount, 18);
       setNeedsApproval(!allowance || (allowance as bigint) < stakeAmountWei);
     }
@@ -189,7 +189,7 @@ export default function StakingPage() {
       }
 
       const stakeAmountWei = parseUnits(stakeAmount, 18);
-      await token.approve(CONTRACTS.BITREDICT_STAKING.address, stakeAmountWei.toString());
+      await token.approve(CONTRACTS.BITR_STAKING.address, stakeAmountWei.toString());
       showSuccess("Approval Successful", "BITR tokens approved for staking. You can now create your stake.");
       
       // Reset approval state after successful approval
