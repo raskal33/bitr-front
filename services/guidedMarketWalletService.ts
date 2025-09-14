@@ -164,7 +164,7 @@ export class GuidedMarketWalletService {
       
       if (!confirmResult.success) {
         console.warn('⚠️ Backend confirmation failed, but transaction was successful:', confirmResult.error);
-        statusCallback?.('warning', 'Backend Warning', 'Transaction successful but backend confirmation failed');
+        statusCallback?.('error', 'Backend Warning', 'Transaction successful but backend confirmation failed');
         // Don't fail the entire process if backend confirmation fails
       } else {
         console.log('✅ Backend confirmation completed');
@@ -289,7 +289,7 @@ export class GuidedMarketWalletService {
       
       if (!confirmResult.success) {
         console.warn('⚠️ Backend confirmation failed, but transaction was successful:', confirmResult.error);
-        statusCallback?.('warning', 'Backend Warning', 'Transaction successful but backend confirmation failed');
+        statusCallback?.('error', 'Backend Warning', 'Transaction successful but backend confirmation failed');
         // Don't fail the entire process if backend confirmation fails
       } else {
         console.log('✅ Backend confirmation completed');

@@ -132,7 +132,7 @@ export default function CreateMarketPage() {
   const { isLoading: isConfirming, isSuccess } = useWaitForTransactionReceipt({ hash });
   
   // Transaction feedback system
-  const { transactionStatus, showSuccess, showError, showInfo, clearStatus } = useTransactionFeedback();
+  const { transactionStatus, showSuccess, showError, showInfo, showPending, showConfirming, clearStatus } = useTransactionFeedback();
   
   // BITR Token approval state
   const [approvalConfirmed, setApprovalConfirmed] = useState(false);
