@@ -304,6 +304,11 @@ export default function EnhancedPoolCard({
       ? generateProfessionalTitle(pool.predictedOutcome, pool.category || 'sports')
       : `${(pool.category || 'sports').charAt(0).toUpperCase() + (pool.category || 'sports').slice(1)} Pool #${pool.id}`);
   
+  // Enhanced title with market type
+  const enhancedTitle = pool.homeTeam && pool.awayTeam && pool.betMarketType 
+    ? `${pool.homeTeam} vs ${pool.awayTeam} - ${pool.betMarketType}`
+    : displayTitle;
+  
   const formatStake = (stake: string) => {
     try {
       // If stake is already formatted (contains decimal), use as-is
@@ -472,40 +477,40 @@ export default function EnhancedPoolCard({
 
       {/* Professional Title */}
       <h3 className="text-base font-bold text-white line-clamp-2 mb-3 group-hover:text-primary transition-colors flex-shrink-0" style={{ minHeight: '2.5rem' }}>
-        {displayTitle}
+        {enhancedTitle}
       </h3>
 
       {/* Market Type and Selection Display */}
-      {(pool.betMarketType || pool.oddsDisplay) && (
-        <div className="mb-3 p-2 glass-card bg-gradient-to-br from-blue-500/10 to-purple-500/10 rounded-lg border border-blue-500/20 flex-shrink-0">
+      {(pool.betMarketType || pool.oddsDisplay || pool.league) && (
+        <div className="mb-3 p-3 glass-card bg-gradient-to-br from-blue-500/10 to-purple-500/10 rounded-lg border border-blue-500/20 flex-shrink-0">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <div className="text-xs text-blue-400 font-medium">
+              <div className="text-sm text-blue-400 font-semibold">
                 {pool.betMarketType || pool.oddsDisplay?.market || 'Prediction Market'}
               </div>
               {pool.oddsDisplay?.selection && (
-                <div className="text-xs text-white bg-blue-500/20 px-2 py-1 rounded-full">
+                <div className="text-xs text-white bg-blue-500/30 px-2 py-1 rounded-full border border-blue-500/30">
                   {pool.oddsDisplay.selection}
                 </div>
               )}
             </div>
-            <div className="text-xs text-gray-400">
+            <div className="text-sm text-gray-300 font-medium">
               {pool.league}
             </div>
           </div>
         </div>
       )}
 
-      {/* Progress Bar - Indexed Data */}
+      {/* Progress Bar - Standard Line Style */}
       {indexedData && (
         <div className="mb-3 flex-shrink-0">
           <div className="flex items-center justify-between mb-1">
             <span className="text-xs text-gray-400">Pool Progress</span>
             <span className="text-xs text-white font-medium">{indexedData.fillPercentage}%</span>
           </div>
-          <div className="w-full glass-card rounded-full h-0.5 bg-gray-800/30 border border-gray-600/20 shadow-inner">
+          <div className="w-full bg-gray-800/20 rounded-full h-1">
             <div
-              className={`h-0.5 rounded-full transition-all duration-500 shadow-sm ${getProgressColor(indexedData.fillPercentage)}`}
+              className={`h-1 rounded-full transition-all duration-500 ${getProgressColor(indexedData.fillPercentage)}`}
               style={{ width: `${Math.min(indexedData.fillPercentage, 100)}%` }}
             />
           </div>
