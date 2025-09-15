@@ -15,6 +15,7 @@
     "remove-faucet-debug": "node scripts/add-faucet-debug.js remove"
   },
   "dependencies": {
+    "@apollo/client": "^4.0.5",
     "@heroicons/react": "^2.2.0",
     "@react-spring/web": "^10.0.1",
     "@reown/appkit": "^1.7.11",
@@ -32,6 +33,7 @@
     "date-fns": "^4.1.0",
     "ethers": "^6.15.0",
     "framer-motion": "^12.19.2",
+    "graphql": "^16.11.0",
     "lucide-react": "^0.525.0",
     "next": "^15.3.4",
     "puppeteer": "^24.17.1",
