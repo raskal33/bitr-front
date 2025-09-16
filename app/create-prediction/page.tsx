@@ -29,6 +29,7 @@ import { useGuidedMarketCreation } from "@/services/guidedMarketWalletService";
 import { useWalletConnection } from "@/hooks/useWalletConnection";
 // import { CONTRACTS } from "@/contracts"; // Commented out as not currently used
 import { useBITRToken } from "@/hooks/useBITRToken";
+import TitleGenerationService from "@/services/titleGenerationService";
 
 
 
@@ -472,21 +473,48 @@ export default function CreateMarketPage() {
       // Auto-generate title and timing for football matches
       if (field === 'selectedFixture' && value) {
         const fixture = value as Fixture;
-        updated.title = `${fixture.homeTeam.name} vs ${fixture.awayTeam.name}`;
         updated.eventStartTime = new Date(fixture.matchDate);
         updated.eventEndTime = new Date(new Date(fixture.matchDate).getTime() + 2 * 60 * 60 * 1000); // 2 hours after start
+        
+        // Generate professional title when outcome is selected
+        if (data.outcome) {
+          updated.title = TitleGenerationService.generateTitle({
+            marketType: '1X2', // Default to 1X2, can be enhanced based on actual market type
+            homeTeam: fixture.homeTeam.name,
+            awayTeam: fixture.awayTeam.name,
+            predictedOutcome: data.outcome
+          });
+        }
       }
 
       // Auto-generate title for crypto
       if (field === 'selectedCrypto' && value) {
         const crypto = value as Cryptocurrency;
         if (data.direction && data.targetPrice) {
-          updated.title = `${crypto.symbol} ${data.direction} $${data.targetPrice}`;
+          updated.title = TitleGenerationService.generateTitle({
+            marketType: 'CRYPTO',
+            predictedOutcome: `${crypto.symbol} ${data.direction} $${data.targetPrice}`,
+            cryptoData: {
+              symbol: crypto.symbol,
+              direction: data.direction,
+              targetPrice: data.targetPrice,
+              timeframe: data.timeframe
+            }
+          });
         }
       }
 
       if ((field === 'direction' || field === 'targetPrice') && data.selectedCrypto) {
-        updated.title = `${data.selectedCrypto.symbol} ${updated.direction} $${updated.targetPrice}`;
+        updated.title = TitleGenerationService.generateTitle({
+          marketType: 'CRYPTO',
+          predictedOutcome: `${data.selectedCrypto.symbol} ${updated.direction} $${updated.targetPrice}`,
+          cryptoData: {
+            symbol: data.selectedCrypto.symbol,
+            direction: updated.direction || 'above',
+            targetPrice: updated.targetPrice || 0,
+            timeframe: data.timeframe
+          }
+        });
       }
 
       return updated;
@@ -501,6 +529,48 @@ export default function CreateMarketPage() {
     
     // Set the outcome based on market type and outcome
     handleInputChange('outcome', outcome as 'home' | 'away' | 'draw' | 'over15' | 'under15' | 'over25' | 'under25' | 'over35' | 'under35' | 'bttsYes' | 'bttsNo' | 'htHome' | 'htDraw' | 'htAway' | 'ht_over_05' | 'ht_under_05' | 'ht_over_15' | 'ht_under_15');
+    
+    // Generate professional title based on market type and outcome
+    const marketTypeMap: Record<string, string> = {
+      'moneyline': '1X2',
+      'over_under': 'OU25',
+      'btts': 'BTTS',
+      'ht_moneyline': 'HT_1X2',
+      'ht_over_under': 'HT_OU15'
+    };
+    
+    const outcomeMap: Record<string, string> = {
+      'home': 'Home wins',
+      'away': 'Away wins', 
+      'draw': 'Draw',
+      'over15': 'Over 1.5 goals',
+      'under15': 'Under 1.5 goals',
+      'over25': 'Over 2.5 goals',
+      'under25': 'Under 2.5 goals',
+      'over35': 'Over 3.5 goals',
+      'under35': 'Under 3.5 goals',
+      'bttsYes': 'Both teams to score',
+      'bttsNo': 'Not both teams to score',
+      'htHome': 'Home wins',
+      'htDraw': 'Draw',
+      'htAway': 'Away wins',
+      'ht_over_05': 'Over 0.5 goals',
+      'ht_under_05': 'Under 0.5 goals',
+      'ht_over_15': 'Over 1.5 goals',
+      'ht_under_15': 'Under 1.5 goals'
+    };
+    
+    const mappedMarketType = marketTypeMap[marketType] || '1X2';
+    const mappedOutcome = outcomeMap[outcome] || outcome;
+    
+    const professionalTitle = TitleGenerationService.generateTitle({
+      marketType: mappedMarketType,
+      homeTeam: fixture.homeTeam.name,
+      awayTeam: fixture.awayTeam.name,
+      predictedOutcome: mappedOutcome
+    });
+    
+    handleInputChange('title', professionalTitle);
     
     // Auto-populate odds based on the selected market
     if (fixture.odds) {

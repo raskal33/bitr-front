@@ -19,6 +19,7 @@ export interface Pool {
   predictedOutcome: string;
   originalPredictedOutcome?: string; // Keep original hash
   marketId: string;
+  description?: string; // Pool description from creator
   
   // Enhanced display fields from fixture mapping
   title?: string; // User-friendly title with team names
@@ -203,7 +204,8 @@ export class PoolService {
     useBitr: boolean,
     oracleType: number,
     marketId: string,
-    boostTier: "NONE" | "BRONZE" | "SILVER" | "GOLD" = "NONE"
+    boostTier: "NONE" | "BRONZE" | "SILVER" | "GOLD" = "NONE",
+    description?: string
   ): Promise<{ success: boolean; poolId?: number; error?: string }> {
     try {
       console.log('Creating pool with backend API:', {
@@ -242,7 +244,8 @@ export class PoolService {
           useBitr,
           oracleType,
           marketId,
-          boostTier
+          boostTier,
+          description
         }),
       });
 
